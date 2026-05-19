@@ -66,8 +66,19 @@ exports.handler = async (event) => {
       .single();
 
     if (existingSession) {
-      // Session exists for this email, use its ID
-      existingSessionId = existingSession.id;
+      // Session exists for this email, but validate its ID format
+      if (!isValidUUID(existingSession.id)) {
+        // If existing session has bad UUID format, fix it
+        console.warn(`Existing session has invalid UUID: ${existingSession.id}, updating to new UUID`);
+        const newValidUUID = generateUUID();
+        await supabase
+          .from('quiz_sessions')
+          .update({ id: newValidUUID })
+          .eq('email', email);
+        existingSessionId = newValidUUID;
+      } else {
+        existingSessionId = existingSession.id;
+      }
     } else {
       // Session doesn't exist, create it
       const { error: createSessionError } = await supabase
