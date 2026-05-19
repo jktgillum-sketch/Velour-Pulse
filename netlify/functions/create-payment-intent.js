@@ -1,6 +1,25 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { createClient } = require('@supabase/supabase-js');
 
+/**
+ * Generate a proper UUID v4 for session IDs
+ */
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0,
+        v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+/**
+ * Validate UUID format (v4)
+ */
+function isValidUUID(uuid) {
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(uuid);
+}
+
 exports.handler = async (event) => {
   try {
     if (event.httpMethod !== 'POST') {
@@ -13,13 +32,19 @@ exports.handler = async (event) => {
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
 
-    const { sessionId, email, amount = 999 } = JSON.parse(event.body);
+    let { sessionId, email, amount = 999 } = JSON.parse(event.body);
 
     if (!sessionId || !email) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Missing sessionId or email' })
       };
+    }
+
+    // Validate and fix sessionId format - if not a valid UUID, generate one
+    if (!isValidUUID(sessionId)) {
+      console.warn(`Invalid sessionId format: ${sessionId}, generating new UUID`);
+      sessionId = generateUUID();
     }
 
     // Create Stripe payment intent
