@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velour Pulse Guides - Sexual Wellness Education</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --plum: #3C2060;
+            --purple: #9B6DC9;
+            --orchid: #C49BE8;
+            --pink: #D4537E;
+            --midnight: #2C2C2A;
+            --white: #FFFFFF;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--midnight);
+            color: var(--white);
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .logo {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--orchid);
+            margin-bottom: 20px;
+        }
+        .logo span { color: var(--pink); }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        .subtitle {
+            color: #aaa;
+            font-size: 16px;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+        .guide-card {
+            background: #1a1a18;
+            border: 0.5px solid #3a3a38;
+            border-radius: 12px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .guide-card:hover {
+            border-color: var(--pink);
+            transform: translateY(-2px);
+        }
+        .guide-icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+        .guide-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+        .guide-desc {
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .guide-length {
+            font-size: 11px;
+            color: #666;
+        }
+        .content-section {
+            display: none;
+            background: #1a1a18;
+            border: 0.5px solid #3a3a38;
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .content-header {
+            margin-bottom: 40px;
+        }
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--orchid);
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 20px;
+            padding: 0;
+        }
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+        .content-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .content-subtitle {
+            color: #aaa;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .section {
+            margin-bottom: 32px;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+        .section-text {
+            color: #aaa;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+        .section-text strong {
+            color: var(--white);
+        }
+        .highlight-box {
+            background: rgba(212, 83, 126, 0.08);
+            border-left: 3px solid var(--pink);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .highlight-title {
+            color: var(--white);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .list-item {
+            margin-bottom: 12px;
+            color: #aaa;
+            line-height: 1.6;
+        }
+        .list-item strong {
+            color: var(--white);
+        }
+        @media(max-width: 768px) {
+            .container { padding: 40px 20px; }
+            h1 { font-size: 1.8rem; }
+            .guides-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header" id="mainHeader">
+            <div class="logo">Velour <span>Pulse</span></div>
+            <h1>Sexual Wellness Guides</h1>
+            <p class="subtitle">Comprehensive, evidence-based education from sex therapists and educators. Learn, explore, and understand your sexuality with confidence and without shame.</p>
+        </div>
+
+        <!-- GUIDES GRID -->
+        <div class="guides-grid" id="guidesGrid">
+            <div class="guide-card" onclick="showGuide('communication')">
+                <div class="guide-icon">💬</div>
+                <div class="guide-title">Sexual Communication & Consent</div>
+                <div class="guide-desc">How to talk with partners about desires, boundaries, and what you want. The foundation of all healthy sexual relationships.</div>
+                <div class="guide-length">8 min read</div>
+            </div>
+            <div class="guide-card" onclick="showGuide('body')">
+                <div class="guide-icon">🧬</div>
+                <div class="guide-title">Understanding Your Body</div>
+                <div class="guide-desc">Sexual anatomy, how your body responds, and what's normal. Knowledge dispels shame and anxiety.</div>
+                <div class="guide-length">10 min read</div>
+            </div>
+            <div class="guide-card" onclick="showGuide('pleasure')">
+                <div class="guide-icon">✨</div>
+                <div class="guide-title">Pleasure Fundamentals</div>
+                <div class="guide-desc">What sexual pleasure actually is, how to cultivate it, and why it's essential to sexual health.</div>
+                <div class="guide-length">7 min read</div>
+            </div>
+            <div class="guide-card" onclick="showGuide('health')">
+                <div class="guide-icon">🏥</div>
+                <div class="guide-title">Sexual Health & Safety</div>
+                <div class="guide-desc">STI prevention, protection, hygiene, and what you need to know about sexual health practices.</div>
+                <div class="guide-length">9 min read</div>
+            </div>
+            <div class="guide-card" onclick="showGuide('bdsm')">
+                <div class="guide-icon">🔐</div>
+                <div class="guide-title">BDSM & Power Dynamics</div>
+                <div class="guide-desc">Explored from a therapeutic perspective. Consent, safety, and negotiation in kink and power exchange.</div>
+                <div class="guide-length">11 min read</div>
+            </div>
+            <div class="guide-card" onclick="showGuide('myths')">
+                <div class="guide-icon">🧩</div>
+                <div class="guide-title">Sexual Myths vs Reality</div>
+                <div class="guide-desc">Debunking the most common myths about sex, bodies, pleasure, and desire. What research actually shows.</div>
+                <div class="guide-length">6 min read</div>
+            </div>
+        </div>
+
+        <!-- CONTENT SECTIONS -->
+
+        <!-- COMMUNICATION & CONSENT -->
+        <div class="content-section" id="communication">
+            <button class="back-btn" onclick="showGuides()">← Back to all guides</button>
+            <div class="content-header">
+                <div class="content-title">Sexual Communication & Consent</div>
+                <div class="content-subtitle">The foundation of all healthy sexual relationships is clear, ongoing communication about desires, boundaries, and expectations.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Why Communication Matters</div>
+                <div class="section-text">
+                    Research shows that couples who communicate openly about sex report higher sexual satisfaction, better emotional intimacy, and fewer relationship conflicts. Yet 60% of adults report difficulty discussing sex with partners. This is learned behavior — not instinct. The good news: it's a skill you can develop.
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="highlight-title">The Three-Step Communication Framework</div>
+                <div class="list-item"><strong>Timing:</strong> Bring it up outside the bedroom, during a relaxed moment. Not during sex or conflict.</div>
+                <div class="list-item"><strong>Framing:</strong> Use "I" statements. "I'd like to explore..." not "You never..." or "You should..."</div>
+                <div class="list-item"><strong>Listen:</strong> After you share, ask your partner what they think. Then actually listen.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">How to Talk About Desires</div>
+                <div class="section-text">
+                    <strong>Be specific, not vague.</strong> Instead of "I want to spice things up," try: "I've been curious about X, and I'd like to explore it together. What do you think?"<br><br>
+                    <strong>Normalize the conversation.</strong> Start with: "I read/learned that a lot of people are interested in [topic]. Have you ever thought about it?"<br><br>
+                    <strong>Ask questions back.</strong> "What sounds appealing to you?" "What would make you comfortable?" "What are your boundaries?"
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Understanding Consent (It's Not What You Think)</div>
+                <div class="section-text">
+                    Consent is not just a yes/no at the beginning. It's ongoing. It can change. It's informed (you both understand what's happening). And it's enthusiastic (both people actually want to do it).<br><br>
+                    <strong>Consent is:</strong> Asking "Is this okay?" during sex, not just before. Checking in. Accepting "no" without anger or guilt. Understanding that silence ≠ consent. Respecting "maybe later" or "not today."<br><br>
+                    <strong>Consent is NOT:</strong> Assumed from previous agreement. Assumed from a yes to something else. Pressured. Obtained through manipulation.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Safe Words & Check-ins</div>
+                <div class="section-text">
+                    Safe words are useful even in vanilla sex — they give you a quick way to say "stop" without it being ambiguous. The traffic light system is common: Green = keep going, Yellow = slow down, Red = stop everything.<br><br>
+                    Regular check-ins mid-sex ("How are you feeling?" "Good for you?") are more important than safe words for most people.
+                </div>
+            </div>
+        </div>
+
+        <!-- UNDERSTANDING YOUR BODY -->
+        <div class="content-section" id="body">
+            <button class="back-btn" onclick="showGuides()">← Back to all guides</button>
+            <div class="content-header">
+                <div class="content-title">Understanding Your Body</div>
+                <div class="content-subtitle">Sexual anatomy, arousal, and response cycles. Knowledge reduces anxiety and shame, and increases pleasure.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Sexual Anatomy (Beyond the Basics)</div>
+                <div class="section-text">
+                    Most of us learned anatomy in high school — clinical, detached, barely mentioning pleasure. Here's what matters for sexual health:<br><br>
+                    <strong>The clitoris</strong> has 8,000+ nerve endings. The visible part is just the tip. It extends internally for about 3-4 inches. Every person's clitoris looks different and responds differently.<br><br>
+                    <strong>The prostate</strong> is sometimes called the "male G-spot." It's walnut-sized and produces 30% of seminal fluid. It has many nerve endings and can be a source of intense pleasure.<br><br>
+                    <strong>Genital variation is normal.</strong> Labia come in different sizes, colors, and shapes. Penis size, shape, and curve vary significantly. None of these variations are abnormal or "wrong."
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="highlight-title">The Sexual Response Cycle</div>
+                <div class="list-item"><strong>Desire:</strong> Interest in sexual activity. This can be triggered by thoughts, physical touch, or context.</div>
+                <div class="list-item"><strong>Arousal:</strong> Blood flow to genitals, increased heart rate, muscle tension. Lubrication or erection may occur.</div>
+                <div class="list-item"><strong>Plateau:</strong> Sustained arousal. Many people spend too little time here — extend this phase for better experiences.</div>
+                <div class="list-item"><strong>Orgasm:</strong> Rhythmic muscular contractions. Contrary to myth, not always the goal or necessary for pleasure.</div>
+                <div class="list-item"><strong>Resolution:</strong> Return to baseline. Recovery time varies widely between people and experiences.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Pleasure Sensitivity & Variation</div>
+                <div class="section-text">
+                    Every body is different. What feels amazing to one person might feel uncomfortable to another. This is completely normal.<br><br>
+                    <strong>Some people:</strong> Prefer direct clitoral stimulation. Others find it too intense and prefer indirect stimulation.<br><br>
+                    <strong>Some people:</strong> Can orgasm easily. Others rarely or never orgasm — this doesn't mean something is wrong.<br><br>
+                    <strong>Some people:</strong> Like deep penetration. Others prefer shallow or no penetration at all.<br><br>
+                    The key: Explore your own body without judgment. Masturbation isn't selfish — it's research. Knowing what you like makes partnered sex better.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">What's Normal (Really)</div>
+                <div class="section-text">
+                    <strong>Arousal difficulties?</strong> 43% of women and 31% of men report sexual concerns. Stress, medication, hormones, and relationship factors all affect arousal. This doesn't mean you're broken.<br><br>
+                    <strong>Different desire levels?</strong> Most couples have mismatched desire. This is normal, not a sign of incompatibility.<br><br>
+                    <strong>Difficulty with orgasm?</strong> Secondary anorgasmia (difficulty reaching orgasm after being able to) affects many people. Often it's about relaxation, not ability.
+                </div>
+            </div>
+        </div>
+
+        <!-- PLEASURE FUNDAMENTALS -->
+        <div class="content-section" id="pleasure">
+            <button class="back-btn" onclick="showGuides()">← Back to all guides</button>
+            <div class="content-header">
+                <div class="content-title">Pleasure Fundamentals</div>
+                <div class="content-subtitle">Sexual pleasure is not frivolous. It's a core component of sexual health and overall well-being.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">What Sexual Pleasure Actually Is</div>
+                <div class="section-text">
+                    Sexual pleasure is the physical and psychological satisfaction from sexual experience. It includes: the sensations, the emotional connection, the relaxation, the release, the sense of being desired, the adventure, the playfulness.<br><br>
+                    Many of us learned that sex should "lead somewhere" — to orgasm, procreation, proving love. This limits pleasure. Pleasure-focused sexuality allows: exploration without goal, presence without performance, sensation without agenda.
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="highlight-title">The Elements of Pleasure</div>
+                <div class="list-item"><strong>Presence:</strong> Being mentally there, not distracted by performance or appearance anxiety.</div>
+                <div class="list-item"><strong>Relaxation:</strong> Tension blocks pleasure. Deep breathing, comfort, trust enable it.</div>
+                <div class="list-item"><strong>Novelty:</strong> New sensations, positions, or contexts keep pleasure fresh.</div>
+                <div class="list-item"><strong>Connection:</strong> Whether solo or partnered, presence and attentiveness amplify pleasure.</div>
+                <div class="list-item"><strong>Permission:</strong> Allowing yourself to enjoy without guilt or shame.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Sensate Focus (A Therapeutic Practice)</div>
+                <div class="section-text">
+                    Sensate focus is used by sex therapists to help people reconnect with pleasure. It works like this:<br><br>
+                    <strong>Phase 1 (Solo):</strong> Explore your own body without goal. Touch yourself like you're discovering your skin for the first time. Notice textures, temperatures, sensations. No performance, no orgasm goal.<br><br>
+                    <strong>Phase 2 (Partner - Non-Genital):</strong> Take turns exploring each other's body with hands. Focus on sensation, not arousal. No genitals yet.<br><br>
+                    <strong>Phase 3 (Partner - Genital):</strong> Include genital touch. Still focus on sensation and presence, not performance.<br><br>
+                    This removes pressure and rebuilds pleasure-focus. Even if your pleasure is fine, this deepens it.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Pleasure & Mental Health</div>
+                <div class="section-text">
+                    Orgasm triggers oxytocin (bonding), dopamine (reward), and endorphins (painkillers). Sexual pleasure reduces stress, improves mood, and strengthens relationships.<br><br>
+                    But pressure to climax or perform reduces pleasure and creates the opposite effect. The solution: Focus on sensation and connection, not outcome. Ironically, this usually leads to better orgasms anyway.
+                </div>
+            </div>
+        </div>
+
+        <!-- SEXUAL HEALTH & SAFETY -->
+        <div class="content-section" id="health">
+            <button class="back-btn" onclick="showGuides()">← Back to all guides</button>
+            <div class="content-header">
+                <div class="content-title">Sexual Health & Safety</div>
+                <div class="content-subtitle">Practical information about protection, STI prevention, and practices that keep you healthy.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">STI Prevention & Testing</div>
+                <div class="section-text">
+                    <strong>Protection works:</strong> Condoms are 98% effective with perfect use (though real-world use is ~85% effective). Barrier methods prevent most STIs.<br><br>
+                    <strong>Get tested:</strong> Many STIs have no symptoms. CDC recommends testing if: you have a new partner, multiple partners, or any sexual contact with someone who might have an STI. Testing is quick, affordable, and confidential.<br><br>
+                    <strong>Talk about it:</strong> "When was your last STI test?" is a normal health question, not accusatory. A partner who refuses to discuss this is a red flag.
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="highlight-title">Barrier Method Effectiveness</div>
+                <div class="list-item"><strong>Condoms (external):</strong> 98% effective with perfect use; protects against most STIs</div>
+                <div class="list-item"><strong>Condoms (internal):</strong> 95% effective; protects against most STIs</div>
+                <div class="list-item"><strong>Dental dams:</strong> Protects during oral sex; especially important for cunnilingus and anilingus</div>
+                <div class="list-item"><strong>Gloves:</strong> Important for anal/vaginal play with fingers to prevent cross-contamination</div>
+              </div>
+
+            <div class="section">
+                <div class="section-title">Lubrication Matters</div>
+                <div class="section-text">
+                    <strong>Water-based lube:</strong> Works with all toy materials, washes off easily, needs reapplication<br><br>
+                    <strong>Silicone-based lube:</strong> Lasts longer, doesn't wash off with water, BUT cannot be used with silicone toys<br><br>
+                    <strong>Oil-based lube:</strong> Not recommended — breaks down condoms and is hard to clean<br><br>
+                    Using adequate lube isn't "cheating" — it's health. Insufficient lubrication increases STI transmission risk and causes discomfort.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Toy Care & Hygiene</div>
+                <div class="section-text">
+                    <strong>Before use:</strong> Wash with warm water and toy cleaner or mild soap<br><br>
+                    <strong>After use:</strong> Clean immediately. Wash with soap and water or toy cleaner<br><br>
+                    <strong>Cross-contamination:</strong> Never go from anal to vaginal without cleaning in between. Use gloves or a new barrier method<br><br>
+                    <strong>Material matters:</strong> Porous materials (TPE, jelly rubber) harbor bacteria. Non-porous (silicone, glass, metal) are safer and last longer
+                </div>
+            </div>
+        </div>
+
+        <!-- BDSM & POWER DYNAMICS -->
+        <div class="content-section" id="bdsm">
+            <button class="back-btn" onclick="showGuides()">← Back to all guides</button>
+            <div class="content-header">
+                <div class="content-title">BDSM & Power Dynamics</div>
+                <div class="content-subtitle">Explored from a sex-therapist perspective. Consent, negotiation, and safety in power exchange and kink.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">What BDSM Actually Is</div>
+                <div class="section-text">
+                    BDSM = Bondage/Discipline, Dominance/Submission, Sadism/Masochism. It's not about violence or abuse. It's about:<br><br>
+                    <strong>Consent:</strong> Everything happens with full informed consent<br><br>
+                    <strong>Negotiation:</strong> Partners clearly discuss what will happen before it happens<br><br>
+                    <strong>Boundaries:</strong> Hard limits are respected absolutely. There's no negotiation on hard limits<br><br>
+                    <strong>Trust:</strong> Both partners must trust each other's limits and safe words
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="highlight-title">The BDSM Safety Framework (SSC/RACK)</div>
+                <div class="list-item"><strong>SSC: Safe, Sane, Consensual</strong> — All activities are safe, partners are in sound mind, all parties consent</div>
+                <div class="list-item"><strong>RACK: Risk-Aware Consensual Kink</strong> — Acknowledge risks, practice risk reduction, get informed consent</div>
+                <div class="list-item"><strong>FRIES Model:</strong> Freely given, Reversible, Informed, Enthusiastic, Specific</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Negotiation (The Therapist's Essential Tool)</div>
+                <div class="section-text">
+                    Before any scene or experience, partners discuss:<br><br>
+                    <strong>What:</strong> Exactly what will happen? Bondage? Pain? Power exchange? How?<br><br>
+                    <strong>Boundaries:</strong> What's absolutely off-limits (hard limits)? What might be okay with the right context (soft limits)?<br><br>
+                    <strong>Safe words:</strong> Green = go, Yellow = slow down, Red = stop everything. What other signals?<br><br>
+                    <strong>Aftercare:</strong> What does each partner need after? Cuddling? Water? Space? Discuss this before, not after.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Common Misconceptions About BDSM</div>
+                <div class="section-text">
+                    <strong>Myth:</strong> "It means someone is controlling the other." <strong>Reality:</strong> The submissive partner has all the power — they set limits, use safe words, consent to everything.<br><br>
+                    <strong>Myth:</strong> "It's about abuse or harm." <strong>Reality:</strong> Consent and safety are paramount. Anything that violates consent is not BDSM, it's abuse.<br><br>
+                    <strong>Myth:</strong> "You need fancy equipment." <strong>Reality:</strong> Start with soft restraints, scarves, or your hands. Bondage tape costs $5.<br><br>
+                    <strong>Myth:</strong> "It's always painful." <strong>Reality:</strong> Pain is optional. Many people do BDSM without any pain at all.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Aftercare (Why It Matters)</div>
+                <div class="section-text">
+                    After intense play, both partners need aftercare. Endorphins drop, which can cause emotional vulnerability or depression. Aftercare prevents this.<br><br>
+                    <strong>Aftercare might include:</strong> Cuddling, water/snacks, gentle touch, talking, being alone (depends on the person), reassurance, humor<br><br>
+                    <strong>Both partners need aftercare,</strong> not just the submissive. Aftercare is about reconnection and emotional safety.
+                </div>
+            </div>
+        </div>
+
+        <!-- MYTHS VS REALITY -->
+        <div class="content-section" id="myths">
+            <button class="back-btn" onclick="showGuides()">← Back to all guides</button>
+            <div class="content-header">
+                <div class="content-title">Sexual Myths vs Reality</div>
+                <div class="content-subtitle">What research actually shows about sex, bodies, and desire. Clearing up the most common misconceptions.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Myth: There's a "Normal" Way to Have Sex</div>
+                <div class="section-text">
+                    <strong>Reality:</strong> Sexual expression is incredibly diverse. Some people love penetration, others prefer external stimulation. Some want frequent sex, others prefer occasional. Sexuality exists on a spectrum, not a single "normal" path. What matters: enthusiastic consent and mutual satisfaction.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Myth: Women Don't Have/Want Desire Like Men Do</div>
+                <div class="section-text">
+                    <strong>Reality:</strong> Women have equal or greater sexual desire. But socialization teaches women to suppress it. Research shows that when shame and safety concerns are removed, women's desire equals men's. The difference is often learned, not biological.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Myth: Orgasm is the Goal of Sex</div>
+                <div class="section-text">
+                    <strong>Reality:</strong> Only ~65% of women consistently orgasm from penetration alone. Many don't orgasm at all in partnered sex, but still experience pleasure. Sex therapists teach clients to focus on sensation and connection, not orgasm. Paradoxically, this often leads to better orgasms.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Myth: If You're Aroused, You Want Sex</div>
+                <div class="section-text">
+                    <strong>Reality:</strong> Arousal and desire are different. You can be aroused without wanting sex (stress causes this). You can want sex without being aroused (responsive desire). Someone can say "no" even if their body is aroused. Consent is about desire, not arousal.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Myth: Size Matters Most</div>
+                <div class="section-text">
+                    <strong>Reality:</strong> The first 1-2 inches of the vagina have the most nerve endings. Most sensation comes from friction and angle, not depth. Communication, rhythm, and presence matter far more than size.
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">Myth: Everyone Should Want Sex Frequently</div>
+                <div class="section-text">
+                    <strong>Reality:</strong> Sexual desire varies by person, context, health, hormones, and life stage. Some people have naturally high desire (hypersexuality is not pathological). Others have low desire (also not pathological). Most people fall somewhere in the middle and vary over time. All of these are normal.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showGuides() {
+            document.getElementById('guidesGrid').style.display = 'grid';
+            document.getElementById('mainHeader').style.display = 'block';
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+        }
+
+        function showGuide(guideId) {
+            document.getElementById('guidesGrid').style.display = 'none';
+            document.getElementById('mainHeader').style.display = 'none';
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(guideId).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>

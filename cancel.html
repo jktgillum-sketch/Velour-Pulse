@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Cancelled</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --plum: #3C2060;
+            --orchid: #C49BE8;
+            --pink: #D4537E;
+            --midnight: #2C2C2A;
+            --white: #FFFFFF;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--midnight);
+            color: var(--white);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 600px;
+            text-align: center;
+            background: #1a1a18;
+            border: 0.5px solid #3a3a38;
+            border-radius: 16px;
+            padding: 60px 40px;
+        }
+        .icon {
+            font-size: 64px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+        .subtitle {
+            color: #aaa;
+            font-size: 16px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        a {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: var(--pink);
+            color: var(--white);
+        }
+        .btn-primary:hover {
+            opacity: 0.88;
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 0.5px solid #3a3a38;
+            color: #aaa;
+        }
+        .btn-secondary:hover {
+            border-color: var(--orchid);
+            color: var(--orchid);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">👋</div>
+        <h1>Checkout Cancelled</h1>
+        <p class="subtitle">
+            No worries! You can try again anytime. The free version of Velour Pulse is still available for you to explore.
+        </p>
+        <div class="button-group">
+            <a href="checkout.html" class="btn-primary">Try Again</a>
+            <a href="index.html" class="btn-secondary">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

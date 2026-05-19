@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VelourPulse Test Data Generator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #2C2C2A;
+            color: #FFFFFF;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+        .subtitle {
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: #1a1a18;
+            border: 1px solid #3a3a38;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: #222220;
+            border: 1px solid #3a3a38;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option:hover {
+            border-color: #D4537E;
+            background: rgba(212, 83, 126, 0.08);
+        }
+        .option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .option label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: #D4537E;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            opacity: 0.88;
+        }
+        .success {
+            background: rgba(29, 158, 117, 0.15);
+            border: 1px solid #1D9E75;
+            color: #5DCAA5;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .status {
+            font-size: 12px;
+            color: #888;
+            margin-top: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 VelourPulse Test Data</h1>
+            <p class="subtitle">Generate sample quiz answers to test the results pages</p>
+        </div>
+
+        <div class="card">
+            <h2 style="margin-bottom: 16px;">Choose Test Profile</h2>
+            <div class="option">
+                <input type="radio" name="profile" id="profile-balanced" value="balanced" checked>
+                <label for="profile-balanced">
+                    <strong>Balanced Profile</strong>
+                    <div style="font-size: 12px; color: #888; margin-top: 4px;">Mix of all archetypes</div>
+                </label>
+            </div>
+            <div class="option">
+                <input type="radio" name="profile" id="profile-dominant" value="dominant">
+                <label for="profile-dominant">
+                    <strong>Dominant Profile</strong>
+                    <div style="font-size: 12px; color: #888; margin-top: 4px;">High control, boundary clarity</div>
+                </label>
+            </div>
+            <div class="option">
+                <input type="radio" name="profile" id="profile-submissive" value="submissive">
+                <label for="profile-submissive">
+                    <strong>Submissive Profile</strong>
+                    <div style="font-size: 12px; color: #888; margin-top: 4px;">High trust, connection, attachment</div>
+                </label>
+            </div>
+            <div class="option">
+                <input type="radio" name="profile" id="profile-explorer" value="explorer">
+                <label for="profile-explorer">
+                    <strong>Explorer Profile</strong>
+                    <div style="font-size: 12px; color: #888; margin-top: 4px;">High curiosity, novelty, fetish</div>
+                </label>
+            </div>
+        </div>
+
+        <button class="btn" onclick="generateTestData()">✓ Generate Test Data</button>
+        <div class="status" id="status"></div>
+        <div id="success" style="display: none;"></div>
+    </div>
+
+    <script src="/js/question-framework.js"></script>
+    <script>
+        function generateTestData() {
+            const profile = document.querySelector('input[name="profile"]:checked').value;
+            const answers = {};
+
+            // Generate answers for all 120 questions based on profile
+            fullQuestionBank.forEach(question => {
+                let score;
+
+                switch(profile) {
+                    case 'balanced':
+                        // Mix of answers 3-5 (middle of scale)
+                        score = Math.floor(Math.random() * 3) + 3; // 3, 4, or 5
+                        break;
+
+                    case 'dominant':
+                        // High scores (6-7) for control/boundary questions
+                        // Low scores (1-2) for submission questions
+                        const isDominantQuestion = question.dimensions.includes('Kink Dynamics') ||
+                                                   question.dimensions.includes('Boundary Clarity');
+                        score = isDominantQuestion ?
+                            Math.floor(Math.random() * 2) + 6 :  // 6-7
+                            Math.floor(Math.random() * 2) + 1;   // 1-2
+                        break;
+
+                    case 'submissive':
+                        // High scores for attachment/connection
+                        // Low scores for dominance/control
+                        const isSubmissiveQuestion = question.dimensions.includes('Attachment Style') ||
+                                                     question.dimensions.includes('Connection Style');
+                        score = isSubmissiveQuestion ?
+                            Math.floor(Math.random() * 2) + 6 :  // 6-7
+                            Math.floor(Math.random() * 2) + 1;   // 1-2
+                        break;
+
+                    case 'explorer':
+                        // High scores for fetish/novelty/experimentation
+                        const isExplorerQuestion = question.dimensions.includes('Fetish & Roleplay') ||
+                                                   question.dimensions.includes('Desire Style') ||
+                                                   question.dimensions.includes('Authenticity in Sex');
+                        score = isExplorerQuestion ?
+                            Math.floor(Math.random() * 2) + 6 :  // 6-7
+                            Math.floor(Math.random() * 2) + 3;   // 3-4
+                        break;
+
+                    default:
+                        score = 4;
+                }
+
+                answers[question.id] = score;
+            });
+
+            // Store in localStorage
+            localStorage.setItem('vp_free_answers', JSON.stringify(Object.fromEntries(
+                Object.entries(answers).filter(([id]) => id <= 20)
+            )));
+            localStorage.setItem('vp_premium_answers', JSON.stringify(Object.fromEntries(
+                Object.entries(answers).filter(([id]) => id > 20)
+            )));
+            localStorage.setItem('vp_all_answers', JSON.stringify(answers));
+
+            // Set session data
+            const sessionId = 'test-' + Date.now();
+            localStorage.setItem('vp_session_id', sessionId);
+            localStorage.setItem('vp_checkout_email', 'test@velourpulse.com');
+            localStorage.setItem('vp_premium_unlocked', 'true');
+            localStorage.setItem('vp_premium_email', 'test@velourpulse.com');
+
+            // Show success message
+            document.querySelector('button').style.display = 'none';
+            const successDiv = document.getElementById('success');
+            successDiv.innerHTML = `
+                <div class="success">
+                    <strong>✓ Test data generated!</strong>
+                    <div style="margin-top: 12px; font-size: 13px;">
+                        Profile: <strong>${profile.charAt(0).toUpperCase() + profile.slice(1)}</strong>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <a href="/results-full.html" style="color: #C49BE8; text-decoration: none; font-size: 14px;">
+                        → View Full Results Page
+                    </a>
+                </div>
+            `;
+            successDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

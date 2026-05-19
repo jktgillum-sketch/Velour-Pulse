@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Complete Velour Pulse Profile</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --plum: #3C2060;
+            --purple: #9B6DC9;
+            --orchid: #C49BE8;
+            --pink: #D4537E;
+            --midnight: #2C2C2A;
+            --white: #FFFFFF;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--midnight);
+            color: var(--white);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .logo {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--orchid);
+            margin-bottom: 20px;
+        }
+        .logo span { color: var(--pink); }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #aaa;
+            margin-bottom: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .access-badge {
+            display: inline-block;
+            background: rgba(196, 155, 232, 0.15);
+            border: 1px solid var(--orchid);
+            color: var(--orchid);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+        .profile-section {
+            background: #1a1a18;
+            border: 0.5px solid #3a3a38;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        .section-title {
+            font-size: 14px;
+            letter-spacing: 0.12em;
+            color: var(--orchid);
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            opacity: 0.8;
+        }
+        .section-subtitle {
+            font-size: 15px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+        .dimensions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        .dimension-card {
+            background: #222220;
+            border: 1px solid #3a3a38;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .dimension-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+        .dimension-score {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--pink);
+            margin-bottom: 8px;
+        }
+        .dimension-label {
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 12px;
+        }
+        .dimension-bar {
+            height: 6px;
+            background: #2a2a28;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .dimension-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pink), var(--orchid));
+            border-radius: 3px;
+        }
+        .archetype-card {
+            background: #222220;
+            border: 1px solid #3a3a38;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .archetype-name {
+            font-size: 36px;
+            font-weight: 600;
+            color: var(--pink);
+            margin-bottom: 16px;
+        }
+        .archetype-description {
+            font-size: 15px;
+            color: #aaa;
+            line-height: 1.7;
+        }
+        .archetype-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .archetype-item {
+            background: #222220;
+            border: 1px solid #3a3a38;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .archetype-item-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+        .archetype-item-score {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--pink);
+            margin-bottom: 8px;
+        }
+        .archetype-item-bar {
+            height: 3px;
+            background: #2a2a28;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .bdsm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .bdsm-card {
+            background: #222220;
+            border: 1px solid #3a3a38;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .bdsm-category {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+        .bdsm-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 12px;
+        }
+        .bdsm-label {
+            color: #888;
+        }
+        .bdsm-score {
+            color: var(--pink);
+            font-weight: 600;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+        }
+        .product-card {
+            background: #222220;
+            border: 1px solid #3a3a38;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .product-card:hover {
+            border-color: var(--pink);
+            transform: translateY(-2px);
+        }
+        .product-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+        .product-desc {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .product-price {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--pink);
+            margin-bottom: 12px;
+        }
+        .product-link {
+            display: inline-block;
+            padding: 8px 12px;
+            background: transparent;
+            border: 1px solid var(--orchid);
+            color: var(--orchid);
+            border-radius: 6px;
+            font-size: 11px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .product-link:hover {
+            background: var(--orchid);
+            color: var(--midnight);
+        }
+        .guides-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .guide-item {
+            background: #222220;
+            border-left: 3px solid var(--pink);
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .guide-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+        .guide-desc {
+            font-size: 12px;
+            color: #888;
+        }
+        .guide-link {
+            color: var(--orchid);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: transparent;
+            border: 1px solid var(--orchid);
+            color: var(--orchid);
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background: var(--orchid);
+            color: var(--midnight);
+        }
+        .btn-primary {
+            background: var(--pink);
+            border-color: var(--pink);
+            color: var(--white);
+        }
+        .btn-primary:hover {
+            background: var(--pink);
+            opacity: 0.88;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .email-access {
+            background: rgba(196, 155, 232, 0.08);
+            border: 1px solid rgba(196, 155, 232, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+        .email-access h3 {
+            font-size: 16px;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+        .email-form {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .email-form input {
+            flex: 1;
+            padding: 10px 12px;
+            background: #1a1a18;
+            border: 1px solid #3a3a38;
+            border-radius: 6px;
+            color: var(--white);
+            font-size: 13px;
+        }
+        .email-form button {
+            padding: 10px 16px;
+            background: var(--orchid);
+            color: var(--plum);
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .email-form button:hover {
+            opacity: 0.88;
+        }
+        .email-note {
+            font-size: 12px;
+            color: #888;
+        }
+        @media(max-width: 768px) {
+            .container { padding: 40px 20px; }
+            h1 { font-size: 2rem; }
+            .dimensions-grid { grid-template-columns: 1fr; }
+            .archetype-grid { grid-template-columns: repeat(2, 1fr); }
+            .bdsm-grid { grid-template-columns: 1fr; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); }
+            .action-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body style="display:none;">
+    <!-- PAYMENT GATE LOADING STATE -->
+    <div id="__gateLoading" style="position:fixed;inset:0;background:#2c2c2a;display:flex;align-items:center;justify-content:center;z-index:10000;color:#aaa;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;font-size:16px;">Verifying access...</div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">Velour <span>Pulse</span></div>
+            <div class="access-badge">LIFETIME ACCESS</div>
+            <h1>Your Complete Intimacy Blueprint</h1>
+            <p class="subtitle">Here's everything we learned about you based on your full assessment. This profile is yours forever.</p>
+        </div>
+
+        <!-- ALL 10 DIMENSIONS -->
+        <div class="profile-section">
+            <div class="section-title">Your 10 Dimension Scores</div>
+            <div class="section-subtitle">A complete breakdown of your sexual profile across every dimension</div>
+            <div class="dimensions-grid" id="dimensionsGrid"></div>
+        </div>
+
+        <!-- PRIMARY ARCHETYPE -->
+        <div class="profile-section">
+            <div class="section-title">Your Primary Archetype</div>
+            <div class="archetype-card">
+                <div class="archetype-name" id="archeTypeName">Loading...</div>
+                <div class="archetype-description" id="archeTypeDesc"></div>
+            </div>
+        </div>
+
+        <!-- ALL 18 ARCHETYPES -->
+        <div class="profile-section">
+            <div class="section-title">All 18 Archetypes Breakdown</div>
+            <div class="section-subtitle">Your score across all archetypes</div>
+            <div class="archetype-grid" id="archetypesGrid"></div>
+        </div>
+
+        <!-- FULL BDSM PROFILE -->
+        <div class="profile-section">
+            <div class="section-title">Your Complete BDSM/Kink Profile</div>
+            <div class="section-subtitle">Detailed scores across all practices (giving & receiving)</div>
+            <div class="bdsm-grid" id="bdsmGrid"></div>
+        </div>
+
+        <!-- RECOMMENDED PRODUCTS -->
+        <div class="profile-section">
+            <div class="section-title">Recommended For You</div>
+            <div class="section-subtitle">15-25 products matched to your complete profile</div>
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+
+        <!-- GUIDE RECOMMENDATIONS -->
+        <div class="profile-section">
+            <div class="section-title">Learning Resources</div>
+            <div class="section-subtitle">Recommended guides based on your profile</div>
+            <div class="guides-list" id="guidesList"></div>
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="downloadPDF()">📥 Download Your Profile (PDF)</button>
+            <a href="/" class="btn">← Back to Home</a>
+        </div>
+
+        <!-- EMAIL ACCESS -->
+        <div class="profile-section">
+            <div class="email-access">
+                <h3>Access Your Results Anytime</h3>
+                <p class="section-subtitle" style="margin-bottom: 16px;">Your profile is saved to your email. You can retrieve it anytime.</p>
+                <div class="email-form">
+                    <input type="email" id="accessEmail" placeholder="Enter your email" value="" />
+                    <button onclick="sendResultsEmail()">Send Me My Results</button>
+                </div>
+                <div class="email-note">We'll send you a link to access your full profile forever.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDF EXPORT CONTENT (Hidden) -->
+    <div id="pdfContent" style="display:none; background:white; color:black; padding:40px;">
+        <div style="text-align:center; margin-bottom:40px;">
+            <h1 style="color:#3C2060; margin-bottom:10px;">Velour Pulse</h1>
+            <h2 style="color:#D4537E; font-size:24px;">Your Complete Intimacy Blueprint</h2>
+            <p style="color:#666;">Personal Profile Report</p>
+        </div>
+        <div id="pdfDimensions"></div>
+        <div id="pdfArchetype"></div>
+        <div id="pdfBDSM"></div>
+        <div id="pdfProducts"></div>
+    </div>
+
+    <script src="/js/api-integration.js"></script>
+    <script src="/js/question-framework.js"></script>
+    <script src="/js/scoring-engine.js"></script>
+    <script src="/js/product-recommendations.js"></script>
+    <script>
+        /**
+         * PREMIUM PAGE GATE - Verify payment before showing content
+         */
+        async function gateAccessToPremium() {
+            const sessionId = localStorage.getItem('vp_session_id');
+            const email = localStorage.getItem('vp_user_email') ||
+                         localStorage.getItem('vp_premium_email') ||
+                         localStorage.getItem('velourPulseEmail');
+
+            if (!sessionId || !email) {
+                console.warn('No session/email found, redirecting to quiz');
+                window.location.href = '/quiz.html';
+                return;
+            }
+
+            try {
+                const result = await API.verifyPaymentStatus(sessionId, email);
+
+                if (result.success && result.isPaid) {
+                    console.log('✓ Premium access granted');
+                    document.body.style.display = 'block';
+                    document.getElementById('__gateLoading').style.display = 'none';
+                    renderResults();
+                    return;
+                } else {
+                    console.warn('Payment not verified');
+                    window.location.href = '/checkout.html?sessionId=' + encodeURIComponent(sessionId);
+                }
+            } catch (error) {
+                console.error('Payment verification error:', error);
+
+                if (localStorage.getItem('vp_premium_unlocked') === 'true') {
+                    console.log('Using localStorage cache (offline mode)');
+                    document.body.style.display = 'block';
+                    document.getElementById('__gateLoading').style.display = 'none';
+                    renderResults();
+                    return;
+                }
+
+                document.getElementById('__gateLoading').textContent = 'Unable to verify access.';
+            }
+        }
+
+        function renderResults() {
+            // Get all answers from localStorage
+            let allAnswers = JSON.parse(localStorage.getItem('vp_all_answers')) || {};
+
+            // Fallback: if vp_all_answers is empty, merge from separate keys
+            if (Object.keys(allAnswers).length === 0) {
+                console.warn('⚠️ vp_all_answers not found, merging from separate keys');
+                const freeAnswers = JSON.parse(localStorage.getItem('vp_free_answers')) || {};
+                const premiumAnswers = JSON.parse(localStorage.getItem('vp_premium_answers')) || {};
+                allAnswers = { ...freeAnswers, ...premiumAnswers };
+
+                // Cache the merged result
+                if (Object.keys(allAnswers).length > 0) {
+                    localStorage.setItem('vp_all_answers', JSON.stringify(allAnswers));
+                }
+            }
+
+            if (Object.keys(allAnswers).length === 0) {
+                window.location.href = '/quiz.html';
+                return;
+            }
+
+            // Calculate full scores (premium = all 10 dimensions)
+            const fullScores = calculateDimensionScores(allAnswers, true);
+            const topDimensions = getTopDimensions(fullScores, 10);
+            const archetype = calculateArchetype(fullScores);
+            const allArchetypes = calculateAllArchetypeScores(allAnswers);
+            const bdsmProfile = calculateBDSMProfile(allAnswers);
+            const products = recommendProducts(fullScores, true, 20);
+            const guides = recommendGuides(fullScores);
+
+            // Render all 10 dimensions
+            const dimensionsGrid = document.getElementById('dimensionsGrid');
+            topDimensions.forEach(dim => {
+                const card = document.createElement('div');
+                card.className = 'dimension-card';
+                card.innerHTML = `
+                    <div class="dimension-name">${dim.dimension}</div>
+                    <div class="dimension-score">${dim.score}%</div>
+                    <div class="dimension-label">${dim.label}</div>
+                    <div class="dimension-bar">
+                        <div class="dimension-fill" style="width: ${dim.score}%"></div>
+                    </div>
+                `;
+                dimensionsGrid.appendChild(card);
+            });
+
+            // Render primary archetype
+            document.getElementById('archeTypeName').textContent = archetype.name;
+            document.getElementById('archeTypeDesc').textContent = archetype.description;
+
+            // Render all 12 archetypes
+            const archetypesGrid = document.getElementById('archetypesGrid');
+            Object.entries(allArchetypes)
+                .sort((a, b) => b[1] - a[1])
+                .forEach(([name, score]) => {
+                    const item = document.createElement('div');
+                    item.className = 'archetype-item';
+                    item.innerHTML = `
+                        <div class="archetype-item-name">${name}</div>
+                        <div class="archetype-item-score">${score}%</div>
+                        <div class="archetype-item-bar">
+                            <div class="dimension-fill" style="width: ${score}%"></div>
+                        </div>
+                    `;
+                    archetypesGrid.appendChild(item);
+                });
+
+            // Render BDSM profile
+            const bdsmGrid = document.getElementById('bdsmGrid');
+            Object.entries(bdsmProfile).forEach(([category, scores]) => {
+                const card = document.createElement('div');
+                card.className = 'bdsm-card';
+                card.innerHTML = `
+                    <div class="bdsm-category">${category}</div>
+                    <div class="bdsm-row">
+                        <span class="bdsm-label">Giving:</span>
+                        <span class="bdsm-score">${scores.giving}%</span>
+                    </div>
+                    <div class="bdsm-row">
+                        <span class="bdsm-label">Receiving:</span>
+                        <span class="bdsm-score">${scores.receiving}%</span>
+                    </div>
+                    <div style="margin-top:12px; padding-top:12px; border-top:1px solid #3a3a38;">
+                        <div class="bdsm-row">
+                            <span class="bdsm-label">Combined:</span>
+                            <span class="bdsm-score">${scores.combined}%</span>
+                        </div>
+                    </div>
+                `;
+                bdsmGrid.appendChild(card);
+            });
+
+            // Render products
+            const productsGrid = document.getElementById('productsGrid');
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-desc">${product.description}</div>
+                    <div class="product-price">${product.price}</div>
+                    <a href="${product.affiliateUrl}" target="_blank" class="product-link">View</a>
+                `;
+                productsGrid.appendChild(card);
+            });
+
+            // Render guides
+            const guidesList = document.getElementById('guidesList');
+            guides.forEach(guide => {
+                const item = document.createElement('div');
+                item.className = 'guide-item';
+                item.innerHTML = `
+                    <div>
+                        <div class="guide-title">${guide.title}</div>
+                        <div class="guide-desc">${guide.description}</div>
+                    </div>
+                    <a href="${guide.url}" class="guide-link">Explore →</a>
+                `;
+                guidesList.appendChild(item);
+            });
+
+            // Set email field value
+            const email = localStorage.getItem('vp_premium_email') || '';
+            document.getElementById('accessEmail').value = email;
+
+            // Prepare PDF content
+            preparePDFContent(fullScores, archetype, allArchetypes, bdsmProfile, products);
+        }
+
+        function preparePDFContent(scores, archetype, allArchetypes, bdsmProfile, products) {
+            // Build PDF dimensions
+            const pdfDimensions = document.getElementById('pdfDimensions');
+            let dimensionsHTML = '<h2 style="color:#3C2060; margin:40px 0 20px; page-break-before:always;">Dimension Scores</h2>';
+            Object.entries(scores).forEach(([dim, score]) => {
+                dimensionsHTML += `
+                    <div style="margin-bottom:20px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                            <strong>${dim}</strong>
+                            <strong style="color:#D4537E;">${Math.round(score)}%</strong>
+                        </div>
+                        <div style="height:8px; background:#eee; border-radius:4px; overflow:hidden;">
+                            <div style="height:100%; width:${score}%; background:linear-gradient(90deg, #D4537E, #C49BE8);"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            pdfDimensions.innerHTML = dimensionsHTML;
+
+            // Build PDF archetype
+            const pdfArchetype = document.getElementById('pdfArchetype');
+            pdfArchetype.innerHTML = `
+                <div style="page-break-before:always;">
+                    <h2 style="color:#3C2060; margin:40px 0 20px;">Your Primary Archetype</h2>
+                    <div style="background:#f5f5f5; padding:20px; border-radius:8px; color:black;">
+                        <h3 style="color:#D4537E; font-size:24px; margin-bottom:12px;">${archetype.name}</h3>
+                        <p>${archetype.description}</p>
+                    </div>
+                </div>
+            `;
+
+            // Build PDF BDSM
+            const pdfBDSM = document.getElementById('pdfBDSM');
+            let bdsmHTML = '<h2 style="color:#3C2060; margin:40px 0 20px;">BDSM/Kink Profile</h2>';
+            Object.entries(bdsmProfile).forEach(([cat, scores]) => {
+                bdsmHTML += `
+                    <div style="margin-bottom:20px;">
+                        <strong>${cat}</strong>
+                        <div style="margin:8px 0; font-size:14px;">Giving: ${scores.giving}% | Receiving: ${scores.receiving}%</div>
+                    </div>
+                `;
+            });
+            pdfBDSM.innerHTML = bdsmHTML;
+
+            // Build PDF products (first 10 only for PDF)
+            const pdfProducts = document.getElementById('pdfProducts');
+            let productsHTML = '<h2 style="color:#3C2060; margin:40px 0 20px;">Recommended Products</h2>';
+            products.slice(0, 10).forEach(product => {
+                productsHTML += `
+                    <div style="margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid #ddd;">
+                        <strong>${product.name}</strong>
+                        <div style="font-size:13px; color:#666; margin:6px 0;">${product.description}</div>
+                        <div style="font-size:13px; color:#D4537E;">${product.price}</div>
+                    </div>
+                `;
+            });
+            pdfProducts.innerHTML = productsHTML;
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('pdfContent');
+            const opt = {
+                margin: 10,
+                filename: `velour-pulse-profile-${new Date().toISOString().split('T')[0]}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function sendResultsEmail() {
+            const email = document.getElementById('accessEmail').value;
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+
+            // In a real implementation, this would call a backend function
+            alert(`Results email would be sent to: ${email}\n\nIn production, this connects to a backend email service.`);
+
+            // For now, just confirm
+            localStorage.setItem('vp_email_saved', 'true');
+        }
+
+        // Gate access and render on page load
+        document.addEventListener('DOMContentLoaded', gateAccessToPremium);
+    </script>
+</body>
+</html>

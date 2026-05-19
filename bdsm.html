@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BDSM Discovery Quiz — Velour Pulse</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --plum:#3C2060;
+  --purple:#9B6DC9;
+  --orchid:#C49BE8;
+  --pink:#D4537E;
+  --blush:#ED93B1;
+  --whisper:#F5EEF8;
+  --midnight:#2C2C2A;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--midnight);color:#fff;min-height:100vh;display:flex;flex-direction:column}
+nav{padding:16px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid #3a3a38}
+.nav-logo{font-size:18px;font-weight:500;color:var(--orchid);text-decoration:none}
+.nav-logo span{color:var(--pink)}
+.nav-back{font-size:13px;color:#888;text-decoration:none}
+.nav-back:hover{color:#fff}
+.wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.box{background:#1a1a18;border:0.5px solid #3a3a38;border-radius:24px;padding:40px;max-width:580px;width:100%}
+.prog-wrap{margin-bottom:28px}
+.prog-bar{height:3px;background:#2a2a28;border-radius:2px;overflow:hidden;margin-bottom:8px}
+.prog-fill{height:100%;background:var(--pink);border-radius:2px;transition:width 0.4s ease}
+.prog-lbl{font-size:12px;color:#555}
+.step{display:none}
+.step.active{display:block}
+.step-tag{font-size:11px;letter-spacing:0.1em;color:var(--pink);text-transform:uppercase;margin-bottom:10px;opacity:0.8}
+.step-q{font-size:24px;font-weight:500;line-height:1.3;margin-bottom:8px}
+.step-sub{font-size:14px;color:#888;margin-bottom:20px;line-height:1.5}
+.scene-box{background:#222220;border-left:3px solid var(--pink);border-radius:0 12px 12px 0;padding:16px 18px;margin-bottom:20px;font-size:14px;color:#ccc;line-height:1.7;font-style:italic}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{padding:16px 18px;border:0.5px solid #3a3a38;border-radius:14px;cursor:pointer;transition:all 0.15s;background:#222220}
+.opt:hover{border-color:var(--pink);background:rgba(212,83,126,0.06)}
+.opt.sel{border-color:var(--pink);background:rgba(212,83,126,0.1);border-width:1.5px}
+.opt.multi.sel{border-color:var(--purple);background:rgba(155,109,201,0.1);border-width:1.5px}
+.opt-lbl{font-size:15px;font-weight:500;color:#fff;margin-bottom:3px}
+.opt-desc{font-size:13px;color:#666}
+.likert-wrap{margin-bottom:20px}
+.likert-q{font-size:14px;color:#aaa;margin-bottom:12px}
+.likert-dots{display:flex;gap:10px;align-items:center}
+.likert-label{font-size:12px;color:#555;flex-shrink:0}
+.dots{display:flex;gap:8px;flex:1;justify-content:center}
+.dot{width:36px;height:36px;border-radius:50%;border:0.5px solid #3a3a38;cursor:pointer;background:#222220;display:flex;align-items:center;justify-content:center;font-size:12px;color:#666;transition:all 0.15s}
+.dot:hover{border-color:var(--pink)}
+.dot.sel{background:var(--pink);border-color:var(--pink);color:#fff;font-weight:500}
+.consent-box{background:#1f1418;border:0.5px solid #4a2030;border-radius:16px;padding:20px;margin-bottom:20px}
+.consent-title{font-size:14px;font-weight:500;color:var(--blush);margin-bottom:12px}
+.consent-item{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start}
+.c-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);margin-top:5px;flex-shrink:0}
+.c-text{font-size:13px;color:#aaa;line-height:1.5}
+.info-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.info-card{background:#222220;border-radius:12px;padding:14px 16px}
+.info-title{font-size:13px;font-weight:500;color:#fff;margin-bottom:4px}
+.info-text{font-size:12px;color:#777;line-height:1.6}
+.btn-row{display:flex;justify-content:flex-end;margin-top:24px}
+.btn{padding:14px 32px;background:var(--pink);color:#fff;border:none;border-radius:50px;font-size:15px;font-weight:500;cursor:pointer;transition:all 0.15s}
+.btn:hover{opacity:0.88}
+.btn:disabled{opacity:0.35;cursor:not-allowed}
+.btn-full{width:100%;padding:14px;background:var(--pink);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:500;cursor:pointer;transition:all 0.15s;margin-top:8px}
+.btn-full:hover{opacity:0.88}
+.privacy{font-size:12px;color:#444;text-align:center;margin-top:16px}
+
+/* RESULTS */
+.result-hero{background:linear-gradient(135deg,#1f1030,#2a1040);border-radius:16px;padding:24px;margin-bottom:20px;border:0.5px solid #4a3060}
+.result-tag{font-size:11px;letter-spacing:0.1em;color:var(--orchid);text-transform:uppercase;margin-bottom:8px;opacity:0.8}
+.result-type{font-size:28px;font-weight:500;color:#fff;margin-bottom:6px}
+.result-badge{display:inline-block;font-size:11px;padding:3px 12px;border-radius:10px;background:rgba(212,83,126,0.2);color:var(--blush);margin-bottom:12px}
+.result-desc{font-size:14px;color:#aaa;line-height:1.7}
+.arc-section-title{font-size:13px;font-weight:500;color:#aaa;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px}
+.arc-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.arc-name{font-size:13px;color:#ccc;width:110px;flex-shrink:0}
+.arc-track{flex:1;height:7px;background:#2a2a28;border-radius:4px;overflow:hidden}
+.arc-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+.arc-pct{font-size:12px;font-weight:500;color:#888;width:32px;text-align:right;flex-shrink:0}
+.lock-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;opacity:0.35}
+.lock-name{font-size:13px;color:#666;width:110px;flex-shrink:0}
+.lock-track{flex:1;height:7px;background:#222220;border-radius:4px}
+.lock-icon{font-size:13px;color:#555}
+.toy-recs{margin-top:20px}
+.toy-card{display:flex;gap:12px;padding:14px;border:0.5px solid #3a3a38;border-radius:14px;margin-bottom:10px;background:#222220;align-items:flex-start}
+.toy-icon{width:44px;height:44px;border-radius:10px;background:#2a2a28;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.toy-name{font-size:14px;font-weight:500;color:#fff;margin-bottom:2px}
+.toy-brand{font-size:12px;color:#666;margin-bottom:6px}
+.toy-match{font-size:11px;padding:2px 8px;border-radius:8px;background:rgba(212,83,126,0.15);color:var(--blush);display:inline-block;margin-bottom:6px}
+.price-row{display:flex;gap:6px;flex-wrap:wrap}
+.price-chip{font-size:11px;padding:3px 9px;border-radius:8px;border:0.5px solid #3a3a38;color:#888;cursor:pointer}
+.price-chip.best{background:rgba(155,109,201,0.15);border-color:var(--purple);color:var(--orchid)}
+.gold-lock{background:#1a1018;border:0.5px dashed #4a2030;border-radius:14px;padding:20px;text-align:center;margin-top:16px}
+.gold-lock-title{font-size:14px;font-weight:500;color:#fff;margin-bottom:6px}
+.gold-lock-sub{font-size:12px;color:#666;margin-bottom:14px;line-height:1.5}
+.share-row{display:flex;gap:10px;margin-top:12px}
+.share-btn{flex:1;padding:12px;border-radius:12px;font-size:13px;font-weight:500;cursor:pointer;border:none;transition:all 0.15s}
+.share-btn.purple{background:var(--purple);color:#fff}
+.share-btn.ghost{background:transparent;border:0.5px solid #3a3a38;color:#888}
+.share-btn:hover{opacity:0.88}
+
+@media(max-width:600px){
+  nav{padding:14px 20px}
+  .box{padding:24px 20px}
+  .step-q{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Velour <span>Pulse</span></a>
+  <a href="index.html" class="nav-back">← Back to home</a>
+</nav>
+
+<div class="wrap">
+<div class="box">
+
+  <div class="prog-wrap" id="prog-wrap">
+    <div class="prog-bar"><div class="prog-fill" id="prog" style="width:8%"></div></div>
+    <div class="prog-lbl" id="prog-lbl">Discovery quiz · Step 1 of 12</div>
+  </div>
+
+  <!-- STEP 1 — INTRO -->
+  <div class="step active" id="s1">
+    <div class="step-tag">BDSM discovery</div>
+    <div class="step-q">Find your kink archetype.</div>
+    <div class="step-sub" style="margin-top:8px">This quiz scores you across 12 recognized archetypes — giving you a full profile, not just a label. Your results connect directly to product recommendations.</div>
+    <div class="consent-box">
+      <div class="consent-title">Before you begin</div>
+      <div class="consent-item"><div class="c-dot"></div><div class="c-text">This is self-discovery only — not a clinical assessment</div></div>
+      <div class="consent-item"><div class="c-dot"></div><div class="c-text">Your answers never leave this screen unless you share them</div></div>
+      <div class="consent-item"><div class="c-dot"></div><div class="c-text">BDSM is always consensual — curiosity here is completely normal</div></div>
+      <div class="consent-item"><div class="c-dot"></div><div class="c-text">Stop at any time, no questions asked</div></div>
+    </div>
+    <button class="btn-full" onclick="goTo(2)">Start my discovery</button>
+    <div class="privacy">12 archetypes · 10 questions · ~4 minutes · 100% private</div>
+  </div>
+
+  <!-- STEP 2 — CONSENT -->
+  <div class="step" id="s2">
+    <div class="step-tag">Consent framework</div>
+    <div class="step-q">The foundation of everything here.</div>
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-title">Safe · Sane · Consensual</div>
+        <div class="info-text">Every dynamic must be safe for all involved, approached with clear thinking, and fully agreed upon. This is non-negotiable.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">Safe words</div>
+        <div class="info-text">"Red" means stop everything immediately. "Yellow" means slow down and check in. 82% of practitioners use them every single time.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">Aftercare</div>
+        <div class="info-text">Physical and emotional check-in after play. Warmth, comfort, water, reassurance. Essential for both partners. 75% of sessions include it.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">Archetypes are not limits</div>
+        <div class="info-text">Your results are a starting point. Preferences evolve. Many people retake this yearly and find significant shifts.</div>
+      </div>
+    </div>
+    <button class="btn-full" onclick="goTo(3)">I understand — continue</button>
+  </div>
+
+  <!-- STEP 3 — CONTROL -->
+  <div class="step" id="s3">
+    <div class="step-tag">Question 1 of 10 · Control</div>
+    <div class="step-q">How does this scenario make you feel?</div>
+    <div class="scene-box">"You're in the middle of an intense scene. Your partner looks to you to decide what happens next — the pace, the direction, everything. The responsibility is entirely yours."</div>
+    <div class="likert-wrap">
+      <div class="likert-q">How appealing does taking full control feel?</div>
+      <div class="likert-dots">
+        <span class="likert-label">Not for me</span>
+        <div class="dots" id="q1a">
+          <div class="dot" onclick="dotPick('q1a',1)">1</div>
+          <div class="dot" onclick="dotPick('q1a',2)">2</div>
+          <div class="dot" onclick="dotPick('q1a',3)">3</div>
+          <div class="dot" onclick="dotPick('q1a',4)">4</div>
+          <div class="dot" onclick="dotPick('q1a',5)">5</div>
+        </div>
+        <span class="likert-label">Very appealing</span>
+      </div>
+    </div>
+    <div class="scene-box">"Someone else is completely in charge. You don't have to think or decide — just feel and respond to whatever they choose."</div>
+    <div class="likert-wrap">
+      <div class="likert-q">How appealing does surrendering control feel?</div>
+      <div class="likert-dots">
+        <span class="likert-label">Not for me</span>
+        <div class="dots" id="q1b">
+          <div class="dot" onclick="dotPick('q1b',1)">1</div>
+          <div class="dot" onclick="dotPick('q1b',2)">2</div>
+          <div class="dot" onclick="dotPick('q1b',3)">3</div>
+          <div class="dot" onclick="dotPick('q1b',4)">4</div>
+          <div class="dot" onclick="dotPick('q1b',5)">5</div>
+        </div>
+        <span class="likert-label">Very appealing</span>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn" id="btn3" onclick="goTo(4)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 4 — SCENE -->
+  <div class="step" id="s4">
+    <div class="step-tag">Question 2 of 10 · Scene setting</div>
+    <div class="step-q">Which scenario draws you in most?</div>
+    <div class="step-sub">Pick the one that feels most true — even if it surprises you.</div>
+    <div class="opts" id="q2">
+      <div class="opt" onclick="singlePick('q2',this,{rigger:5})">
+        <div class="opt-lbl">Creating an intricate rope tie on your partner</div>
+        <div class="opt-desc">Technical, artistic, controlling — you love building the experience</div>
+      </div>
+      <div class="opt" onclick="singlePick('q2',this,{ropebunny:5})">
+        <div class="opt-lbl">Being slowly, carefully tied up by someone you trust</div>
+        <div class="opt-desc">The vulnerability, the helplessness, the trust — all of it</div>
+      </div>
+      <div class="opt" onclick="singlePick('q2',this,{sadist:4,dominant:2})">
+        <div class="opt-lbl">Deciding when and how your partner experiences sensation</div>
+        <div class="opt-desc">You control the intensity — a tease, a sting, a rush</div>
+      </div>
+      <div class="opt" onclick="singlePick('q2',this,{masochist:4,submissive:2})">
+        <div class="opt-lbl">Receiving sensation at your partner's discretion</div>
+        <div class="opt-desc">You don't know what's coming — that's the point</div>
+      </div>
+      <div class="opt" onclick="singlePick('q2',this,{exhibitionist:5})">
+        <div class="opt-lbl">Performing for an audience — being admired and watched</div>
+        <div class="opt-desc">Being seen fully is part of the pleasure</div>
+      </div>
+      <div class="opt" onclick="singlePick('q2',this,{voyeur:5})">
+        <div class="opt-lbl">Watching a scene unfold without participating</div>
+        <div class="opt-desc">You find deep pleasure in witnessing</div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn" id="btn4" onclick="goTo(5)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 5 — RESTRAINT -->
+  <div class="step" id="s5">
+    <div class="step-tag">Question 3 of 10 · Restraint</div>
+    <div class="step-q">How do you feel about physical restraint?</div>
+    <div class="scene-box">"Wrists bound, movement limited, completely dependent on your partner's choices for what happens next."</div>
+    <div class="opts" id="q3">
+      <div class="opt" onclick="singlePick('q3',this,{ropebunny:5,masochist:2})">
+        <div class="opt-lbl">This is deeply appealing to me</div>
+        <div class="opt-desc">The surrender and helplessness — that's the whole point</div>
+      </div>
+      <div class="opt" onclick="singlePick('q3',this,{rigger:5})">
+        <div class="opt-lbl">I want to be the one doing the restraining</div>
+        <div class="opt-desc">Creating that vulnerability in someone else appeals to me</div>
+      </div>
+      <div class="opt" onclick="singlePick('q3',this,{switch:4,ropebunny:2,rigger:2})">
+        <div class="opt-lbl">I'd enjoy both sides depending on the moment</div>
+        <div class="opt-desc">Sometimes give, sometimes receive</div>
+      </div>
+      <div class="opt" onclick="singlePick('q3',this,{experimentalist:4})">
+        <div class="opt-lbl">Curious but haven't tried it</div>
+        <div class="opt-desc">Interested in exploring with the right person</div>
+      </div>
+      <div class="opt" onclick="singlePick('q3',this,{vanilla:4})">
+        <div class="opt-lbl">Not really for me</div>
+        <div class="opt-desc">I prefer being free to move</div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn" id="btn5" onclick="goTo(6)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 6 — SENSATION -->
+  <div class="step" id="s6">
+    <div class="step-tag">Question 4 of 10 · Sensation</div>
+    <div class="step-q">Which sensations interest you most?</div>
+    <div class="step-sub">Select all that feel appealing — even slightly.</div>
+    <div class="opts" id="q4">
+      <div class="opt multi" onclick="multiPick(this,{sensation:5,masochist:2})">
+        <div class="opt-lbl">Temperature play</div>
+        <div class="opt-desc">Ice, warmth, the contrast between both</div>
+      </div>
+      <div class="opt multi" onclick="multiPick(this,{sensation:4,masochist:3})">
+        <div class="opt-lbl">Impact sensation</div>
+        <div class="opt-desc">A controlled sting — hand, paddle, or flogger</div>
+      </div>
+      <div class="opt multi" onclick="multiPick(this,{sensation:5})">
+        <div class="opt-lbl">Texture and teasing</div>
+        <div class="opt-desc">Feathers, fabric, fingernails — slow and deliberate</div>
+      </div>
+      <div class="opt multi" onclick="multiPick(this,{ropebunny:3,sensation:4})">
+        <div class="opt-lbl">Restriction and pressure</div>
+        <div class="opt-desc">Tight holds, compression, being held still</div>
+      </div>
+      <div class="opt multi" onclick="multiPick(this,{sensation:4})">
+        <div class="opt-lbl">Sensory deprivation</div>
+        <div class="opt-desc">Blindfolds, silence — heightening one sense by removing others</div>
+      </div>
+      <div class="opt multi" onclick="multiPick(this,{vanilla:3,experimentalist:2})">
+        <div class="opt-lbl">Gentle touch only</div>
+        <div class="opt-desc">Soft, subtle — intensity isn't the goal</div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn" onclick="goTo(7)">Continue</button></div>
+  </div>
+
+  <!-- STEP 7 — POWER -->
+  <div class="step" id="s7">
+    <div class="step-tag">Question 5 of 10 · Power</div>
+    <div class="step-q">Which description resonates most?</div>
+    <div class="opts" id="q5">
+      <div class="opt" onclick="singlePick('q5',this,{dominant:5,bratTamer:2})">
+        <div class="opt-lbl">I set the rules and expect them to be followed</div>
+        <div class="opt-desc">Structure, authority, and compliance give me satisfaction</div>
+      </div>
+      <div class="opt" onclick="singlePick('q5',this,{submissive:4,service:3})">
+        <div class="opt-lbl">I find deep satisfaction in following and serving</div>
+        <div class="opt-desc">Being guided, doing things for someone, pleasing them</div>
+      </div>
+      <div class="opt" onclick="singlePick('q5',this,{brat:5,switch:2})">
+        <div class="opt-lbl">I like to push back and be a challenge</div>
+        <div class="opt-desc">I won't just follow — make me</div>
+      </div>
+      <div class="opt" onclick="singlePick('q5',this,{bratTamer:5,dominant:2})">
+        <div class="opt-lbl">I enjoy taming someone who resists</div>
+        <div class="opt-desc">The challenge of earning compliance is the fun part</div>
+      </div>
+      <div class="opt" onclick="singlePick('q5',this,{switch:5})">
+        <div class="opt-lbl">My role changes completely depending on who I'm with</div>
+        <div class="opt-desc">I'm genuinely fluid — not a fixed role</div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn" id="btn7" onclick="goTo(8)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 8 — DYNAMIC -->
+  <div class="step" id="s8">
+    <div class="step-tag">Question 6 of 10 · Dynamic</div>
+    <div class="step-q">Which relationship dynamic feels most natural?</div>
+    <div class="opts" id="q6">
+      <div class="opt" onclick="singlePick('q6',this,{caregiver:5,dominant:2})">
+        <div class="opt-lbl">Protector and nurturer</div>
+        <div class="opt-desc">Taking care of someone, guiding gently, emotional safety</div>
+      </div>
+      <div class="opt" onclick="singlePick('q6',this,{little:5,submissive:2})">
+        <div class="opt-lbl">Being cared for and protected</div>
+        <div class="opt-desc">Feeling safe, guided, looked after by someone stronger</div>
+      </div>
+      <div class="opt" onclick="singlePick('q6',this,{owner:5,dominant:2})">
+        <div class="opt-lbl">Owner and guide</div>
+        <div class="opt-desc">A deeper ownership dynamic — collaring, devotion, structure</div>
+      </div>
+      <div class="opt" onclick="singlePick('q6',this,{pet:5,submissive:2})">
+        <div class="opt-lbl">Belonging to someone</div>
+        <div class="opt-desc">The devotion and structure of a pet dynamic</div>
+      </div>
+      <div class="opt" onclick="singlePick('q6',this,{experimentalist:5})">
+        <div class="opt-lbl">None of these yet — still figuring it out</div>
+        <div class="opt-desc">I'm curious and open but haven't settled into a dynamic</div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn" id="btn8" onclick="goTo(9)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 9 — EMOTION -->
+  <div class="step" id="s9">
+    <div class="step-tag">Question 7 of 10 · Aftercare</div>
+    <div class="step-q">After a scene, what do you want most?</div>
+    <div class="step-sub">This reveals how you process intensity — important for aftercare planning.</div>
+    <div class="opts" id="q7">
+      <div class="opt" onclick="singlePick('q7',this,{caregiver:5,dominant:2})">
+        <div class="opt-lbl">To check in on and comfort my partner</div>
+        <div class="opt-desc">Making sure they're okay is part of the satisfaction</div>
+      </div>
+      <div class="opt" onclick="singlePick('q7',this,{submissive:3,little:3})">
+        <div class="opt-lbl">Warmth, closeness, being held</div>
+        <div class="opt-desc">Coming down from intensity with comfort and reassurance</div>
+      </div>
+      <div class="opt" onclick="singlePick('q7',this,{dominant:3,sadist:2})">
+        <div class="opt-lbl">Quiet satisfaction — reflecting on the scene</div>
+        <div class="opt-desc">Processing internally, feeling accomplished</div>
+      </div>
+      <div class="opt" onclick="singlePick('q7',this,{primal:4,brat:2})">
+        <div class="opt-lbl">Physical closeness — no words needed</div>
+        <div class="opt-desc">Instinct over language — just being present together</div>
+      </div>
+      <div class="opt" onclick="singlePick('q7',this,{experimentalist:3,vanilla:2})">
+        <div class="opt-lbl">I'm not sure — I haven't been in a scene</div>
+        <div class="opt-desc">Still learning what I'd want</div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn" id="btn9" onclick="goTo(10)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 10 — ROLE -->
+  <div class="step" id="s10">
+    <div class="step-tag">Question 8 of 10 · Role</div>
+    <div class="step-q">Which feels more exciting right now?</div>
+    <div class="scene-box">"You've been asked to play a character in an elaborate fantasy — a commanding authority figure demanding absolute obedience."</div>
+    <div class="opts" id="q8">
+      <div class="opt" onclick="singlePick('q8',this,{dominant:4,exhibitionist:2})">
+        <div class="opt-lbl">Playing the authority — I'd love this</div>
+        <div class="opt-desc">Being in character while in control feels natural</div>
+      </div>
+      <div class="opt" onclick="singlePick('q8',this,{submissive:4,little:2})">
+        <div class="opt-lbl">Playing the one obeying — that's where I want to be</div>
+        <div class="opt-desc">Following a character feels freeing and exciting</div>
+      </div>
+      <div class="opt" onclick="singlePick('q8',this,{brat:4,switch:2})">
+        <div class="opt-lbl">Playing the one who refuses to obey</div>
+        <div class="opt-desc">I'd push back — make them earn it</div>
+      </div>
+      <div class="opt" onclick="singlePick('q8',this,{voyeur:5})">
+        <div class="opt-lbl">Watching this scenario play out between others</div>
+        <div class="opt-desc">Observation is where I find the most pleasure</div>
+      </div>
+      <div class="opt" onclick="singlePick('q8',this,{vanilla:3,experimentalist:2})">
+        <div class="opt-lbl">Roleplay doesn't really appeal to me</div>
+        <div class="opt-desc">I prefer things more direct and real</div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn" id="btn10" onclick="goTo(11)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 11 — INSTINCT -->
+  <div class="step" id="s11">
+    <div class="step-tag">Question 9 of 10 · Instinct</div>
+    <div class="step-q">How do you feel about raw, instinctive play?</div>
+    <div class="scene-box">"No rules, no structure, no script. Just pure instinct — chasing, wrestling, reacting. Nothing planned, everything felt."</div>
+    <div class="opts" id="q9">
+      <div class="opt" onclick="singlePick('q9',this,{primal:5})">
+        <div class="opt-lbl">This is exactly what I crave</div>
+        <div class="opt-desc">Raw and unscripted — that's where I feel most alive</div>
+      </div>
+      <div class="opt" onclick="singlePick('q9',this,{primal:3,experimentalist:3})">
+        <div class="opt-lbl">Curious and open to trying this</div>
+        <div class="opt-desc">Haven't experienced it but it genuinely intrigues me</div>
+      </div>
+      <div class="opt" onclick="singlePick('q9',this,{dominant:2,rigger:2})">
+        <div class="opt-lbl">I prefer structure — I like knowing the plan</div>
+        <div class="opt-desc">Spontaneity is exciting but I want some framework</div>
+      </div>
+      <div class="opt" onclick="singlePick('q9',this,{vanilla:4})">
+        <div class="opt-lbl">Not for me — I like things calmer</div>
+        <div class="opt-desc">Intensity without structure feels overwhelming</div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn" id="btn11" onclick="goTo(12)" disabled>Continue</button></div>
+  </div>
+
+  <!-- STEP 12 — SERVICE -->
+  <div class="step" id="s12">
+    <div class="step-tag">Question 10 of 10 · Service</div>
+    <div class="step-q">Last one — which feels most fulfilling?</div>
+    <div class="opts" id="q10">
+      <div class="opt" onclick="singlePick('q10',this,{service:5,submissive:2})">
+        <div class="opt-lbl">Anticipating and fulfilling every one of my partner's needs</div>
+        <div class="opt-desc">Acts of devotion — making their experience perfect</div>
+      </div>
+      <div class="opt" onclick="singlePick('q10',this,{dominant:4,owner:3})">
+        <div class="opt-lbl">Having someone entirely devoted to pleasing me</div>
+        <div class="opt-desc">Their complete attention and service</div>
+      </div>
+      <div class="opt" onclick="singlePick('q10',this,{sensation:4,experimentalist:3})">
+        <div class="opt-lbl">Mutual pleasure — no hierarchy, just connection</div>
+        <div class="opt-desc">Equal give and take with no power dynamic</div>
+      </div>
+      <div class="opt" onclick="singlePick('q10',this,{exhibitionist:3,brat:3})">
+        <div class="opt-lbl">Being the center of attention and desire</div>
+        <div class="opt-desc">All eyes, all energy — focused entirely on me</div>
+      </div>
+    </div>
+    <div class="btn-row"><button class="btn" id="btn12" onclick="calcResults()" disabled>See my profile</button></div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="step" id="s13">
+    <div id="result-hero" class="result-hero">
+      <div class="result-tag">Your kink profile</div>
+      <div class="result-type" id="result-type">Curious switch</div>
+      <div class="result-badge" id="result-badge">Switch leaning</div>
+      <div class="result-desc" id="result-desc">You move fluidly between control and surrender.</div>
+    </div>
+
+    <div class="arc-section-title">Your archetype breakdown</div>
+    <div id="arc-bars"></div>
+
+    <div class="arc-section-title" style="margin-top:16px;opacity:0.4">Locked — Premium only</div>
+    <div class="lock-row"><span class="lock-name">Rigger</span><div class="lock-track"></div><span class="lock-icon">🔒</span></div>
+    <div class="lock-row"><span class="lock-name">Sadist</span><div class="lock-track"></div><span class="lock-icon">🔒</span></div>
+    <div class="lock-row"><span class="lock-name">Exhibitionist</span><div class="lock-track"></div><span class="lock-icon">🔒</span></div>
+    <div class="lock-row"><span class="lock-name">Caregiver</span><div class="lock-track"></div><span class="lock-icon">🔒</span></div>
+    <div class="lock-row"><span class="lock-name">Voyeur</span><div class="lock-track"></div><span class="lock-icon">🔒</span></div>
+
+    <div class="toy-recs">
+      <div class="arc-section-title">Matched products</div>
+      <div id="toy-recs"></div>
+    </div>
+
+    <div class="gold-lock">
+      <div class="gold-lock-title">Unlock your full profile</div>
+      <div class="gold-lock-sub">Get all 18 archetype scores, partner compatibility analysis, and 15-25 product recommendations tailored to your blend.</div>
+      <button class="btn-full" onclick="window.location.href='checkout.html'">Unlock Premium — $9.99</button>
+    </div>
+
+    <div class="share-row">
+      <button class="share-btn ghost" onclick="goTo(1)">Retake quiz</button>
+      <button class="share-btn purple" onclick="window.location.href='quiz.html'">Take needs quiz →</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+const ARCS={
+  dominant:{label:'Dominant',color:'#D4537E'},
+  submissive:{label:'Submissive',color:'#9B6DC9'},
+  switch:{label:'Switch',color:'#BA7517'},
+  rigger:{label:'Rigger',color:'#378ADD'},
+  ropebunny:{label:'Rope bunny',color:'#85B7EB'},
+  sadist:{label:'Sadist',color:'#E24B4A'},
+  masochist:{label:'Masochist',color:'#F0997B'},
+  exhibitionist:{label:'Exhibitionist',color:'#EF9F27'},
+  voyeur:{label:'Voyeur',color:'#97C459'},
+  primal:{label:'Primal',color:'#D85A30'},
+  caregiver:{label:'Caregiver',color:'#1D9E75'},
+  little:{label:'Little',color:'#5DCAA5'},
+  owner:{label:'Owner',color:'#534AB7'},
+  pet:{label:'Pet',color:'#AFA9EC'},
+  brat:{label:'Brat',color:'#993556'},
+  bratTamer:{label:'Brat tamer',color:'#72243E'},
+  experimentalist:{label:'Experimentalist',color:'#888780'},
+  service:{label:'Service',color:'#0F6E56'},
+  sensation:{label:'Sensation seeker',color:'#EF9F27'},
+  vanilla:{label:'Vanilla curious',color:'#B4B2A9'}
+};
+
+const DESCS={
+  dominant:'You are drawn to leadership, control, and directing experiences. Taking responsibility for a dynamic comes naturally to you.',
+  submissive:'Surrender and trust are your power. You find freedom in following and deep fulfillment in devotion.',
+  switch:'You move fluidly between control and surrender depending on mood, partner, and moment. You get the full spectrum.',
+  rigger:'Rope work speaks to you — the art, the control, the deep connection created through restraint.',
+  ropebunny:'Being tied, held, made still — the vulnerability and trust of restraint is deeply appealing to you.',
+  sadist:'You find pleasure in consensually delivering sensation. The reaction from your partner is part of the reward.',
+  masochist:'Receiving sensation — the sting, the rush, the release — is where you find your flow state.',
+  exhibitionist:'Being seen fully, desired openly — your pleasure is amplified by an audience.',
+  voyeur:'Watching is its own deep pleasure. You find meaning and arousal in witnessing.',
+  primal:'Raw, instinctive, unscripted — you are drawn to animalistic energy over structured dynamics.',
+  caregiver:'Nurturing and protecting is your natural role. Creating safety and warmth for a partner fulfills you deeply.',
+  little:'Being cared for, guided gently, and kept safe — you find comfort and joy in the little dynamic.',
+  owner:'Deep ownership structures appeal to you — collaring, devotion, and the responsibility that comes with it.',
+  pet:'Belonging to someone, being devoted and playful — the pet dynamic resonates strongly with you.',
+  brat:'You push back, resist, and make your partner work for it. Being tamed is the real goal.',
+  bratTamer:'You love a challenge. Breaking through resistance and earning compliance is its own reward.',
+  experimentalist:'You are deeply curious and open — a true explorer without a fixed identity yet.',
+  service:'Acts of devotion fulfill you. Anticipating needs, giving fully, making their experience perfect.',
+  sensation:'Texture, temperature, teasing — physical sensation in all forms is your primary drive.',
+  vanilla:'You are new to exploration or prefer intimacy without power dynamics. Both are equally valid.'
+};
+
+const TOYS={
+  dominant:['Collar and leash set','Riding crop — precision sensation'],
+  submissive:['Satin wrist cuffs — soft restraint','Vibrating egg with remote control'],
+  switch:['We-Vibe Chorus — app-controlled couples','Bondage tape — easy give and take'],
+  rigger:['Beginner rope bondage kit','Shibari practice rope — soft and safe'],
+  ropebunny:['Under-bed restraint system','Soft bondage rope kit — body-safe'],
+  sadist:['Flogger set — graduated intensity','Wartenberg pinwheel — precise sensation'],
+  masochist:['Impact play paddle — padded handle','Sensation candle kit — low-temp wax'],
+  exhibitionist:['Lelo Tor 3 — wearable during play','Remote-controlled couples toy'],
+  voyeur:['Remote-controlled couples toy','Positioning wedge — optimizes experience'],
+  primal:['Massage oil kit — skin-to-skin','Soft biting collar — primal play'],
+  caregiver:['Aftercare kit — blanket and aromatherapy','Comfort care set'],
+  little:['Weighted blanket — comfort and safety','Self-care relaxation kit'],
+  owner:['Collar with tag — ownership symbol','Day collar — discreet and wearable'],
+  pet:['Pet play kit — ears and collar','Velvet leash — soft and ceremonial'],
+  brat:['Quick-release handcuffs','Blindfold — removes visual control'],
+  bratTamer:['Discipline paddle — light and padded','Command collar — signals authority'],
+  experimentalist:['Beginner BDSM kit — 10 essentials','Velour Pulse starter discovery box'],
+  service:['Massage candle set — acts of touch','Luxury silk blindfold'],
+  sensation:['Sensation play kit — feather, pinwheel, ice','Wand massager — versatile and powerful'],
+  vanilla:['Dame Eva II — couples vibrator','Couples massage oil set']
+};
+
+const PRICES={
+  'We-Vibe Chorus — app-controlled couples':['We-Vibe.com $149','Lovehoney $159','Amazon $165'],
+  'Wand massager — versatile and powerful':['Lovehoney $49','Amazon $54'],
+  'Dame Eva II — couples vibrator':['Dame.com $95','Lovehoney $105'],
+  'Beginner rope bondage kit':['Sportsheets $38','Amazon $44'],
+  'Satin wrist cuffs — soft restraint':['Sportsheets $24','Amazon $28'],
+  default:['Best price available','Compare on site']
+};
+
+let scores={};
+Object.keys(ARCS).forEach(k=>scores[k]=0);
+let step=1;
+const TOTAL=12;
+
+function goTo(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s'+n).classList.add('active');
+  step=n;
+  const pct=Math.round((Math.min(n,TOTAL)/TOTAL)*100);
+  document.getElementById('prog').style.width=pct+'%';
+  const labels=['','Step 1 of 12','Step 2 of 12','Q1 of 10 · Control','Q2 of 10 · Scene','Q3 of 10 · Restraint','Q4 of 10 · Sensation','Q5 of 10 · Power','Q6 of 10 · Dynamic','Q7 of 10 · Aftercare','Q8 of 10 · Role','Q9 of 10 · Instinct','Q10 of 10 · Service','Your profile'];
+  document.getElementById('prog-lbl').textContent='Discovery quiz · '+(labels[n]||'');
+  if(n===13)document.getElementById('prog-wrap').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function addScores(obj){Object.entries(obj).forEach(([k,v])=>{if(scores[k]!==undefined)scores[k]+=v;});}
+
+function dotPick(gid,val){
+  const dots=document.querySelectorAll('#'+gid+' .dot');
+  dots.forEach((d,i)=>d.classList.toggle('sel',i<val));
+  const mult=val/5;
+  if(gid==='q1a')addScores({dominant:val,switch:val>2?2:0});
+  if(gid==='q1b')addScores({submissive:val,switch:val>2?2:0});
+  const a=document.querySelector('#q1a .dot.sel');
+  const b=document.querySelector('#q1b .dot.sel');
+  if(a&&b)document.getElementById('btn3').disabled=false;
+}
+
+function singlePick(qid,el,scoreObj){
+  document.querySelectorAll('#'+qid+' .opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  addScores(scoreObj);
+  const btnMap={q2:'btn4',q3:'btn5',q5:'btn7',q6:'btn8',q7:'btn9',q8:'btn10',q9:'btn11',q10:'btn12'};
+  if(btnMap[qid]){const b=document.getElementById(btnMap[qid]);if(b)b.disabled=false;}
+}
+
+function multiPick(el,scoreObj){
+  el.classList.toggle('sel');
+  if(el.classList.contains('sel'))addScores(scoreObj);
+}
+
+function calcResults(){
+  const sorted=Object.entries(scores).filter(([k])=>k!=='vanilla').sort((a,b)=>b[1]-a[1]);
+  const top=sorted[0][0];
+  const max=sorted[0][1]||1;
+  document.getElementById('result-type').textContent=
+    scores.switch>6?'Curious switch':ARCS[top]?ARCS[top].label+' archetype':'Explorer';
+  document.getElementById('result-badge').textContent=
+    scores.switch>6?'Switch leaning':sorted[0][1]>8?'Strong match':'Emerging';
+  document.getElementById('result-desc').textContent=DESCS[top]||DESCS.experimentalist;
+
+  const barsEl=document.getElementById('arc-bars');
+  barsEl.innerHTML='';
+  sorted.slice(0,8).forEach(([arc,val])=>{
+    const pct=Math.min(100,Math.round((val/max)*100));
+    const row=document.createElement('div');
+    row.className='arc-row';
+    row.innerHTML=`<span class="arc-name">${ARCS[arc]?ARCS[arc].label:arc}</span><div class="arc-track"><div class="arc-fill" style="width:0%;background:${ARCS[arc]?ARCS[arc].color:'#9B6DC9'}" data-w="${pct}"></div></div><span class="arc-pct">${pct}%</span>`;
+    barsEl.appendChild(row);
+  });
+  setTimeout(()=>{document.querySelectorAll('.arc-fill').forEach(el=>{el.style.width=el.dataset.w+'%';});},200);
+
+  const toysEl=document.getElementById('toy-recs');
+  toysEl.innerHTML='';
+  const topToys=TOYS[top]||TOYS.experimentalist;
+  topToys.forEach(t=>{
+    const prices=PRICES[t]||PRICES.default;
+    const card=document.createElement('div');
+    card.className='toy-card';
+    card.innerHTML=`<div class="toy-icon">💜</div><div style="flex:1"><div class="toy-name">${t}</div><div class="toy-match">Matched to your ${ARCS[top]?ARCS[top].label:top} profile</div><div class="price-row">${prices.map((p,i)=>`<span class="price-chip${i===0?' best':''}">${p}</span>`).join('')}</div></div>`;
+    toysEl.appendChild(card);
+  });
+
+  goTo(13);
+}
+</script>
+</body>
+</html>

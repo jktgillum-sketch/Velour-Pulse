@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discovery - Sexual Wellness Guides - Velour Pulse</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.8;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1 {
+            color: #8B4789;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 50px;
+            font-size: 1.05rem;
+        }
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        .guide-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 5px solid #8B4789;
+        }
+        .guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+        }
+        .guide-card h3 {
+            color: #8B4789;
+            margin: 0 0 15px 0;
+            font-size: 1.4rem;
+        }
+        .guide-card p {
+            color: #666;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+        .guide-content {
+            display: none;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .guide-content.active {
+            display: block;
+        }
+        .guide-content h2 {
+            color: #8B4789;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            border-bottom: 3px solid #f0e6f6;
+            padding-bottom: 15px;
+        }
+        .guide-content h3 {
+            color: #8B4789;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        .guide-content h4 {
+            color: #6a3567;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .guide-content p {
+            margin-bottom: 15px;
+            line-height: 1.8;
+            color: #444;
+        }
+        .guide-content ul, .guide-content ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        .guide-content li {
+            margin-bottom: 12px;
+            color: #444;
+        }
+        .guide-content .tip-box {
+            background: #f8f4f9;
+            border-left: 4px solid #8B4789;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+        .guide-content .tip-box strong {
+            color: #8B4789;
+        }
+        .guide-content .highlight {
+            background: #f0e6f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .back-btn {
+            background: #8B4789;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+        .back-btn:hover {
+            background: #6a3567;
+        }
+        .footer-link {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 12px 24px;
+            background: #8B4789;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background 0.3s;
+        }
+        .footer-link:hover {
+            background: #6a3567;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Discovery</h1>
+        <p class="subtitle">Explore comprehensive, evidence-based guides to sexual wellness, pleasure, health, and authenticity.</p>
+
+        <!-- Guides Grid -->
+        <div class="guides-grid" id="guidesGrid">
+            <div class="guide-card" onclick="showGuide('consent')">
+                <h3>🤝 Communication & Consent</h3>
+                <p>Master the fundamentals of clear communication, consent models, and safe practices that create trust and safety in intimate relationships.</p>
+            </div>
+            <div class="guide-card" onclick="showGuide('body')">
+                <h3>🧬 Understanding Your Body</h3>
+                <p>Deep dive into sexual anatomy, response cycles, pleasure sensitivity, and normalizing the natural variation in bodies and desires.</p>
+            </div>
+            <div class="guide-card" onclick="showGuide('pleasure')">
+                <h3>✨ Pleasure Fundamentals</h3>
+                <p>Explore what sexual pleasure is, how to cultivate it mindfully, and evidence-based techniques for deepening sexual satisfaction.</p>
+            </div>
+            <div class="guide-card" onclick="showGuide('health')">
+                <h3>💚 Sexual Health & Safety</h3>
+                <p>Comprehensive information on STI prevention, protection methods, sexual health maintenance, and responsible toy use.</p>
+            </div>
+            <div class="guide-card" onclick="showGuide('bdsm')">
+                <h3>🔗 BDSM & Power Dynamics</h3>
+                <p>Understand consensual power exchange, negotiation frameworks, safety practices, and the psychology of BDSM relationships.</p>
+            </div>
+            <div class="guide-card" onclick="showGuide('myths')">
+                <h3>🧠 Sexual Myths vs Reality</h3>
+                <p>Debunk common sexual misconceptions with research-backed facts that challenge cultural narratives and normalize healthy sexuality.</p>
+            </div>
+        </div>
+
+        <!-- Guide Contents -->
+
+        <!-- COMMUNICATION & CONSENT -->
+        <div class="guide-content" id="consent">
+            <button class="back-btn" onclick="showGuide('')">← Back to Discovery</button>
+            <h2>Communication & Consent</h2>
+
+            <h3>What is Consent?</h3>
+            <p>Consent is <span class="highlight">voluntary, enthusiastic, informed, and reversible</span> agreement to engage in sexual activity. It's not just a legal requirement—it's the foundation of authentic, mutually satisfying intimacy. Consent is about creating space where both partners feel safe, heard, and genuinely excited about what's happening.</p>
+
+            <p>True consent goes beyond a verbal "yes." It includes:</p>
+            <ul>
+                <li><strong>Clear communication:</strong> Knowing what your partner wants and ensuring they know what you want</li>
+                <li><strong>Active enthusiasm:</strong> Everyone involved genuinely wants to participate (not just tolerating it)</li>
+                <li><strong>Full information:</strong> Understanding what will happen, any risks, and what's expected</li>
+                <li><strong>The power to say no:</strong> No pressure, manipulation, or coercion</li>
+                <li><strong>Ongoing:</strong> Consent can be withdrawn at any time, and activities can change mid-encounter</li>
+            </ul>
+
+            <h3>The FRIES Model of Consent</h3>
+            <p>Sex educators have developed frameworks to help think about consent holistically. The FRIES model (developed by Planned Parenthood and consent educators) breaks down consent into five key elements:</p>
+
+            <h4>Freely Given</h4>
+            <p>Consent is only valid if it's offered without pressure, manipulation, coercion, or intoxication that impairs judgment. This means:</p>
+            <ul>
+                <li>No one is pressuring you into sex or threatening consequences for saying no</li>
+                <li>You're not under the influence of substances that cloud your judgment</li>
+                <li>You're not in a situation where saying "no" feels dangerous or impossible</li>
+                <li>You genuinely want to participate, not just going along with it</li>
+            </ul>
+
+            <h4>Reversible</h4>
+            <p>Consent can be withdrawn at any time, for any reason. Changing your mind is not a violation—it's essential to sexual ethics.</p>
+            <ul>
+                <li>You can say "stop" or "I don't want to continue" at any point</li>
+                <li>Your partner must respect this immediately, without question or guilt-tripping</li>
+                <li>Previous consent doesn't mean future consent (saying yes last time doesn't obligate you this time)</li>
+                <li>Partial consent is valid (you might want some activities but not others)</li>
+            </ul>
+
+            <h4>Informed</h4>
+            <p>Everyone involved needs to understand what will happen, what the risks are, and what's being asked of them. This includes:</p>
+            <ul>
+                <li>Discussing what activities you'll engage in before they happen</li>
+                <li>Being honest about sexual health status and any relevant medical information</li>
+                <li>Disclosing if you're using protection, what type, and its effectiveness</li>
+                <li>Being clear about boundaries, limits, and what's off-limits</li>
+                <li>Explaining any kinks or specific requests so your partner knows what to expect</li>
+            </ul>
+
+            <h4>Enthusiastic</h4>
+            <p>Genuine consent involves real excitement and desire to participate. Lukewarm agreement or "I guess it's okay" isn't enthusiastic consent. Your partner should:</p>
+            <ul>
+                <li>Actively want to participate, not just tolerate it</li>
+                <li>Show genuine interest through words and body language</li>
+                <li>Be able to voice desires and preferences without fear of judgment</li>
+                <li>Feel like an equal participant in decision-making</li>
+            </ul>
+
+            <h4>Specific</h4>
+            <p>Consent to one activity doesn't mean consent to all activities. Being specific means:</p>
+            <ul>
+                <li>Asking about particular acts, not just "want to have sex?"</li>
+                <li>Understanding that agreeing to kissing doesn't mean agreeing to intercourse</li>
+                <li>Recognizing that boundaries vary for different types of touch</li>
+                <li>Checking in when moving to new activities or intensities</li>
+            </ul>
+
+            <h3>How to Talk About Sex: The 3-Step Framework</h3>
+            <p>Many people feel anxious about discussing sex. Here's a practical structure that makes conversations easier:</p>
+
+            <h4>Step 1: Initiate the Conversation (Outside the Bedroom)</h4>
+            <p>The best time to talk about sex isn't during sex—it's before, when you can both think clearly and without pressure. Try:</p>
+            <ul>
+                <li>"I've been thinking about what makes me feel good sexually, and I'd like to talk about it with you."</li>
+                <li>"What are some things you'd like to try together? I have some ideas too."</li>
+                <li>"I want to make sure we're both enjoying our intimate time. Can we talk about what works and what doesn't?"</li>
+                <li>Use the quiz results as a conversation starter: "I took this archetype quiz and it made me think about what I enjoy..."</li>
+            </ul>
+
+            <h4>Step 2: Share Your Preferences (Vulnerably)</h4>
+            <p>Be honest about what you like, what you're curious about, and what's off-limits. Remember:</p>
+            <ul>
+                <li>Use "I" statements: "I like..." or "I'm interested in..." rather than "You should..."</li>
+                <li>Be specific: Instead of "more passionate," describe what that means (more intensity, different positions, etc.)</li>
+                <li>Normalize both positive desires and boundaries: "I really enjoy X. I'm not interested in Y."</li>
+                <li>Acknowledge vulnerability: "This is a bit scary to talk about, but it's important to me..."</li>
+            </ul>
+
+            <h4>Step 3: Listen and Negotiate</h4>
+            <p>Receiving your partner's desires and boundaries requires active listening:</p>
+            <ul>
+                <li>Listen without judgment or defensiveness—this isn't about criticism</li>
+                <li>Ask clarifying questions: "Can you tell me more about what that would look like?"</li>
+                <li>Express appreciation for their honesty: "Thank you for telling me that. I appreciate your trust."</li>
+                <li>Find mutual excitement: "That's not something I'm interested in, but I love that you're X. Can we explore Y together?"</li>
+                <li>Be willing to compromise: You don't have to want everything your partner wants, but you can find overlap</li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>Pro tip:</strong> Sexual communication isn't a one-time conversation. As you grow together, preferences change. Check in regularly—maybe monthly or when something shifts—to keep the conversation alive.
+            </div>
+
+            <h3>Consent in Specific Contexts</h3>
+
+            <h4>During Sex: Checking In</h4>
+            <p>Consent isn't static during an encounter. Emotional states, energy, and desires shift. Checking in means:</p>
+            <ul>
+                <li>Asking "Is this okay?" or "Do you like this?" periodically</li>
+                <li>Paying attention to body language—tightness, withdrawal, disconnection are signals to pause</li>
+                <li>Creating space for your partner to say "yes," "no," or "let's slow down"</li>
+                <li>Understanding that enthusiasm ebbs and flows—a partner might want to slow down or stop, and that's always valid</li>
+            </ul>
+
+            <h4>When You're Not Sure</h4>
+            <p>If you're uncertain whether your partner is truly consenting, pause. Ask directly. The person who is uncertain has the responsibility to clarify, not assume.</p>
+            <ul>
+                <li>"I want to make sure you're into this. How are you feeling?"</li>
+                <li>If your partner seems hesitant, uncomfortable, or quiet—ask. Don't proceed on assumption</li>
+                <li>Silence or passivity is not consent. Consent requires clear agreement</li>
+            </ul>
+
+            <h4>Power Imbalances</h4>
+            <p>Some relationships have built-in power differences (age gaps, income differences, professional dynamics, or intentional power exchange). These don't make consent impossible, but they require extra clarity:</p>
+            <ul>
+                <li>The person with more structural power has responsibility to explicitly create space for the other person to say no</li>
+                <li>Regular check-ins are especially important because the less powerful partner may feel less safe saying no</li>
+                <li>Explicit agreements about how decisions are made help prevent coercion</li>
+            </ul>
+
+            <h3>Safer Sex Agreements</h3>
+            <p>Part of informed consent is discussing sexual health and protection:</p>
+            <ul>
+                <li>Get tested together or share recent test results before becoming sexually active</li>
+                <li>Discuss what barriers you'll use (condoms, dental dams, etc.)</li>
+                <li>Agree on what happens if barriers break or aren't used as planned</li>
+                <li>Discuss monogamy expectations and whether that's negotiable</li>
+                <li>Have a plan for what to do if someone thinks they've had an exposure</li>
+            </ul>
+
+            <h3>Safe Words and Signals</h3>
+            <p>In activities that might involve intensity or role-play, safe words create a way to pause without breaking the scene:</p>
+            <ul>
+                <li><strong>Red light:</strong> Stop everything immediately</li>
+                <li><strong>Yellow light:</strong> Slow down or ease up on intensity</li>
+                <li><strong>Green light:</strong> "More of that"</li>
+            </ul>
+            <p>Safe words work best when they're easy to remember and distinct from words you'd use in normal conversation. For people who are gagged or whose speech is restricted, hand signals (like dropping an object) can work.</p>
+        </div>
+
+        <!-- UNDERSTANDING YOUR BODY -->
+        <div class="guide-content" id="body">
+            <button class="back-btn" onclick="showGuide('')">← Back to Discovery</button>
+            <h2>Understanding Your Body</h2>
+
+            <h3>Sexual Anatomy: Beyond the Basics</h3>
+            <p>Sexual anatomy is more complex and varied than most people learn. Every body is unique, and that variation is completely normal and often beautiful.</p>
+
+            <h4>External Anatomy (Vulva)</h4>
+            <p>The term "vulva" refers to all the external genital structures. People often mistakenly use "vagina" to describe the entire area, but the vagina is actually internal. The vulva includes:</p>
+            <ul>
+                <li><strong>Mons pubis:</strong> The fatty area above the genitals, often covered with hair</li>
+                <li><strong>Labia majora (outer lips):</strong> Larger, often darker outer lips that vary greatly in size, color, and symmetry</li>
+                <li><strong>Labia minora (inner lips):</strong> Thinner inner lips that range from barely visible to several inches long, in colors from pink to brown to purple</li>
+                <li><strong>Clitoris:</strong> A sensitive organ with thousands of nerve endings (most external tissue is just the glans; the full clitoral structure extends internally)</li>
+                <li><strong>Vestibule:</strong> The space between the inner lips where the urethra and vaginal opening are located</li>
+                <li><strong>Vaginal opening:</strong> Surrounded by the hymen, a tissue that varies widely and doesn't indicate virginity</li>
+                <li><strong>Perineum:</strong> The area between the vaginal opening and anus, sensitive for many people</li>
+            </ul>
+            <p><span class="highlight">Crucially: there is no "normal" vulva appearance.</span> Labia vary enormously in size, shape, color, and symmetry. Many people feel insecure about vulva appearance due to unrealistic media representation. If you feel anxious about how your genitals look, know that variation is universal and healthy.</p>
+
+            <h4>Internal Anatomy (Vagina and Beyond)</h4>
+            <ul>
+                <li><strong>Vaginal canal:</strong> A muscular tube that varies in length (typically 3-5 inches), but can expand during arousal</li>
+                <li><strong>Anterior fornix:</strong> The space deep inside toward the front wall, sensitive for some people</li>
+                <li><strong>Posterior fornix:</strong> The deeper space toward the back, which some find more sensitive</li>
+                <li><strong>A-spot (anterior fornix erogenous zone):</strong> A sensitive area about 1-2 inches inside on the front wall</li>
+                <li><strong>G-spot:</strong> A sensitive area on the front wall about 1-3 inches inside; not all people have a distinct G-spot, and that's normal</li>
+                <li><strong>Cervix:</strong> The lower part of the uterus; touching it can feel pleasurable or uncomfortable depending on the person and their cycle</li>
+                <li><strong>Uterus and fallopian tubes:</strong> Reproductive organs; the uterus has significant nerve endings and can create strong sensations during arousal</li>
+            </ul>
+
+            <h4>Penis Anatomy</h4>
+            <ul>
+                <li><strong>Glans (head):</strong> The most sensitive part, with thousands of nerve endings; pleasure and sensation vary greatly</li>
+                <li><strong>Shaft:</strong> The main body; most sensitive on the underside, especially the frenulum (the V-shaped area on the underside)</li>
+                <li><strong>Frenulum:</strong> A small connecting tissue on the underside that's extremely sensitive for many people</li>
+                <li><strong>Foreskin:</strong> The retractable tissue covering the glans; contains specialized nerve endings and can enhance sensation</li>
+                <li><strong>Prostate:</strong> A gland that produces fluid; when stimulated (through the front wall of the rectum), can create intense sensations and potentially lead to different types of orgasm</li>
+                <li><strong>Perineum:</strong> The area between the testicles and anus; sensitive for many people and connected to prostate pleasure</li>
+            </ul>
+            <p><span class="highlight">Penis size varies enormously,</span> and most variation is completely normal. Size has minimal correlation with sexual satisfaction or function.</p>
+
+            <h4>Internal Anatomy (Penis-Having Bodies)</h4>
+            <ul>
+                <li><strong>Testicles:</strong> Produce sperm and testosterone; sensitive to light touch but can be tender to direct pressure</li>
+                <li><strong>Scrotum:</strong> The skin surrounding testicles; highly sensitive to temperature and touch changes</li>
+                <li><strong>Cowper's glands:</strong> Release pre-ejaculate fluid; can occur during arousal and affects fertility planning</li>
+            </ul>
+
+            <h3>The Sexual Response Cycle</h3>
+            <p>Masters and Johnson, pioneers of sex research, identified patterns in how bodies respond to sexual stimulation. Understanding your own response cycle helps you recognize what feels good and communicate it to partners.</p>
+
+            <h4>Excitement Phase</h4>
+            <p>Physical and mental arousal begin. This might happen through fantasy, visual stimulation, touch, or mental focus.</p>
+            <ul>
+                <li><strong>Vaginal:</strong> Vaginal lubrication increases, vagina lengthens and expands, clitoris becomes engorged and may retract slightly</li>
+                <li><strong>Penis:</strong> Erection occurs (though this can be variable and isn't required for pleasure), pre-ejaculate may appear</li>
+                <li><strong>Both:</strong> Heart rate increases, skin flushes, nipples may become erect, muscle tension increases, genital blood flow increases</li>
+                <li>Duration: Can last minutes to hours; stress, distraction, or lack of ongoing stimulation can slow or reverse this</li>
+            </ul>
+
+            <h4>Plateau Phase</h4>
+            <p>Arousal stabilizes at an elevated level. This isn't a "boring" phase—it's an opportunity to extend pleasure and explore sensation.</p>
+            <ul>
+                <li><strong>Vaginal:</strong> Outer third of vagina becomes more engorged (creating the "orgasmic platform"), clitoris retracts further under its hood</li>
+                <li><strong>Penis:</strong> Testicles increase in size, pre-ejaculate continues, color of the glans may deepen</li>
+                <li><strong>Both:</strong> Breathing becomes faster, muscle tension increases further, blood pressure rises</li>
+                <li>Duration: Can last seconds to many minutes; staying in plateau allows for extended pleasure and different types of orgasm</li>
+            </ul>
+
+            <h4>Orgasm Phase</h4>
+            <p>Involuntary rhythmic muscular contractions release sexual tension. Orgasms vary tremendously and aren't a "goal" but rather a potential outcome of arousal.</p>
+            <ul>
+                <li><strong>Vaginal:</strong> Rhythmic contractions of the uterus, vagina, and pelvic floor at approximately 0.8-second intervals; may last 3-15+ contractions</li>
+                <li><strong>Penis:</strong> Ejaculation typically occurs during orgasm (in two phases: emission, then expulsion), though orgasm and ejaculation are separate and can occur independently</li>
+                <li><strong>Both:</strong> Peak heart rate and breathing, involuntary muscle contractions throughout the body, possible vocalization</li>
+                <li>Variation: Some people have multiple orgasms, some have none during a sexual encounter (and that's okay), some experience extended or blended orgasms, some have different types of orgasm</li>
+            </ul>
+
+            <h4>Resolution Phase</h4>
+            <p>The body gradually returns to resting state. This phase varies based on whether orgasm occurred.</p>
+            <ul>
+                <li><strong>With orgasm:</strong> Muscles relax, heart rate and breathing gradually normalize, genital blood flow decreases, body may feel tired or energized</li>
+                <li><strong>Without orgasm:</strong> Takes longer to return to baseline; this is why incomplete sexual arousal (being aroused but not reaching orgasm) can feel frustrating—tension remains in the body</li>
+                <li><strong>Refractory period:</strong> Penis-having bodies typically need recovery time before another orgasm; vulva-having bodies often don't have a refractory period and may be capable of multiple orgasms</li>
+                <li>Duration: Minutes to hours depending on the person and circumstance</li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>Important:</strong> This response cycle isn't linear or mandatory. Some people skip phases, experience them in different orders, or have completely different patterns. LGBTQ+ people, disabled people, people on medications, and people with trauma may have entirely different response patterns—all valid and normal.
+            </div>
+
+            <h3>Understanding Pleasure and Sensitivity</h3>
+            <p>Sexual pleasure is highly individual and learned. What feels good depends on anatomy, psychology, history, hormones, and context.</p>
+
+            <h4>Erogenous Zones</h4>
+            <p>Areas of the body with concentrated nerve endings that can create sexual pleasure. Common ones include:</p>
+            <ul>
+                <li>Genitals and breasts</li>
+                <li>Neck, ears, inner wrists, lower back, behind the knees</li>
+                <li>Scalp, lips, inner thighs, palms of hands</li>
+            </ul>
+            <p>But erogenous zones are highly individual—what's intensely pleasurable for one person might be neutral or even uncomfortable for another. The only way to know is exploration and communication.</p>
+
+            <h4>Touch Preferences</h4>
+            <p>Different types of touch create different sensations:</p>
+            <ul>
+                <li><strong>Gentle touch:</strong> Light fingertips, feathers, fabrics—activates pleasure nerves</li>
+                <li><strong>Firm touch:</strong> More pressure—can feel more grounding and satisfying</li>
+                <li><strong>Rhythmic touch:</strong> Repetitive patterns—builds arousal and can be very effective</li>
+                <li><strong>Varied touch:</strong> Changing intensity, speed, and pressure—keeps sensation novel and interesting</li>
+                <li><strong>Sustained pressure:</strong> Holding pressure on a spot—can create deep pleasure</li>
+            </ul>
+
+            <h3>Hormones and the Sexual Response</h3>
+            <p>Hormones significantly influence sexual desire, arousal, and pleasure:</p>
+            <ul>
+                <li><strong>Testosterone:</strong> Present in all bodies (in different amounts), increases sexual desire and genital sensitivity</li>
+                <li><strong>Estrogen:</strong> Affects vaginal lubrication, elasticity, and clitoral sensitivity</li>
+                <li><strong>Oxytocin:</strong> The "bonding hormone" released during orgasm and intimate touch, increases desire and emotional connection</li>
+                <li><strong>Dopamine:</strong> The pleasure and reward hormone, motivates sexual behavior</li>
+                <li><strong>Prolactin:</strong> Released after orgasm, creates the refractory period and satisfaction feeling</li>
+            </ul>
+            <p>Hormonal changes across the menstrual cycle, life stages, and with medications all affect sexual response. This is normal and expected.</p>
+
+            <h3>Normalizing Variation</h3>
+            <p><span class="highlight">Every body is different.</span> Variation in:</p>
+            <ul>
+                <li>Size, shape, and color of genitals</li>
+                <li>Response time and intensity of arousal</li>
+                <li>Sensitivity of different areas</li>
+                <li>Whether orgasm occurs, how often, and what it feels like</li>
+                <li>Sexual desire over time and across different contexts</li>
+                <li>Comfort with different types of touch and activities</li>
+            </ul>
+            <p>...is completely normal. If your body doesn't match what you see in porn or media, that's because those representations are filtered through unrealistic standards and often involve professional performers.</p>
+        </div>
+
+        <!-- PLEASURE FUNDAMENTALS -->
+        <div class="guide-content" id="pleasure">
+            <button class="back-btn" onclick="showGuide('')">← Back to Discovery</button>
+            <h2>Pleasure Fundamentals</h2>
+
+            <h3>What is Sexual Pleasure?</h3>
+            <p>Sexual pleasure is the physical and emotional satisfaction that comes from sexual stimulation and activity. It's <span class="highlight">not just orgasm</span>—in fact, it's broader and more nuanced than that.</p>
+
+            <p>Pleasure includes:</p>
+            <ul>
+                <li>Physical sensations—touch, temperature, texture, pressure</li>
+                <li>Emotional connection—feeling seen, safe, and desired by a partner</li>
+                <li>Mental engagement—fantasy, anticipation, focus on sensation</li>
+                <li>Psychological satisfaction—feeling validated, adventurous, authentic</li>
+                <li>Spiritual or transcendent experiences—feeling connected to something larger</li>
+            </ul>
+
+            <h3>The Pleasure-Focus Approach</h3>
+            <p>Much sexual advice focuses on orgasm as the "goal," but this often creates pressure and actually makes pleasure harder to achieve. A pleasure-focused approach inverts this:</p>
+            <ul>
+                <li><strong>Remove the pressure:</strong> Orgasm is optional, not mandatory. Pleasure without orgasm is still success</li>
+                <li><strong>Slow down:</strong> Intensity often comes from pacing, not speed. Extended pleasure often leads to more profound experiences than rushing</li>
+                <li><strong>Focus on sensation:</strong> Instead of "How close am I to orgasm?" ask "What does this feel like? How does my body respond?"</li>
+                <li><strong>Expand what counts:</strong> Kissing, massage, touching, being present together—all are sexual pleasure, not just intercourse</li>
+            </ul>
+
+            <h3>Sensate Focus Exercises</h3>
+            <p>Sex therapists often recommend sensate focus as a way to explore pleasure without performance pressure. These exercises are especially helpful for people who experience anxiety, low desire, or difficulty with orgasm.</p>
+
+            <h4>Exercise 1: Non-Sexual Touch (Solo or Partner)</h4>
+            <p><strong>Solo version:</strong></p>
+            <ul>
+                <li>Set aside 20-30 minutes in a comfortable, warm space</li>
+                <li>Undress and find a comfortable position (lying down, sitting, or reclining)</li>
+                <li>Close your eyes and slowly touch different parts of your body, noticing sensation</li>
+                <li>Don't focus on genitals yet—explore arms, legs, torso, neck, face</li>
+                <li>Notice texture, temperature, sensitivity: Is this area soft? Responsive? Tender?</li>
+                <li>This is about awareness, not arousal. If arousal happens, that's fine, but it's not the goal</li>
+            </ul>
+
+            <p><strong>Partner version:</strong></p>
+            <ul>
+                <li>Partners take turns exploring each other's body non-sexually</li>
+                <li>The person being touched focuses only on sensation; the person touching is curious and attentive</li>
+                <li>No genital touch yet; keep focus on arms, back, legs, torso</li>
+                <li>The receiving partner can give feedback: "That feels good," "Try a different pressure," "Let's try elsewhere"</li>
+                <li>This builds communication about touch preferences without sexual pressure</li>
+            </ul>
+
+            <h4>Exercise 2: Genital Awareness (Solo)</h4>
+            <ul>
+                <li>Once comfortable with basic sensate focus, explore genital sensation solo</li>
+                <li>Rather than focusing on stimulation or arousal, focus on sensation: temperature, texture, how touch feels at different speeds and pressures</li>
+                <li>Notice what feels good—not to reach orgasm, but to learn your body's responses</li>
+                <li>If orgasm happens, fine. If not, that's also fine. Pleasure is the goal, not climax</li>
+                <li>Notice what kinds of touch create what sensations</li>
+            </ul>
+
+            <h4>Exercise 3: Partner Exploration</h4>
+            <ul>
+                <li>Once both partners are comfortable, explore each other's genitals without the pressure to perform or reach orgasm</li>
+                <li>The receiving partner focuses on sensation and can guide: "A little higher," "Slower," "That's perfect"</li>
+                <li>The touching partner stays curious and attentive—this is exploration, not a performance</li>
+                <li>Intercourse is off-limits during these exercises; focus on sensation-building without the endpoint</li>
+            </ul>
+
+            <h3>Mindfulness and Presence in Sexual Activity</h3>
+            <p>Many people experience distraction during sex—thinking about work, appearance, performance, or whether they're "doing it right." This breaks presence and reduces pleasure.</p>
+
+            <h4>Mindfulness Practices</h4>
+            <ul>
+                <li><strong>5-4-3-2-1 grounding technique:</strong> Notice 5 things you see, 4 you can touch, 3 you hear, 2 you smell, 1 you taste—brings you into the present moment</li>
+                <li><strong>Breath awareness:</strong> Focus on your breathing and your partner's breathing, syncing when possible</li>
+                <li><strong>Sensation scanning:</strong> Mentally move through your body, noticing all sensations without judgment</li>
+                <li><strong>Present-moment language:</strong> Replace "I should feel..." with "I do feel..." Notice what's actually happening</li>
+            </ul>
+
+            <h4>Managing Intrusive Thoughts</h4>
+            <p>When your mind wanders during sex:</p>
+            <ul>
+                <li>Notice the thought without judgment: "Oh, my mind wandered to work. That's normal."</li>
+                <li>Gently redirect: "What can I feel right now?" or "What does this touch feel like?"</li>
+                <li>Engage your senses: Focus on taste, smell, texture, temperature—anything sensory</li>
+                <li>Adjust position or pace if needed: Sometimes a change helps you re-engage</li>
+            </ul>
+
+            <h3>Mental Intimacy and Pleasure</h3>
+            <p>The brain is the most important sexual organ. Mental and emotional factors significantly influence physical pleasure.</p>
+
+            <h4>Building Mental Arousal</h4>
+            <ul>
+                <li><strong>Anticipation:</strong> Thinking about upcoming sexual time increases desire—maybe a flirty text, a planned date, or fantasy discussion</li>
+                <li><strong>Fantasy:</strong> Mental scenarios (real or imaginary, involving you or others, tame or adventurous) can significantly increase arousal</li>
+                <li><strong>Novelty:</strong> New settings, positions, or activities create mental excitement</li>
+                <li><strong>Emotional connection:</strong> Feeling genuinely close, safe, and desired by a partner increases pleasure capacity</li>
+            </ul>
+
+            <h4>Addressing Mental Barriers</h4>
+            <p>Shame, anxiety, past trauma, or performance pressure can block pleasure. If you notice barriers:</p>
+            <ul>
+                <li><strong>Identify the barrier:</strong> "What's actually getting in the way of me feeling pleasure?" Shame? Anxiety? Distrust? Perfectionism?</li>
+                <li><strong>Challenge it gently:</strong> "This thought/feeling makes sense given my history, but it's not serving me now. What would it feel like to let it go?"</li>
+                <li><strong>Get support if needed:</strong> Sex therapists, trauma therapists, or counselors can help work through deep barriers</li>
+            </ul>
+
+            <h3>Different Types of Pleasure</h3>
+            <p>Sexual pleasure isn't monolithic. People experience different kinds:</p>
+
+            <h4>Physical Pleasure</h4>
+            <p>Pure physical sensation—the feeling of touch, pressure, temperature, movement. This is often the easiest to access.</p>
+
+            <h4>Emotional Pleasure</h4>
+            <p>The satisfaction of feeling close to, appreciated by, and connected with a partner. Some people experience more emotional pleasure than physical.</p>
+
+            <h4>Psychological Pleasure</h4>
+            <p>The satisfaction of exploring desires, feeling adventurous, acting out fantasies, or feeling dominant/submissive. Mental arousal can be as important as physical.</p>
+
+            <h4>Spiritual Pleasure</h4>
+            <p>A sense of transcendence, connection to something larger, or profound presence with a partner. This often comes from extended, intimate sexual experiences.</p>
+
+            <h3>Pleasure Across Life Stages</h3>
+            <p>Sexual pleasure changes across the lifespan and this is completely normal:</p>
+            <ul>
+                <li><strong>Teens/young adults:</strong> Often more physically focused, orgasm-oriented, shorter recovery times</li>
+                <li><strong>30s-40s:</strong> Often increased confidence, better knowledge of preferences, more nuanced pleasure capacity</li>
+                <li><strong>Midlife and beyond:</strong> May experience different types of arousal, extended plateau phases, more emotional intimacy-focused pleasure</li>
+                <li><strong>With medication, disability, or health changes:</strong> Pleasure adaptation may be needed, but pleasure is usually still possible</li>
+            </ul>
+
+            <h3>Expanding Your Pleasure Capacity</h3>
+            <ul>
+                <li>Experiment with different types of touch, rhythm, and intensity</li>
+                <li>Explore fantasy alone and with partners</li>
+                <li>Slow down and practice presence</li>
+                <li>Communicate desires and boundaries clearly</li>
+                <li>Remember that pleasure is a skill—it develops with practice and exploration</li>
+                <li>Let go of the "right way" to experience sexuality; your way is valid</li>
+            </ul>
+        </div>
+
+        <!-- SEXUAL HEALTH & SAFETY -->
+        <div class="guide-content" id="health">
+            <button class="back-btn" onclick="showGuide('')">← Back to Discovery</button>
+            <h2>Sexual Health & Safety</h2>
+
+            <h3>STI Prevention and Testing</h3>
+            <p>Sexually transmitted infections (STIs) are common and treatable. Preventing transmission requires knowledge and communication.</p>
+
+            <h4>STI Facts</h4>
+            <ul>
+                <li>STIs are surprisingly common—about 1 in 5 people in the U.S. have an STI at any given time</li>
+                <li>Many STIs have no symptoms, so someone can have an infection without knowing</li>
+                <li>Most STIs are curable or manageable with treatment</li>
+                <li>Having an STI doesn't make you "dirty" or shameful—it makes you someone who needs treatment</li>
+                <li>You can transmit an STI without showing symptoms</li>
+            </ul>
+
+            <h4>Common STIs and Transmission</h4>
+            <ul>
+                <li><strong>Chlamydia:</strong> Bacterial, transmitted through sexual contact (vaginal, anal, oral), curable with antibiotics</li>
+                <li><strong>Gonorrhea:</strong> Bacterial, transmitted through sexual contact, curable with antibiotics</li>
+                <li><strong>Syphilis:</strong> Bacterial, transmitted through sexual contact or skin-to-skin contact, curable with antibiotics</li>
+                <li><strong>Trichomoniasis:</strong> Parasitic, transmitted through sexual contact, curable with medication</li>
+                <li><strong>HPV (Human Papillomavirus):</strong> Viral, transmitted through sexual contact and skin-to-skin contact, preventable with vaccine, usually clears on its own</li>
+                <li><strong>Herpes:</strong> Viral, transmitted through sexual contact and skin-to-skin contact, manageable with medication, lifelong but not dangerous</li>
+                <li><strong>CMV (Cytomegalovirus):</strong> Viral, transmitted through sexual contact, manageable with medication</li>
+                <li><strong>HIV:</strong> Viral, transmitted through sexual contact (especially receptive anal sex), blood, or breastfeeding; manageable with medication, undetectable = untransmittable</li>
+                <li><strong>Hepatitis B:</strong> Viral, transmitted through sexual contact and blood, preventable with vaccine</li>
+            </ul>
+
+            <h4>Testing Recommendations</h4>
+            <ul>
+                <li><strong>Before new sexual partners:</strong> Get tested to know your status and communicate it honestly</li>
+                <li><strong>Regularly if sexually active:</strong> At least yearly, or more often if you have multiple partners or take sexual risks</li>
+                <li><strong>After unprotected sex:</strong> Consider testing and ask partners to test (timeframes vary for different infections)</li>
+                <li><strong>If symptoms appear:</strong> Unusual discharge, pain, bumps, burning, or itching warrant immediate testing</li>
+            </ul>
+
+            <h4>Where to Get Tested</h4>
+            <ul>
+                <li>Your regular healthcare provider or gynecologist</li>
+                <li>Planned Parenthood clinics</li>
+                <li>Local health departments (often offer free or low-cost testing)</li>
+                <li>Some online services (though you'll need to go in person for some tests)</li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>Key principle:</strong> If you're sexual with someone, you should be comfortable discussing STI testing and status. If you're not comfortable having this conversation, you're not ready to be sexual.
+            </div>
+
+            <h3>Protection Methods and Effectiveness</h3>
+            <p>Different barrier methods protect against pregnancy and/or STIs to varying degrees:</p>
+
+            <h4>Condoms (External)</h4>
+            <ul>
+                <li><strong>Protection:</strong> Prevents pregnancy (85-98% effective with typical use, 98%+ with perfect use) and STIs</li>
+                <li><strong>How to use:</strong> Apply before penetration; pinch the tip to leave room for ejaculate; remove before losing erection to prevent slipping</li>
+                <li><strong>Material:</strong> Latex (most common), polyisoprene (hypoallergenic), polyurethane, or lambskin (not recommended for STI protection)</li>
+                <li><strong>Lubrication:</strong> Lube is essential—reduces breakage and increases sensation</li>
+                <li><strong>Pros:</strong> Inexpensive, easy to access, provides dual protection, no hormonal side effects</li>
+                <li><strong>Cons:</strong> Some people experience reduced sensation; requires remembering and proper use every time</li>
+            </ul>
+
+            <h4>Condoms (Internal/Receptive)</h4>
+            <ul>
+                <li><strong>Protection:</strong> Prevents pregnancy (79-95% effective) and STIs</li>
+                <li><strong>How to use:</strong> Inserted into the vagina or rectum before penetration; can be inserted up to 8 hours before sex</li>
+                <li><strong>Pros:</strong> Can be inserted ahead of time; wearer maintains control; good for people with latex allergies</li>
+                <li><strong>Cons:</strong> More expensive; less familiar; requires correct insertion; may be visible at opening</li>
+            </ul>
+
+            <h4>Dental Dams</h4>
+            <ul>
+                <li><strong>Protection:</strong> Prevents STI transmission during oral sex on vulva or anus</li>
+                <li><strong>How to use:</strong> Place over vulva or anus during oral sex</li>
+                <li><strong>Pros:</strong> Provides STI protection for oral sex</li>
+                <li><strong>Cons:</strong> Can reduce sensation; not widely available; can improvise with cut condom</li>
+            </ul>
+
+            <h4>Hormonal Contraceptives</h4>
+            <p>These prevent pregnancy but don't protect against STIs:</p>
+            <ul>
+                <li><strong>Birth control pills, patches, rings:</strong> 91-99% effective at preventing pregnancy</li>
+                <li><strong>IUD (copper or hormonal):</strong> 99%+ effective at preventing pregnancy</li>
+                <li><strong>Implants:</strong> 99%+ effective at preventing pregnancy</li>
+                <li><strong>Injectable contraceptives:</strong> 94-99% effective at preventing pregnancy</li>
+            </ul>
+            <p>Always use hormonal contraceptives with barrier methods for STI protection.</p>
+
+            <h4>Non-Barrier Methods</h4>
+            <ul>
+                <li><strong>Withdrawal:</strong> Not reliable for pregnancy prevention (18-28% failure rate) and provides no STI protection</li>
+                <li><strong>Fertility awareness:</strong> Tracking ovulation to avoid fertile days; 76-88% effective with typical use, no STI protection</li>
+            </ul>
+
+            <h3>Lubrication</h3>
+            <p>Lubrication is essential for comfort, pleasure, and safe barrier protection.</p>
+
+            <h4>Natural Lubrication</h4>
+            <p>The body produces natural lubricant when aroused, but:</p>
+            <ul>
+                <li>Amount varies by person, hormones, and arousal level</li>
+                <li>Medical conditions, medications, or stress can reduce natural lubrication</li>
+                <li>Not all sexual activities produce sufficient lubrication</li>
+            </ul>
+
+            <h4>Adding Lube</h4>
+            <p>Using additional lubricant is normal and healthy:</p>
+            <ul>
+                <li><strong>Water-based:</strong> Works with all barrier methods, easy to clean up, but may need reapplication; good for most uses</li>
+                <li><strong>Silicone-based:</strong> Longer-lasting, water-resistant, great for shower sex; can damage silicone toys; harder to clean</li>
+                <li><strong>Oil-based:</strong> Long-lasting, but damages latex condoms and can cause bacterial infections in vaginas</li>
+                <li><strong>Hybrid:</strong> Combination products; check ingredients if concerned about specific barriers</li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>Pro tip:</strong> More lube is almost always better than too little. Applying lube is not a sign that something's wrong—it's a sign you care about comfort and pleasure.
+            </div>
+
+            <h3>Sexual Positions and Pain Prevention</h3>
+            <p>Pain during sex is common and usually fixable with position changes, communication, and lube.</p>
+
+            <h4>Common Causes of Pain</h4>
+            <ul>
+                <li>Insufficient lubrication</li>
+                <li>Insufficient arousal or relaxation</li>
+                <li>Tension or fear-based muscle tightness</li>
+                <li>Vaginismus (involuntary pelvic floor muscle contraction)</li>
+                <li>Endometriosis or other gynecological conditions</li>
+                <li>Pelvic floor dysfunction</li>
+                <li>Trauma or abuse history creating tension</li>
+            </ul>
+
+            <h4>Position Adjustments</h4>
+            <ul>
+                <li><strong>For deeper penetration discomfort:</strong> Try positions with shallower penetration (woman on top gives the receiving partner more control)</li>
+                <li><strong>For entry pain:</strong> Use more lube, go slower, try positions where the receiving partner controls depth and speed</li>
+                <li><strong>For vulva pain (vulvodynia):</strong> Avoid direct pressure on painful areas; try different angles or positions</li>
+            </ul>
+
+            <h4>When to Seek Help</h4>
+            <p>Persistent pain during sex warrants professional evaluation:</p>
+            <ul>
+                <li>See a gynecologist to rule out infections, structural issues, or gynecological conditions</li>
+                <li>See a pelvic floor physical therapist (specialized PT) if pain involves muscle tension</li>
+                <li>See a sex therapist if pain involves anxiety or trauma</li>
+            </ul>
+
+            <h3>Toy Safety and Care</h3>
+            <p>Sexual toys are fun, normal, and healthy when used safely.</p>
+
+            <h4>Material Safety</h4>
+            <ul>
+                <li><strong>Body-safe materials:</strong> Medical-grade silicone, borosilicate glass, stainless steel, ceramic</li>
+                <li><strong>Potentially unsafe:</strong> PVC, jelly rubber, some plastics that may contain phthalates</li>
+                <li><strong>Porous vs. non-porous:</strong> Non-porous materials (glass, stainless steel, silicone) are easier to clean and safer for shared use</li>
+            </ul>
+
+            <h4>Cleaning and Maintenance</h4>
+            <ul>
+                <li>Wash with warm soapy water before and after use</li>
+                <li>If made of non-porous material, can be boiled or put in dishwasher for deeper cleaning</li>
+                <li>Check manufacturer recommendations for cleaning</li>
+                <li>Replace batteries, recharge as needed</li>
+                <li>Store in a clean, dry place away from extreme heat</li>
+            </ul>
+
+            <h4>Lubrication Compatibility</h4>
+            <ul>
+                <li><strong>Silicone toys:</strong> Use only water-based or hybrid lubes (silicone lube damages silicone)</li>
+                <li><strong>Other materials:</strong> Most lubes are compatible; check product instructions</li>
+            </ul>
+
+            <h3>Aftercare</h3>
+            <p>After sexual activity, especially intense activity, physical and emotional care is important:</p>
+            <ul>
+                <li>Hydrate and have water available</li>
+                <li>Use the bathroom if needed (especially important for vulva-owners to reduce UTI risk)</li>
+                <li>Clean up toys and bodies as needed</li>
+                <li>Provide physical comfort: cuddling, warmth, closeness</li>
+                <li>Check in emotionally: "How are you feeling?" "Was there anything that didn't feel good?"</li>
+                <li>Reassure and affirm: Express appreciation and affection</li>
+            </ul>
+        </div>
+
+        <!-- BDSM & POWER DYNAMICS -->
+        <div class="guide-content" id="bdsm">
+            <button class="back-btn" onclick="showGuide('')">← Back to Discovery</button>
+            <h2>BDSM & Power Dynamics</h2>
+
+            <h3>Understanding BDSM</h3>
+            <p>BDSM is an acronym encompassing several practices and dynamics:</p>
+            <ul>
+                <li><strong>B/D:</strong> Bondage/Discipline—physical restraint or rules and punishment</li>
+                <li><strong>D/s:</strong> Dominance/submission—power exchange where one person has power and another submits</li>
+                <li><strong>S/M:</strong> Sadism/Masochism—sensation play involving pain or intense sensation</li>
+            </ul>
+
+            <p>BDSM is <span class="highlight">consensual power exchange between adults.</span> It's not abuse—abuse is non-consensual. Everything that happens in BDSM happens because all parties actively agree to it.</p>
+
+            <h4>Key Distinctions</h4>
+            <ul>
+                <li><strong>Bondage:</strong> Physical restraint (handcuffs, rope, chains) that restricts movement</li>
+                <li><strong>Discipline:</strong> Rules, protocols, and consequences for breaking rules</li>
+                <li><strong>Domination:</strong> One person takes control; the other submits</li>
+                <li><strong>Submission:</strong> Giving up control consensually; a role, not a personality trait</li>
+                <li><strong>Sadism:</strong> Giving intense sensation (often pain) to someone who wants it</li>
+                <li><strong>Masochism:</strong> Receiving intense sensation (often pain) for pleasure</li>
+            </ul>
+
+            <h3>Common BDSM Frameworks: SSC vs RACK</h3>
+            <p>The BDSM community has developed ethical frameworks to ensure safety and consent:</p>
+
+            <h4>SSC: Safe, Sane, Consensual</h4>
+            <ul>
+                <li><strong>Safe:</strong> Minimize physical risk through knowledge, skills, and precautions</li>
+                <li><strong>Sane:</strong> All participants are mentally healthy, sober, and making informed decisions</li>
+                <li><strong>Consensual:</strong> Everyone involved explicitly agrees to activities</li>
+            </ul>
+
+            <h4>RACK: Risk-Aware Consensual Kink</h4>
+            <ul>
+                <li><strong>Risk-Aware:</strong> Everyone understands the actual risks (rather than assuming things are "safe")</li>
+                <li><strong>Consensual:</strong> Informed, enthusiastic agreement</li>
+                <li><strong>Kink:</strong> Any non-conventional sexual activity</li>
+            </ul>
+
+            <p>RACK acknowledges that some activities carry real risks, and the responsibility is on participants to understand and accept those risks, not to pretend they don't exist.</p>
+
+            <h3>Negotiation in BDSM</h3>
+            <p>Negotiation is the foundation of ethical BDSM. Before any activity happens, partners discuss:</p>
+
+            <h4>Hard Limits vs Soft Limits</h4>
+            <ul>
+                <li><strong>Hard limits:</strong> Absolute boundaries; these activities will never happen. Example: "I will never do anything involving needles"</li>
+                <li><strong>Soft limits:</strong> Not interested or nervous now, but theoretically might explore. Example: "I'm not interested in pain right now, but maybe with more trust"</li>
+            </ul>
+
+            <h4>What to Negotiate</h4>
+            <ul>
+                <li>Specific activities: What will happen, what won't</li>
+                <li>Intensity levels: How intense, how rough, for how long</li>
+                <li>Roles and dynamics: Who's in charge, what titles are used, how the power dynamic plays out</li>
+                <li>Safewords and signals: How to pause or stop</li>
+                <li>Boundaries around touch, pain, humiliation, control</li>
+                <li>Aftercare needs: What each person needs after intense play</li>
+                <li>Outside the scene: How you treat each other when not in the dynamic</li>
+            </ul>
+
+            <h4>The Negotiation Conversation</h4>
+            <ul>
+                <li>Have it outside of a sexual/aroused context, when both people can think clearly</li>
+                <li>Use specific language: Instead of "rough," describe what that means (harder movements, more force, etc.)</li>
+                <li>Write it down if helpful—some people use explicit contracts or checklists</li>
+                <li>Revisit and update regularly as comfort and desires evolve</li>
+                <li>Create space for either person to add to or modify the agreement</li>
+            </ul>
+
+            <h3>Safewords and Communication During Play</h3>
+            <p>A safeword is essential when activities involve pain, restraint, or role-play that might involve "no" as part of the scene.</p>
+
+            <h4>The Traffic Light System</h4>
+            <ul>
+                <li><strong>Green light:</strong> "Keep going, this is good" or "More of this"</li>
+                <li><strong>Yellow light:</strong> "Slow down, ease up, I need to adjust" or "Getting close to my limit"</li>
+                <li><strong>Red light:</strong> "Stop everything immediately" (non-negotiable)</li>
+            </ul>
+
+            <h4>Using Safewords</h4>
+            <ul>
+                <li>Safewords should be <span class="highlight">easy to remember, distinct from normal conversation, and universally respected</span></li>
+                <li>Everyone involved should know what each word means</li>
+                <li>The top/dominant person should check in: "What's your color?" periodically</li>
+                <li>Using a safeword is NEVER shameful or wrong; it's essential safety practice</li>
+                <li>When a safeword is used, everything stops, and the focus shifts to the person who safeworded</li>
+            </ul>
+
+            <h4>Non-Verbal Safewords</h4>
+            <p>If someone's mouth is gagged or restricted, non-verbal signals work:</p>
+            <ul>
+                <li>Dropping an object (ice cube, ball)</li>
+                <li>Snapping fingers (if hands are free)</li>
+                <li>Specific body movements</li>
+                <li>Eye blinks in a pattern (if blindfolded but eyes open)</li>
+            </ul>
+
+            <h3>Impact Play (Spanking, Flogging, etc.)</h3>
+            <p>Impact play involves striking the body with hands or implements. Safe practice requires:</p>
+
+            <h4>Anatomy Knowledge</h4>
+            <ul>
+                <li>Safe areas: Buttocks, thighs, back (avoiding spine), breasts (avoiding ribs), shoulders</li>
+                <li>Dangerous areas: Kidneys, liver, spine, face (usually), genitals, joints</li>
+                <li>Understand where vital organs are located</li>
+            </ul>
+
+            <h4>Communication</h4>
+            <ul>
+                <li>Start light and build intensity—you can always go harder, but you can't undo bruising</li>
+                <li>Check in during play: "How are you feeling?" "Your color?"</li>
+                <li>Understand that pain tolerance varies by location, time of month, and emotional state</li>
+            </ul>
+
+            <h4>Tools</h4>
+            <ul>
+                <li><strong>Hands:</strong> Most controlled, good for beginning</li>
+                <li><strong>Paddles:</strong> Distribute impact, create thudding sensation</li>
+                <li><strong>Floggers:</strong> More complex, require practice to use safely</li>
+                <li><strong>Canes/crops:</strong> Create stinging sensation, require skill</li>
+            </ul>
+
+            <h3>Bondage and Restraint</h3>
+            <p>Bondage involves restraining a partner to restrict movement. Safety practices:</p>
+
+            <h4>Materials</h4>
+            <ul>
+                <li><strong>Rope:</strong> Most flexible; requires learning proper tie techniques; can cause nerve damage if wrong</li>
+                <li><strong>Handcuffs:</strong> Quick and simple; check that they're not too tight; some can cause nerve damage</li>
+                <li><strong>Cuffs:</strong> Padded or specifically designed; safer than handcuffs; removable</li>
+                <li><strong>Spreader bars:</strong> Keep limbs apart; safe if used correctly</li>
+            </ul>
+
+            <h4>Safety Practices</h4>
+            <ul>
+                <li>Never restrict breathing or blood flow to the head</li>
+                <li>Check circulation periodically: Is the restrained person's limb tingling or numb?</li>
+                <li>Keep safety shears/scissors within reach to quickly cut restraints if needed</li>
+                <li>Don't leave a restrained person unattended</li>
+                <li>Understand nerve locations—tight rope around certain areas can cause long-term nerve damage</li>
+                <li>Remember that being restrained increases vulnerability—the restrained person needs to trust the other person completely</li>
+            </ul>
+
+            <h3>Power Exchange Dynamics</h3>
+            <p>Some BDSM relationships involve ongoing power exchange beyond specific "scenes," creating a 24/7 dynamic.</p>
+
+            <h4>D/s Relationships</h4>
+            <ul>
+                <li><strong>Dominant:</strong> The person with power; responsible for the submissive's safety and wellbeing</li>
+                <li><strong>Submissive:</strong> The person who surrenders power; has full authority to refuse anything beyond negotiated boundaries</li>
+                <li>Not about abuse or control in the harmful sense—it's consensual role-play of power dynamics</li>
+            </ul>
+
+            <h4>Protocols and Rules</h4>
+            <p>Some D/s relationships involve protocols (how to address each other, behavior expectations, etc.):</p>
+            <ul>
+                <li>How the submissive addresses the dominant (titles, forms of address)</li>
+                <li>Required or prohibited behaviors</li>
+                <li>Protocols around asking permission, reporting, or checking in</li>
+                <li><span class="highlight">All protocols should be negotiated and consensual, never imposed.</span></li>
+            </ul>
+
+            <h3>The Psychology of Power Exchange</h3>
+            <p>Why do people engage in BDSM? Research and lived experience show:</p>
+            <ul>
+                <li><strong>Psychological release:</strong> Dominants enjoy the responsibility and control; submissives enjoy the release from decision-making</li>
+                <li><strong>Trust and intimacy:</strong> Deep power exchange requires extraordinary trust and creates profound bonding</li>
+                <li><strong>Pleasure and sensation:</strong> For masochists, pain creates pleasure; for sadists, giving sensation is arousing</li>
+                <li><strong>Escape:</strong> Intense physical sensations can create a meditative state ("subspace") where worries fade</li>
+                <li><strong>Authenticity:</strong> Many people feel they can't express parts of themselves in vanilla relationships; BDSM provides space</li>
+                <li><strong>Not trauma-related:</strong> While some people with trauma histories engage in BDSM, most practitioners are psychologically healthy</li>
+            </ul>
+
+            <h3>Aftercare</h3>
+            <p>Aftercare is crucial after intense BDSM scenes. It addresses the emotional and physical impact of deep power exchange.</p>
+
+            <h4>Physical Aftercare</h4>
+            <ul>
+                <li>Water and electrolytes (scenes can be physically draining)</li>
+                <li>First aid for any marks or minor injuries</li>
+                <li>Warmth and comfort—blankets, closeness</li>
+                <li>Pain relief if needed</li>
+            </ul>
+
+            <h4>Emotional Aftercare</h4>
+            <ul>
+                <li><strong>For submissives:</strong> After surrendering control, they may feel vulnerable; reassurance, affection, and affirm that they were valued</li>
+                <li><strong>For dominants:</strong> After exerting control/causing pain, they may experience guilt ("top drop"); reassurance that play was consensual and enjoyed</li>
+                <li><strong>Together:</strong> Emotional check-in: "How are you feeling?" "Was there anything that didn't work?" "Thank you for trusting me"</li>
+            </ul>
+
+            <div class="tip-box">
+                <strong>Crucial understanding:</strong> BDSM is not about someone being a "bad person" or wanting to abuse. It's consensual exploration of power, sensation, and intimacy between equals who care about each other's wellbeing.
+            </div>
+
+            <h3>Common BDSM Misconceptions</h3>
+            <ul>
+                <li><strong>"Submissives are weak":</strong> Submission requires confidence and strength. Submitting to someone requires trust and vulnerability</li>
+                <li><strong>"Dominants are controlling jerks":</strong> Dominants bear responsibility for their partner's safety and often spend more time focusing on what the submissive needs</li>
+                <li><strong>"BDSM is abusive":</strong> Abuse is non-consensual; BDSM is negotiated and consensual. There's no comparison</li>
+                <li><strong>"It's all about pain":</strong> Pain is one element; power, control, sensation, intimacy, and psychological experiences are equally important</li>
+                <li><strong>"Normal people don't do BDSM":</strong> Surveys show 25-50% of people have engaged in or fantasized about BDSM activities</li>
+            </ul>
+        </div>
+
+        <!-- SEXUAL MYTHS VS REALITY -->
+        <div class="guide-content" id="myths">
+            <button class="back-btn" onclick="showGuide('')">← Back to Discovery</button>
+            <h2>Sexual Myths vs Reality</h2>
+
+            <h3>Myth 1: "Women don't like/want sex as much as men"</h3>
+            <p><strong>Reality:</strong> Women and men have similar levels of sexual desire on average. What differs is often:</p>
+            <ul>
+                <li><strong>Social permission:</strong> Women have been socialized to suppress sexual desire; men encouraged to express it</li>
+                <li><strong>Arousal patterns:</strong> Women's arousal is more responsive (activated by partner interest) while men's is more spontaneous—not less; just different</li>
+                <li><strong>Orgasm consistency:</strong> Women orgasm less frequently during partnered sex (65% vs 95% for men), but this is about technique/communication, not desire</li>
+                <li><strong>Measurement issues:</strong> Research has historically focused on men's sexuality; women's desires were less studied</li>
+                <li><strong>Context matters:</strong> Women's desire is often more dependent on relationship quality, emotional connection, and stress levels—all valid factors</li>
+            </ul>
+            <p>In long-term relationships, desire patterns often shift, but women's baseline sexuality is as real and strong as men's.</p>
+
+            <h3>Myth 2: "Orgasm is the goal of sex"</h3>
+            <p><strong>Reality:</strong> Orgasm is one possible outcome of sex, not the destination. Research on sexual satisfaction shows:</p>
+            <ul>
+                <li>People in satisfying relationships often don't orgasm every time and still feel satisfied</li>
+                <li>Pleasure, connection, and intimacy predict satisfaction better than orgasm frequency</li>
+                <li>Focusing too hard on orgasm actually makes it harder to achieve (performance anxiety)</li>
+                <li>Many people (especially women) experience low or inconsistent orgasm without experiencing low satisfaction</li>
+                <li>For some disabilities, trauma histories, or medical conditions, orgasm may not be possible—but pleasurable, satisfying sex absolutely is</li>
+            </ul>
+            <p>Reframing sex from "Did we cum?" to "Did we feel good and connected?" creates more satisfying sexual lives.</p>
+
+            <h3>Myth 3: "A 'real man' can make any woman orgasm"</h3>
+            <p><strong>Reality:</strong> Orgasm has many variables, most of which are about the person's own body and psychology:</p>
+            <ul>
+                <li><strong>Anatomy:</strong> Some vulvas are more responsive than others; clitoris location, sensitivity, and response vary</li>
+                <li><strong>Psychology:</strong> Stress, body image, past trauma, relationship dynamics, hormones all affect orgasm ability</li>
+                <li><strong>Medication:</strong> Many medications affect sexual response, including antidepressants, birth control, and blood pressure meds</li>
+                <li><strong>Communication:</strong> A partner who listens and adjusts increases orgasm likelihood, but can't guarantee it</li>
+                <li><strong>The person's role:</strong> The best predictor of orgasm during partnered sex is the person's own ability to masturbate to orgasm—it's about self-knowledge, not partner skill</li>
+            </ul>
+            <p>Partners can support and create conditions, but the person themselves is responsible for their own orgasm.</p>
+
+            <h3>Myth 4: "Larger genitals mean better sex"</h3>
+            <p><strong>Reality:</strong> Genital size has minimal correlation with sexual satisfaction. Here's the evidence:</p>
+            <ul>
+                <li><strong>Penis size:</strong> Research shows no correlation between size and partner satisfaction; width matters more than length; most vaginas are 3-5 inches deep</li>
+                <li><strong>Vulva appearance:</strong> No correlation between labia size/shape and pleasure or sensation; variation is normal</li>
+                <li><strong>Breast size:</strong> No correlation with sexual sensitivity; all breasts have sensory capacity</li>
+                <li><strong>What matters:</strong> Technique, communication, arousal, comfort, and emotional connection predict satisfaction</li>
+            </ul>
+            <p>Porn and media perpetuate these myths because extreme attributes are visually distinctive. Real sex research shows that confidence and communication matter more than any measurement.</p>
+
+            <h3>Myth 5: "If you loved your partner, you'd want sex whenever they want it"</h3>
+            <p><strong>Reality:</strong> Sexual desire is variable and independent of love. You can deeply love someone and:</p>
+            <ul>
+                <li>Have different sexual frequencies or desires</li>
+                <li>Experience seasonal variation in desire</li>
+                <li>Need emotional connection before sex (while partner wants sex for connection)</li>
+                <li>Have responsive desire (needs to be turned on, not spontaneously interested)</li>
+                <li>Be affected by stress, health, or medications</li>
+            </ul>
+            <p>When desire mismatches happen (common in most long-term relationships), the solution is negotiation and creativity, not guilt or pressure.</p>
+
+            <h3>Myth 6: "You should climax at the same time"</h3>
+            <p><strong>Reality:</strong> Simultaneous orgasm is rare and often overrated. Here's why:</p>
+            <ul>
+                <li>Bodies have different response times; forcing synchronization creates pressure</li>
+                <li>It's often easier to climax with focus on your own pleasure first, then partner</li>
+                <li>Some of the most satisfying sexual experiences involve one person focused on the other</li>
+                <li>Sequential or separate orgasms can create more pleasure and freedom</li>
+                <li>When it happens naturally, great; when it doesn't, no problem</li>
+            </ul>
+
+            <h3>Myth 7: "Quickies are bad; sex needs to last a long time"</h3>
+            <p><strong>Reality:</strong> Sexual satisfaction isn't about duration. Quickies can be:</p>
+            <ul>
+                <li>Exciting and hot—the rush and spontaneity are part of the appeal</li>
+                <li>Perfect when time is limited—short, satisfying encounters are valid</li>
+                <li>Intense and intimate when focus is present, even if brief</li>
+            </ul>
+            <p>Extended sex is wonderful too. Variety—sometimes long, sometimes quick, sometimes medium—keeps sex interesting and meets different needs.</p>
+
+            <h3>Myth 8: "Masturbation means your sex life is failing"</h3>
+            <p><strong>Reality:</strong> Most people in relationships continue to masturbate, and that's healthy. Masturbation:</p>
+            <ul>
+                <li>Is a normal sexual behavior across all ages and relationship statuses</li>
+                <li>Helps people learn their own bodies and preferences</li>
+                <li>Can reduce sexual frustration and improve mood</li>
+                <li>Doesn't diminish partnered sex or indicate disinterest in a partner</li>
+                <li>Some people masturbate more in partnered relationships, not less</li>
+            </ul>
+            <p>In fact, people who masturbate regularly are often more sexually satisfied in relationships because they know what they like.</p>
+
+            <h3>Myth 9: "Lube means something's wrong"</h3>
+            <p><strong>Reality:</strong> Using lube is normal, healthy, and enhances sex for many people:</p>
+            <ul>
+                <li>Natural lubrication varies by person, hormone cycle, arousal level, and medications</li>
+                <li>Many medical conditions reduce natural lubrication</li>
+                <li>Adding lube increases sensation, comfort, and barrier protection effectiveness</li>
+                <li>Using lube is a sign of care and attention to comfort—not a sign of dysfunction</li>
+                <li>It's estimated that 30-50% of women use additional lube sometimes; even higher in certain age groups</li>
+            </ul>
+
+            <h3>Myth 10: "Kinky desires mean you're broken/traumatized/will hurt people"</h3>
+            <p><strong>Reality:</strong> BDSM interests don't indicate psychological problems or danger. Research shows:</p>
+            <ul>
+                <li>BDSM practitioners score equally on psychological health measures as non-practitioners</li>
+                <li>Interest in BDSM is not linked to desire to harm people in real life</li>
+                <li>While some abuse survivors enjoy BDSM, many practitioners have no trauma history</li>
+                <li>Consensual power exchange and real abuse are fundamentally different (consent vs. non-consent)</li>
+                <li>Many therapists and mental health professionals recognize BDSM as a normal variation in sexuality</li>
+            </ul>
+            <p>Exploring desires with consenting partners is healthy. It's non-consensual behavior that's problematic, not desires themselves.</p>
+
+            <div class="tip-box">
+                <strong>Core principle:</strong> Good sex is about communication, consent, pleasure, and authenticity—not about matching cultural myths. The more you can let go of "should" and listen to what you and your partner actually want, the better your sexual life becomes.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showGuide(guideId) {
+            // Hide all guides
+            const guides = document.querySelectorAll('.guide-content');
+            guides.forEach(guide => guide.classList.remove('active'));
+
+            // Hide grid if showing a guide
+            const grid = document.getElementById('guidesGrid');
+            if (guideId) {
+                grid.style.display = 'none';
+                document.getElementById(guideId).classList.add('active');
+                window.scrollTo(0, 0);
+            } else {
+                grid.style.display = 'grid';
+            }
+        }
+    </script>
+</body>
+</html>

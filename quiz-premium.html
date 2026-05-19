@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile - Velour Pulse</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --plum: #3C2060;
+            --purple: #9B6DC9;
+            --orchid: #C49BE8;
+            --pink: #D4537E;
+            --midnight: #2C2C2A;
+            --white: #FFFFFF;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--midnight);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .quiz-logo {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--orchid);
+            margin-bottom: 20px;
+        }
+        .quiz-logo span { color: var(--pink); }
+        .quiz-progress {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+        .progress-bar {
+            height: 4px;
+            background: #2a2a28;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pink), var(--orchid));
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        .quiz-chapter {
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            color: var(--orchid);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            opacity: 0.8;
+        }
+        .quiz-part {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 16px;
+        }
+        .premium-badge {
+            display: inline-block;
+            background: rgba(212, 83, 126, 0.15);
+            border: 1px solid var(--pink);
+            color: var(--pink);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .quiz-question {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .quiz-subtitle {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 24px;
+        }
+        .scale-options {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            margin-bottom: 32px;
+        }
+        .scale-btn {
+            padding: 12px 8px;
+            border: 1px solid #3a3a38;
+            border-radius: 8px;
+            background: transparent;
+            color: #aaa;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .scale-btn:hover {
+            border-color: var(--pink);
+            color: var(--white);
+            background: rgba(212, 83, 126, 0.08);
+        }
+        .scale-btn.selected {
+            border-color: var(--pink);
+            background: rgba(212, 83, 126, 0.15);
+            color: var(--white);
+        }
+        .scale-label {
+            font-size: 10px;
+            margin-top: 4px;
+            opacity: 0.7;
+        }
+        .scale-legend {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 40px;
+        }
+        .btn {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-back {
+            background: transparent;
+            border: 1px solid #3a3a38;
+            color: #aaa;
+        }
+        .btn-back:hover:not(:disabled) {
+            border-color: var(--orchid);
+            color: var(--orchid);
+        }
+        .btn-back:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        .btn-next {
+            background: var(--pink);
+            color: var(--white);
+        }
+        .btn-next:hover:not(:disabled) {
+            opacity: 0.88;
+            transform: translateY(-1px);
+        }
+        .btn-next:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .completion-time {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            margin-top: 20px;
+        }
+        @media(max-width: 768px) {
+            .quiz-container { padding: 30px 16px; }
+            .quiz-question { font-size: 18px; }
+            .scale-options { grid-template-columns: repeat(7, 1fr); gap: 4px; }
+            .scale-btn { padding: 10px 4px; font-size: 11px; }
+        }
+    </style>
+</head>
+<body style="display:none;">
+    <!-- PAYMENT GATE LOADING STATE -->
+    <div id="__gateLoading" style="position:fixed;inset:0;background:#2c2c2a;display:flex;align-items:center;justify-content:center;z-index:10000;color:#aaa;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;font-size:16px;">Verifying access...</div>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <div class="quiz-logo">Velour <span>Pulse</span></div>
+            <div class="premium-badge">PREMIUM ASSESSMENT</div>
+            <div class="quiz-progress">Questions <span id="currentQ">21</span> of <span id="totalQ">120</span></div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="completion-time">Takes about 10-15 minutes</div>
+        </div>
+
+        <div id="quizContent"></div>
+    </div>
+
+    <script src="/js/api-integration.js"></script>
+    <script src="/js/question-framework.js"></script>
+    <script src="/js/scoring-engine.js"></script>
+    <script>
+        /**
+         * PREMIUM PAGE GATE - Verify payment before showing content
+         */
+        async function gateAccessToPremium() {
+            const sessionId = localStorage.getItem('vp_session_id');
+            const email = localStorage.getItem('vp_user_email') ||
+                         localStorage.getItem('vp_premium_email') ||
+                         localStorage.getItem('velourPulseEmail');
+
+            if (!sessionId || !email) {
+                console.warn('No session/email found, redirecting to quiz');
+                window.location.href = '/quiz.html';
+                return;
+            }
+
+            try {
+                const result = await API.verifyPaymentStatus(sessionId, email);
+
+                if (result.success && result.isPaid) {
+                    console.log('✓ Premium access granted');
+                    document.body.style.display = 'block';
+                    document.getElementById('__gateLoading').style.display = 'none';
+                    initializePremiumQuiz();
+                    return;
+                } else {
+                    console.warn('Payment not verified');
+                    window.location.href = '/checkout.html?sessionId=' + encodeURIComponent(sessionId);
+                }
+            } catch (error) {
+                console.error('Payment verification error:', error);
+
+                if (localStorage.getItem('vp_premium_unlocked') === 'true') {
+                    console.log('Using localStorage cache (offline mode)');
+                    document.body.style.display = 'block';
+                    document.getElementById('__gateLoading').style.display = 'none';
+                    initializePremiumQuiz();
+                    return;
+                }
+
+                document.getElementById('__gateLoading').textContent = 'Unable to verify access.';
+            }
+        }
+
+        function initializePremiumQuiz() {
+            // Quiz initialization code will run here
+            renderQuestion(currentIndex);
+        }
+
+        // PREMIUM QUIZ: Questions 21-120
+        const quizQuestions = premiumQuizQuestions;
+        let currentIndex = 0;
+        let userAnswers = {};
+
+        // Load free answers from localStorage
+        const freeAnswers = JSON.parse(localStorage.getItem('vp_free_answers')) || {};
+        Object.assign(userAnswers, freeAnswers);
+
+        // Load any premium answers if quiz was paused
+        if (localStorage.getItem('vp_premium_answers')) {
+            const premiumAnswers = JSON.parse(localStorage.getItem('vp_premium_answers'));
+            Object.assign(userAnswers, premiumAnswers);
+        }
+
+        // Update total questions display
+        document.getElementById('totalQ').textContent = fullQuestionBank.length;
+
+        function renderQuestion(index) {
+            const question = quizQuestions[index];
+            const container = document.getElementById('quizContent');
+            // Question index 0 corresponds to Q21 in the full bank
+            const absoluteIndex = index + 20;
+            const percentage = ((absoluteIndex + 1) / fullQuestionBank.length) * 100;
+
+            // Update progress
+            document.getElementById('currentQ').textContent = absoluteIndex + 1;
+            document.getElementById('progressFill').style.width = percentage + '%';
+
+            // Build HTML
+            let html = `
+                <div class="quiz-chapter">Part: ${question.part}</div>
+                <div class="quiz-part">Question ${absoluteIndex + 1} of ${fullQuestionBank.length}</div>
+                <h2 class="quiz-question">${question.text}</h2>
+                <div class="quiz-subtitle">Rate your agreement on this scale</div>
+                <div class="scale-legend">
+                    <span>Strongly Disagree</span>
+                    <span>Neutral</span>
+                    <span>Strongly Agree</span>
+                </div>
+                <div class="scale-options" id="scaleOptions">
+            `;
+
+            // 1-7 scale buttons (no numbers shown)
+            for (let i = 1; i <= 7; i++) {
+                const selected = userAnswers[question.id] === i ? 'selected' : '';
+                html += `
+                    <button class="scale-btn ${selected}" onclick="selectAnswer(${question.id}, ${i})" aria-label="Rating ${i}"></button>
+                `;
+            }
+
+            html += `
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="previousQuestion()" ${index === 0 ? 'disabled' : ''}>← Back</button>
+                    <button class="btn btn-next" onclick="nextQuestion()" ${!userAnswers[question.id] ? 'disabled' : ''}>
+                        ${index === quizQuestions.length - 1 ? 'View Your Complete Profile' : 'Next →'}
+                    </button>
+                </div>
+            `;
+
+            container.innerHTML = html;
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function selectAnswer(questionId, value) {
+            userAnswers[questionId] = value;
+
+            // Save premium answers to localStorage
+            const premiumAnswers = {};
+            for (let id = 21; id <= 120; id++) {
+                if (userAnswers[id] !== undefined) {
+                    premiumAnswers[id] = userAnswers[id];
+                }
+            }
+            localStorage.setItem('vp_premium_answers', JSON.stringify(premiumAnswers));
+
+            // Update button styling
+            document.querySelectorAll('.scale-btn').forEach(btn => btn.classList.remove('selected'));
+            event.target.closest('.scale-btn').classList.add('selected');
+
+            // Enable next button
+            document.querySelector('.btn-next').disabled = false;
+        }
+
+        function nextQuestion() {
+            const question = quizQuestions[currentIndex];
+            if (!userAnswers[question.id]) {
+                alert('Please answer the question before continuing');
+                return;
+            }
+
+            if (currentIndex < quizQuestions.length - 1) {
+                currentIndex++;
+                renderQuestion(currentIndex);
+            } else {
+                // Quiz complete - store all answers and redirect to full results
+                localStorage.setItem('vp_all_answers', JSON.stringify(userAnswers));
+                const sessionId = localStorage.getItem('vp_session_id');
+                let url = '/results-full.html';
+                if (sessionId) {
+                    url += `?sessionId=${encodeURIComponent(sessionId)}`;
+                }
+                window.location.href = url;
+            }
+        }
+
+        function previousQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion(currentIndex);
+            }
+        }
+
+        // Gate access and render first question (Q21)
+        document.addEventListener('DOMContentLoaded', gateAccessToPremium);
+    </script>
+</body>
+</html>

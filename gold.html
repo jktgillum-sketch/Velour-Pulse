@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velour Pulse Gold - Coming Soon</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --plum: #3C2060;
+            --purple: #9B6DC9;
+            --orchid: #C49BE8;
+            --pink: #D4537E;
+            --blush: #ED93B1;
+            --whisper: #F5EEF8;
+            --midnight: #2C2C2A;
+            --white: #FFFFFF;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--midnight);
+            color: var(--white);
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .logo {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--orchid);
+            margin-bottom: 20px;
+        }
+        .logo span { color: var(--pink); }
+        .badge {
+            display: inline-block;
+            background: rgba(196, 155, 232, 0.1);
+            border: 1px solid var(--orchid);
+            color: var(--orchid);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        h1 span { color: var(--pink); }
+        .subtitle {
+            font-size: 18px;
+            color: #aaa;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+        .features-section h2 {
+            font-size: 24px;
+            margin-bottom: 32px;
+            color: var(--white);
+        }
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .feature {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .feature-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            background: rgba(212, 83, 126, 0.2);
+            border: 1px solid var(--pink);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--pink);
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .feature-text {
+            color: #aaa;
+            line-height: 1.5;
+        }
+        .feature-text strong {
+            color: var(--white);
+        }
+        .signup-section {
+            background: linear-gradient(135deg, #1a1018, #161420);
+            border: 0.5px solid #3a3a38;
+            border-radius: 16px;
+            padding: 48px;
+            text-align: center;
+        }
+        .signup-section h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+        .signup-subtitle {
+            color: #aaa;
+            margin-bottom: 32px;
+            font-size: 16px;
+        }
+        .email-form {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .email-input {
+            flex: 1;
+            padding: 14px 16px;
+            background: #222220;
+            border: 1px solid #3a3a38;
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 14px;
+        }
+        .email-input::placeholder {
+            color: #666;
+        }
+        .email-input:focus {
+            outline: none;
+            border-color: var(--pink);
+        }
+        .btn {
+            padding: 14px 32px;
+            background: var(--pink);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+        .btn:hover {
+            opacity: 0.88;
+            transform: translateY(-1px);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .form-message {
+            font-size: 12px;
+            margin-top: 8px;
+            color: #aaa;
+        }
+        .success-message {
+            color: #2ecc71;
+            display: none;
+        }
+        .error-message {
+            color: #e74c3c;
+            display: none;
+        }
+        .timeline {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #3a3a38;
+        }
+        .timeline h4 {
+            color: var(--orchid);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+        .timeline-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+        .timeline-dot {
+            color: var(--pink);
+            flex-shrink: 0;
+        }
+        .timeline-text {
+            color: #aaa;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 60px;
+        }
+        .back-link a {
+            color: var(--orchid);
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        @media(max-width: 768px) {
+            .container { padding: 40px 20px; }
+            h1 { font-size: 2rem; }
+            .content-grid { grid-template-columns: 1fr; gap: 40px; }
+            .email-form { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Velour <span>Pulse</span></div>
+            <div class="badge">⏰ Coming Soon</div>
+            <h1>Velour Pulse <span>Gold</span></h1>
+            <p class="subtitle">Your complete sexual blueprint. Deeper insights, full archetype profile, and personalized compatibility analysis.</p>
+        </div>
+
+        <div class="content-grid">
+            <div class="features-section">
+                <h2>What You'll Unlock</h2>
+                <div class="features-list">
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text"><strong>Full 18-Archetype Profile</strong> — Beyond the basics, see your complete sexual blueprint across all dimensions</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text"><strong>Partner Compatibility Engine</strong> — See how your profile matches with potential partners</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text"><strong>15+ Product Recommendations</strong> — Personalized to your exact profile and experience level</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text"><strong>Supplement Protocol</strong> — Sexual wellness recommendations matched to your profile</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text"><strong>Price Drop Alerts</strong> — Get notified when products you saved go on sale</div>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">✓</div>
+                        <div class="feature-text"><strong>Ad-Free Experience</strong> — Explore without distractions or tracking</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="signup-section">
+                <h3>Be First to Know</h3>
+                <p class="signup-subtitle">Get notified the moment Gold launches</p>
+                
+                <form id="earlyAccessForm">
+                    <div class="email-form">
+                        <input 
+                            type="email" 
+                            class="email-input" 
+                            placeholder="your@email.com" 
+                            required 
+                            id="emailInput"
+                        >
+                        <button type="submit" class="btn">Notify Me</button>
+                    </div>
+                </form>
+
+                <div class="form-message">
+                    <div class="success-message" id="successMessage">✓ Thanks! You'll be first to know.</div>
+                    <div class="error-message" id="errorMessage"></div>
+                    <div id="defaultMessage">We'll only email when Gold is live. No spam.</div>
+                </div>
+
+                <div class="timeline">
+                    <h4>What's Happening</h4>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">✓</div>
+                        <div class="timeline-text">Free version with 120-question quiz live now</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">⏳</div>
+                        <div class="timeline-text">Stripe integration being set up (this week)</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">⏳</div>
+                        <div class="timeline-text">Gold tier launches with tiered quiz</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">💰</div>
+                        <div class="timeline-text">$7.99/month or $59/year (save 38%)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Back to Velour Pulse</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('earlyAccessForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('emailInput').value;
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            const defaultMsg = document.getElementById('defaultMessage');
+
+            // Validate email
+            if (!email.includes('@')) {
+                errorMsg.textContent = 'Please enter a valid email';
+                errorMsg.style.display = 'block';
+                defaultMsg.style.display = 'none';
+                return;
+            }
+
+            // Store email in localStorage
+            let earlyAccess = JSON.parse(localStorage.getItem('velour_early_access') || '[]');
+            if (!earlyAccess.includes(email)) {
+                earlyAccess.push(email);
+                localStorage.setItem('velour_early_access', JSON.stringify(earlyAccess));
+            }
+
+            // Show success
+            successMsg.style.display = 'block';
+            errorMsg.style.display = 'none';
+            defaultMsg.style.display = 'none';
+            document.getElementById('emailInput').value = '';
+
+            // Hide success after 5 seconds
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+                defaultMsg.style.display = 'block';
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

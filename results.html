@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Velour Pulse Profile</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --plum: #3C2060;
+            --purple: #9B6DC9;
+            --orchid: #C49BE8;
+            --pink: #D4537E;
+            --midnight: #2C2C2A;
+            --white: #FFFFFF;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--midnight);
+            color: var(--white);
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .logo {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--orchid);
+            margin-bottom: 20px;
+        }
+        .logo span { color: var(--pink); }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .subtitle {
+            font-size: 16px;
+            color: #aaa;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        .profile-section {
+            background: #1a1a18;
+            border: 0.5px solid #3a3a38;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        .section-title {
+            font-size: 14px;
+            letter-spacing: 0.12em;
+            color: var(--orchid);
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            opacity: 0.8;
+        }
+        .primary-archetype {
+            background: #222220;
+            border: 1px solid #3a3a38;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .archetype-name {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--pink);
+            margin-bottom: 12px;
+        }
+        .archetype-score {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 16px;
+        }
+        .score-bar {
+            height: 6px;
+            background: #2a2a28;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .score-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pink), var(--orchid));
+            border-radius: 3px;
+        }
+        .archetype-description {
+            font-size: 15px;
+            color: #aaa;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        .archetype-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+        .archetype-card {
+            background: #222220;
+            border: 1px solid #3a3a38;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        .archetype-card:hover {
+            border-color: var(--pink);
+            transform: translateY(-2px);
+        }
+        .archetype-rank {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--pink);
+            margin-bottom: 8px;
+        }
+        .archetype-card-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+        .archetype-card-score {
+            font-size: 13px;
+            color: #888;
+        }
+        .card-bar {
+            height: 4px;
+            background: #2a2a28;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .premium-gate {
+            background: linear-gradient(135deg, #1a1018, #161420);
+            border: 1px solid #3a3a38;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .gate-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+        .gate-subtitle {
+            font-size: 15px;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .gate-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .gate-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            background: #1a1a18;
+            border: 0.5px solid #3a3a38;
+            border-radius: 10px;
+        }
+        .gate-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--orchid);
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+        .gate-text {
+            font-size: 13px;
+            color: #aaa;
+            line-height: 1.5;
+            text-align: left;
+        }
+        .gate-price {
+            font-size: 48px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+        .gate-price-sub {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 28px;
+        }
+        .btn-upgrade {
+            padding: 18px 48px;
+            background: var(--orchid);
+            color: var(--plum);
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: inline-block;
+        }
+        .btn-upgrade:hover {
+            opacity: 0.88;
+            transform: translateY(-2px);
+        }
+        .gate-note {
+            font-size: 12px;
+            color: #555;
+            margin-top: 16px;
+        }
+        .free-products {
+            margin-top: 40px;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .product-card {
+            background: #222220;
+            border: 0.5px solid #3a3a38;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s;
+        }
+        .product-card:hover {
+            border-color: var(--pink);
+            transform: translateY(-2px);
+        }
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+        .product-why {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        .product-retailer {
+            font-size: 12px;
+            color: var(--orchid);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .product-retailer:hover {
+            color: var(--pink);
+        }
+        .btn-retake {
+            padding: 14px 32px;
+            background: transparent;
+            border: 1px solid #3a3a38;
+            color: #aaa;
+            border-radius: 50px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .btn-retake:hover {
+            border-color: var(--orchid);
+            color: var(--orchid);
+        }
+        @media(max-width: 768px) {
+            .container { padding: 40px 20px; }
+            .h1 { font-size: 1.8rem; }
+            .gate-features { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Velour <span>Pulse</span></div>
+            <h1 id="profileTitle">Your Archetype Profile</h1>
+            <div class="subtitle" id="profileSubtitle">Based on your authentic responses</div>
+        </div>
+
+        <!-- Primary Archetype -->
+        <div class="profile-section">
+            <div class="section-title">Your Primary Archetype</div>
+            <div class="primary-archetype">
+                <div class="archetype-name" id="primaryName">The Romantic</div>
+                <div class="archetype-score" id="primaryScore">78% Match</div>
+                <div class="score-bar">
+                    <div class="score-fill" id="primaryScoreFill" style="width: 78%"></div>
+                </div>
+                <div class="archetype-description" id="primaryDescription">
+                    You experience desire as connection. For you, intimacy is about emotional presence and vulnerability. You're drawn to partners who see and validate your whole self. Authentic connection is foreplay for you.
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Profile Breakdown -->
+        <div class="profile-section">
+            <div class="section-title">Your Complete Archetype Breakdown</div>
+            <div class="archetype-grid" id="archetypeGrid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Premium Gate -->
+        <div class="premium-gate" id="premiumGate">
+            <div class="gate-title">Unlock Your Full Profile</div>
+            <div class="gate-subtitle">
+                Get detailed psychological insights, personalized guides, and 25+ curated product recommendations tailored to your unique archetype blend.
+            </div>
+            <div class="gate-features">
+                <div class="gate-feature">
+                    <div class="gate-dot"></div>
+                    <div class="gate-text">Full 18-archetype breakdown with detailed psychology</div>
+                </div>
+                <div class="gate-feature">
+                    <div class="gate-dot"></div>
+                    <div class="gate-text">25+ personalized product recommendations</div>
+                </div>
+                <div class="gate-feature">
+                    <div class="gate-dot"></div>
+                    <div class="gate-text">Advanced guides for your archetype blend</div>
+                </div>
+            </div>
+            <div class="gate-price">$9.99</div>
+            <div class="gate-price-sub">One-time unlock. Forever access.</div>
+            <button class="btn-upgrade" onclick="upgradeToGold()">Unlock Full Profile</button>
+            <div class="gate-note">Never recurring. Cancel anytime.</div>
+        </div>
+
+        <!-- Free Product Recommendations -->
+        <div class="free-products">
+            <div class="section-title">Recommended for You (Free Preview)</div>
+            <p style="color: #888; margin-bottom: 20px; font-size: 14px; line-height: 1.6;">
+                Here are a few products we think match your primary archetype. Unlock your full profile to see 25+ recommendations tailored to your complete archetype blend.
+            </p>
+            <div class="product-grid" id="freeProducts">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Bottom CTA -->
+        <div style="text-align: center; margin-top: 60px; padding-top: 40px; border-top: 0.5px solid #3a3a38;">
+            <p style="color: #888; margin-bottom: 20px;">Want to explore more about who you are?</p>
+            <button class="btn-retake" onclick="window.location.href='quiz.html'">← Retake the Quiz</button>
+            <button class="btn-upgrade" onclick="upgradeToGold()" style="margin-left: 12px;">Unlock Full Profile →</button>
+        </div>
+    </div>
+
+    <script src="/js/api-integration.js"></script>
+    <script src="/js/results-loader.js"></script>
+    <script src="/js/scoring-engine.js"></script>
+
+    <script>
+        // 12 ARCHETYPE DEFINITIONS (From VelourPulse_Core_System_Design.md)
+        const archetypes = {
+            romantic: {
+                name: "The Romantic",
+                description: "You experience desire as connection. For you, intimacy is about emotional presence and vulnerability. You're drawn to partners who see and validate your whole self. Authentic connection is foreplay for you."
+            },
+            desire_architect: {
+                name: "The Desire Architect",
+                description: "You're intentional about pleasure and strategic in your approach to intimacy. You design experiences carefully, communicate clearly about what you want, and take an active role in orchestrating connection."
+            },
+            sensation_seeker: {
+                name: "The Sensation Seeker",
+                description: "You're driven by experience and variety. Novelty excites you, and you love exploring different sensations, textures, and intensities. You're curious and adventurous in your approach to pleasure."
+            },
+            power_explorer: {
+                name: "The Power Explorer",
+                description: "You're drawn to dynamics of power, control, and structure. Whether leading or following, you find deep satisfaction in the interplay of dominance and submission. Power exchange is deeply fulfilling."
+            },
+            emotional_safe_keeper: {
+                name: "The Emotional Safe Keeper",
+                description: "You prioritize safety, trust, and emotional stability in intimacy. You're protective and create spaces where vulnerability feels secure. Deep trust is the foundation of your desire."
+            },
+            independent_explorer: {
+                name: "The Independent Explorer",
+                description: "You're self-directed and autonomous in your sexuality. You value independence and don't need external validation for your desires. You explore on your own terms, at your own pace."
+            },
+            nurturing_caregiver: {
+                name: "The Nurturing Caregiver",
+                description: "You find deep satisfaction in attending to your partner's pleasure and needs. Your generosity is central to your arousal. Giving care and witnessing your partner's satisfaction fulfills you."
+            },
+            curious_novice: {
+                name: "The Curious Novice",
+                description: "You're driven by discovery and learning. Even if you're experienced, you maintain a beginner's mind. You love exploring new territory and understanding yourself and your partners better."
+            },
+            devoted_partner: {
+                name: "The Devoted Partner",
+                description: "You're deeply committed to partnership and shared growth. Your desire is intertwined with loyalty and commitment. Long-term intimacy and building something together fulfills you."
+            },
+            pleasure_alchemist: {
+                name: "The Pleasure Alchemist",
+                description: "You're focused on maximizing pleasure and turning every experience into wisdom. You're integrated in your sexuality and understand that pleasure is a pathway to self-knowledge and transformation."
+            },
+            taboo_explorer: {
+                name: "The Taboo Explorer",
+                description: "You're curious about edges and boundaries. You love exploring unconventional desires and pushing limits consensually. The transgressive element itself can be deeply exciting for you."
+            },
+            sexual_healer: {
+                name: "The Sexual Healer",
+                description: "You view sexuality as integrative and transformative. You're healing from past shame and using sexual exploration as a path to wholeness. Reclaiming your sexuality is deeply meaningful."
+            }
+        };
+
+        // COMPLETE SCORING ALGORITHM (From QUIZ_SYSTEM_ARCHITECTURE.md)
+        // All 22 questions × 6 answer options = 132 weight mappings
+        const scoreWeights = {
+            // FOUNDATION QUESTIONS (Q1-6)
+            // Q1: Primary Motivation
+            "1a": { romantic: 0.3, desire_architect: 0.7, sensation_seeker: 0.2, power_explorer: 0.1, emotional_safe_keeper: 0.8, independent_explorer: 0.6, nurturing_caregiver: 0.4, curious_novice: 0.9, devoted_partner: 0.4, pleasure_alchemist: 0.5, taboo_explorer: 0.1, sexual_healer: 0.85 },
+            "1b": { romantic: 0.9, desire_architect: 0.3, sensation_seeker: 0.1, power_explorer: 0.2, emotional_safe_keeper: 0.7, independent_explorer: 0.2, nurturing_caregiver: 0.6, curious_novice: 0.3, devoted_partner: 0.8, pleasure_alchemist: 0.4, taboo_explorer: 0.1, sexual_healer: 0.5 },
+            "1c": { romantic: 0.3, desire_architect: 0.4, sensation_seeker: 0.9, power_explorer: 0.2, emotional_safe_keeper: 0.3, independent_explorer: 0.7, nurturing_caregiver: 0.2, curious_novice: 0.8, devoted_partner: 0.2, pleasure_alchemist: 0.8, taboo_explorer: 0.5, sexual_healer: 0.4 },
+            "1d": { romantic: 0.2, desire_architect: 0.3, sensation_seeker: 0.1, power_explorer: 0.1, emotional_safe_keeper: 0.4, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.6, devoted_partner: 0.4, pleasure_alchemist: 0.3, taboo_explorer: 0.1, sexual_healer: 0.95 },
+            "1e": { romantic: 0.4, desire_architect: 0.5, sensation_seeker: 0.8, power_explorer: 0.3, emotional_safe_keeper: 0.2, independent_explorer: 0.8, nurturing_caregiver: 0.2, curious_novice: 0.9, devoted_partner: 0.2, pleasure_alchemist: 0.7, taboo_explorer: 0.6, sexual_healer: 0.3 },
+            "1f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            // Q2: Arousal Pattern
+            "2a": { romantic: 0.9, desire_architect: 0.4, sensation_seeker: 0.2, power_explorer: 0.2, emotional_safe_keeper: 0.8, independent_explorer: 0.2, nurturing_caregiver: 0.6, curious_novice: 0.4, devoted_partner: 0.8, pleasure_alchemist: 0.3, taboo_explorer: 0.1, sexual_healer: 0.6 },
+            "2b": { romantic: 0.3, desire_architect: 0.5, sensation_seeker: 0.7, power_explorer: 0.4, emotional_safe_keeper: 0.2, independent_explorer: 0.6, nurturing_caregiver: 0.2, curious_novice: 0.3, devoted_partner: 0.3, pleasure_alchemist: 0.6, taboo_explorer: 0.4, sexual_healer: 0.3 },
+            "2c": { romantic: 0.4, desire_architect: 0.3, sensation_seeker: 0.9, power_explorer: 0.3, emotional_safe_keeper: 0.4, independent_explorer: 0.5, nurturing_caregiver: 0.3, curious_novice: 0.5, devoted_partner: 0.3, pleasure_alchemist: 0.8, taboo_explorer: 0.3, sexual_healer: 0.4 },
+            "2d": { romantic: 0.2, desire_architect: 0.8, sensation_seeker: 0.3, power_explorer: 0.4, emotional_safe_keeper: 0.2, independent_explorer: 0.7, nurturing_caregiver: 0.1, curious_novice: 0.5, devoted_partner: 0.2, pleasure_alchemist: 0.7, taboo_explorer: 0.5, sexual_healer: 0.2 },
+            "2e": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.6, power_explorer: 0.4, emotional_safe_keeper: 0.5, independent_explorer: 0.6, nurturing_caregiver: 0.4, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.4, sexual_healer: 0.5 },
+            "2f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            // Q3: Body Relationship
+            "3a": { romantic: 0.6, desire_architect: 0.5, sensation_seeker: 0.7, power_explorer: 0.4, emotional_safe_keeper: 0.3, independent_explorer: 0.7, nurturing_caregiver: 0.4, curious_novice: 0.5, devoted_partner: 0.4, pleasure_alchemist: 0.8, taboo_explorer: 0.4, sexual_healer: 0.3 },
+            "3b": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.6, power_explorer: 0.4, emotional_safe_keeper: 0.6, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.6, devoted_partner: 0.5, pleasure_alchemist: 0.6, taboo_explorer: 0.4, sexual_healer: 0.7 },
+            "3c": { romantic: 0.3, desire_architect: 0.4, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.2, independent_explorer: 0.6, nurturing_caregiver: 0.2, curious_novice: 0.4, devoted_partner: 0.3, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.3 },
+            "3d": { romantic: 0.2, desire_architect: 0.3, sensation_seeker: 0.2, power_explorer: 0.3, emotional_safe_keeper: 0.3, independent_explorer: 0.4, nurturing_caregiver: 0.3, curious_novice: 0.5, devoted_partner: 0.3, pleasure_alchemist: 0.3, taboo_explorer: 0.3, sexual_healer: 0.95 },
+            "3e": { romantic: 0.4, desire_architect: 0.4, sensation_seeker: 0.6, power_explorer: 0.3, emotional_safe_keeper: 0.4, independent_explorer: 0.5, nurturing_caregiver: 0.3, curious_novice: 0.5, devoted_partner: 0.4, pleasure_alchemist: 0.6, taboo_explorer: 0.3, sexual_healer: 0.6 },
+            "3f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            // Q4: Pleasure Expression
+            "4a": { romantic: 0.8, desire_architect: 0.3, sensation_seeker: 0.3, power_explorer: 0.2, emotional_safe_keeper: 0.7, independent_explorer: 0.2, nurturing_caregiver: 0.4, curious_novice: 0.3, devoted_partner: 0.6, pleasure_alchemist: 0.3, taboo_explorer: 0.1, sexual_healer: 0.4 },
+            "4b": { romantic: 0.2, desire_architect: 0.9, sensation_seeker: 0.4, power_explorer: 0.9, emotional_safe_keeper: 0.2, independent_explorer: 0.8, nurturing_caregiver: 0.2, curious_novice: 0.3, devoted_partner: 0.3, pleasure_alchemist: 0.5, taboo_explorer: 0.6, sexual_healer: 0.2 },
+            "4c": { romantic: 0.3, desire_architect: 0.4, sensation_seeker: 0.9, power_explorer: 0.3, emotional_safe_keeper: 0.3, independent_explorer: 0.8, nurturing_caregiver: 0.2, curious_novice: 0.9, devoted_partner: 0.2, pleasure_alchemist: 0.8, taboo_explorer: 0.5, sexual_healer: 0.4 },
+            "4d": { romantic: 0.9, desire_architect: 0.4, sensation_seeker: 0.2, power_explorer: 0.2, emotional_safe_keeper: 0.8, independent_explorer: 0.2, nurturing_caregiver: 0.3, curious_novice: 0.3, devoted_partner: 0.7, pleasure_alchemist: 0.3, taboo_explorer: 0.1, sexual_healer: 0.5 },
+            "4e": { romantic: 0.2, desire_architect: 0.5, sensation_seeker: 0.8, power_explorer: 0.4, emotional_safe_keeper: 0.1, independent_explorer: 0.7, nurturing_caregiver: 0.1, curious_novice: 0.7, devoted_partner: 0.1, pleasure_alchemist: 0.8, taboo_explorer: 0.6, sexual_healer: 0.2 },
+            "4f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            // Q5: Solo vs Partnership
+            "5a": { romantic: 0.2, desire_architect: 0.4, sensation_seeker: 0.6, power_explorer: 0.3, emotional_safe_keeper: 0.2, independent_explorer: 0.9, nurturing_caregiver: 0.1, curious_novice: 0.5, devoted_partner: 0.1, pleasure_alchemist: 0.6, taboo_explorer: 0.4, sexual_healer: 0.4 },
+            "5b": { romantic: 0.9, desire_architect: 0.5, sensation_seeker: 0.3, power_explorer: 0.3, emotional_safe_keeper: 0.8, independent_explorer: 0.2, nurturing_caregiver: 0.7, curious_novice: 0.3, devoted_partner: 0.9, pleasure_alchemist: 0.4, taboo_explorer: 0.2, sexual_healer: 0.5 },
+            "5c": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.6, power_explorer: 0.4, emotional_safe_keeper: 0.5, independent_explorer: 0.6, nurturing_caregiver: 0.4, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.6, taboo_explorer: 0.4, sexual_healer: 0.5 },
+            "5d": { romantic: 0.7, desire_architect: 0.4, sensation_seeker: 0.2, power_explorer: 0.2, emotional_safe_keeper: 0.6, independent_explorer: 0.3, nurturing_caregiver: 0.4, curious_novice: 0.4, devoted_partner: 0.5, pleasure_alchemist: 0.3, taboo_explorer: 0.2, sexual_healer: 0.5 },
+            "5e": { romantic: 0.3, desire_architect: 0.6, sensation_seeker: 0.5, power_explorer: 0.4, emotional_safe_keeper: 0.2, independent_explorer: 0.8, nurturing_caregiver: 0.3, curious_novice: 0.4, devoted_partner: 0.2, pleasure_alchemist: 0.5, taboo_explorer: 0.6, sexual_healer: 0.3 },
+            "5f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            // Q6: Shame & Permission
+            "6a": { romantic: 0.6, desire_architect: 0.7, sensation_seeker: 0.7, power_explorer: 0.6, emotional_safe_keeper: 0.4, independent_explorer: 0.8, nurturing_caregiver: 0.4, curious_novice: 0.6, devoted_partner: 0.5, pleasure_alchemist: 0.8, taboo_explorer: 0.7, sexual_healer: 0.3 },
+            "6b": { romantic: 0.6, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.4, emotional_safe_keeper: 0.6, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.7, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.8 },
+            "6c": { romantic: 0.3, desire_architect: 0.3, sensation_seeker: 0.3, power_explorer: 0.4, emotional_safe_keeper: 0.6, independent_explorer: 0.3, nurturing_caregiver: 0.5, curious_novice: 0.3, devoted_partner: 0.4, pleasure_alchemist: 0.2, taboo_explorer: 0.4, sexual_healer: 0.8 },
+            "6d": { romantic: 0.3, desire_architect: 0.3, sensation_seeker: 0.2, power_explorer: 0.3, emotional_safe_keeper: 0.5, independent_explorer: 0.4, nurturing_caregiver: 0.4, curious_novice: 0.4, devoted_partner: 0.4, pleasure_alchemist: 0.3, taboo_explorer: 0.3, sexual_healer: 0.95 },
+            "6e": { romantic: 0.7, desire_architect: 0.6, sensation_seeker: 0.6, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.7, nurturing_caregiver: 0.4, curious_novice: 0.6, devoted_partner: 0.5, pleasure_alchemist: 0.7, taboo_explorer: 0.6, sexual_healer: 0.4 },
+            "6f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+
+            // NUANCE QUESTIONS (Q7-12)
+            // Q7: Communication Style
+            "7a": { romantic: 0.4, desire_architect: 0.9, sensation_seeker: 0.4, power_explorer: 0.7, emotional_safe_keeper: 0.3, independent_explorer: 0.8, nurturing_caregiver: 0.3, curious_novice: 0.4, devoted_partner: 0.5, pleasure_alchemist: 0.6, taboo_explorer: 0.6, sexual_healer: 0.3 },
+            "7b": { romantic: 0.6, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.4, emotional_safe_keeper: 0.6, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.4, sexual_healer: 0.5 },
+            "7c": { romantic: 0.7, desire_architect: 0.5, sensation_seeker: 0.6, power_explorer: 0.3, emotional_safe_keeper: 0.4, independent_explorer: 0.5, nurturing_caregiver: 0.4, curious_novice: 0.6, devoted_partner: 0.6, pleasure_alchemist: 0.5, taboo_explorer: 0.3, sexual_healer: 0.4 },
+            "7d": { romantic: 0.5, desire_architect: 0.3, sensation_seeker: 0.4, power_explorer: 0.3, emotional_safe_keeper: 0.6, independent_explorer: 0.3, nurturing_caregiver: 0.7, curious_novice: 0.4, devoted_partner: 0.5, pleasure_alchemist: 0.3, taboo_explorer: 0.3, sexual_healer: 0.5 },
+            "7e": { romantic: 0.5, desire_architect: 0.4, sensation_seeker: 0.4, power_explorer: 0.3, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.4, curious_novice: 0.6, devoted_partner: 0.5, pleasure_alchemist: 0.4, taboo_explorer: 0.3, sexual_healer: 0.7 },
+            "7f": { romantic: 0.3, desire_architect: 0.2, sensation_seeker: 0.3, power_explorer: 0.3, emotional_safe_keeper: 0.3, independent_explorer: 0.3, nurturing_caregiver: 0.3, curious_novice: 0.3, devoted_partner: 0.3, pleasure_alchemist: 0.3, taboo_explorer: 0.3, sexual_healer: 0.4 },
+            // Q8: Power Dynamics
+            "8a": { romantic: 0.6, desire_architect: 0.5, sensation_seeker: 0.4, power_explorer: 0.2, emotional_safe_keeper: 0.7, independent_explorer: 0.4, nurturing_caregiver: 0.5, curious_novice: 0.4, devoted_partner: 0.6, pleasure_alchemist: 0.4, taboo_explorer: 0.2, sexual_healer: 0.5 },
+            "8b": { romantic: 0.2, desire_architect: 0.7, sensation_seeker: 0.5, power_explorer: 0.95, emotional_safe_keeper: 0.1, independent_explorer: 0.7, nurturing_caregiver: 0.2, curious_novice: 0.4, devoted_partner: 0.2, pleasure_alchemist: 0.5, taboo_explorer: 0.8, sexual_healer: 0.2 },
+            "8c": { romantic: 0.3, desire_architect: 0.4, sensation_seeker: 0.4, power_explorer: 0.95, emotional_safe_keeper: 0.5, independent_explorer: 0.3, nurturing_caregiver: 0.6, curious_novice: 0.4, devoted_partner: 0.3, pleasure_alchemist: 0.4, taboo_explorer: 0.7, sexual_healer: 0.3 },
+            "8d": { romantic: 0.4, desire_architect: 0.6, sensation_seeker: 0.5, power_explorer: 0.8, emotional_safe_keeper: 0.4, independent_explorer: 0.7, nurturing_caregiver: 0.3, curious_novice: 0.5, devoted_partner: 0.4, pleasure_alchemist: 0.5, taboo_explorer: 0.7, sexual_healer: 0.3 },
+            "8e": { romantic: 0.5, desire_architect: 0.4, sensation_seeker: 0.4, power_explorer: 0.2, emotional_safe_keeper: 0.6, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.4, devoted_partner: 0.5, pleasure_alchemist: 0.4, taboo_explorer: 0.2, sexual_healer: 0.5 },
+            "8f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            // Q9: Novelty & Routine
+            "9a": { romantic: 0.2, desire_architect: 0.5, sensation_seeker: 0.95, power_explorer: 0.4, emotional_safe_keeper: 0.1, independent_explorer: 0.8, nurturing_caregiver: 0.1, curious_novice: 0.8, devoted_partner: 0.1, pleasure_alchemist: 0.8, taboo_explorer: 0.7, sexual_healer: 0.2 },
+            "9b": { romantic: 0.3, desire_architect: 0.6, sensation_seeker: 0.8, power_explorer: 0.4, emotional_safe_keeper: 0.2, independent_explorer: 0.7, nurturing_caregiver: 0.2, curious_novice: 0.7, devoted_partner: 0.2, pleasure_alchemist: 0.8, taboo_explorer: 0.6, sexual_healer: 0.2 },
+            "9c": { romantic: 0.5, desire_architect: 0.4, sensation_seeker: 0.5, power_explorer: 0.4, emotional_safe_keeper: 0.6, independent_explorer: 0.4, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.3, sexual_healer: 0.5 },
+            "9d": { romantic: 0.8, desire_architect: 0.3, sensation_seeker: 0.2, power_explorer: 0.3, emotional_safe_keeper: 0.8, independent_explorer: 0.2, nurturing_caregiver: 0.5, curious_novice: 0.3, devoted_partner: 0.8, pleasure_alchemist: 0.2, taboo_explorer: 0.1, sexual_healer: 0.5 },
+            "9e": { romantic: 0.4, desire_architect: 0.4, sensation_seeker: 0.4, power_explorer: 0.4, emotional_safe_keeper: 0.4, independent_explorer: 0.5, nurturing_caregiver: 0.4, curious_novice: 0.4, devoted_partner: 0.4, pleasure_alchemist: 0.4, taboo_explorer: 0.4, sexual_healer: 0.4 },
+            "9f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            // Q10: Fantasy & Reality
+            "10a": { romantic: 0.3, desire_architect: 0.4, sensation_seeker: 0.5, power_explorer: 0.3, emotional_safe_keeper: 0.3, independent_explorer: 0.8, nurturing_caregiver: 0.2, curious_novice: 0.5, devoted_partner: 0.2, pleasure_alchemist: 0.6, taboo_explorer: 0.8, sexual_healer: 0.4 },
+            "10b": { romantic: 0.6, desire_architect: 0.6, sensation_seeker: 0.5, power_explorer: 0.4, emotional_safe_keeper: 0.6, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.6, devoted_partner: 0.7, pleasure_alchemist: 0.5, taboo_explorer: 0.6, sexual_healer: 0.5 },
+            "10c": { romantic: 0.3, desire_architect: 0.7, sensation_seeker: 0.7, power_explorer: 0.6, emotional_safe_keeper: 0.2, independent_explorer: 0.7, nurturing_caregiver: 0.2, curious_novice: 0.6, devoted_partner: 0.3, pleasure_alchemist: 0.7, taboo_explorer: 0.85, sexual_healer: 0.3 },
+            "10d": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.4, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.4, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.6, sexual_healer: 0.4 },
+            "10e": { romantic: 0.3, desire_architect: 0.3, sensation_seeker: 0.3, power_explorer: 0.3, emotional_safe_keeper: 0.4, independent_explorer: 0.3, nurturing_caregiver: 0.4, curious_novice: 0.3, devoted_partner: 0.3, pleasure_alchemist: 0.3, taboo_explorer: 0.2, sexual_healer: 0.4 },
+            "10f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            // Q11: Vulnerability
+            "11a": { romantic: 0.9, desire_architect: 0.4, sensation_seeker: 0.3, power_explorer: 0.2, emotional_safe_keeper: 0.8, independent_explorer: 0.2, nurturing_caregiver: 0.6, curious_novice: 0.4, devoted_partner: 0.8, pleasure_alchemist: 0.4, taboo_explorer: 0.2, sexual_healer: 0.5 },
+            "11b": { romantic: 0.8, desire_architect: 0.4, sensation_seeker: 0.3, power_explorer: 0.3, emotional_safe_keeper: 0.9, independent_explorer: 0.3, nurturing_caregiver: 0.6, curious_novice: 0.4, devoted_partner: 0.8, pleasure_alchemist: 0.4, taboo_explorer: 0.2, sexual_healer: 0.6 },
+            "11c": { romantic: 0.4, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.6, emotional_safe_keeper: 0.3, independent_explorer: 0.7, nurturing_caregiver: 0.3, curious_novice: 0.5, devoted_partner: 0.4, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.3 },
+            "11d": { romantic: 0.2, desire_architect: 0.4, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.1, independent_explorer: 0.7, nurturing_caregiver: 0.2, curious_novice: 0.4, devoted_partner: 0.1, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.3 },
+            "11e": { romantic: 0.6, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.7, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.6, pleasure_alchemist: 0.5, taboo_explorer: 0.4, sexual_healer: 0.6 },
+            "11f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            // Q12: Turn-On Factors
+            "12a": { romantic: 0.9, desire_architect: 0.3, sensation_seeker: 0.2, power_explorer: 0.2, emotional_safe_keeper: 0.7, independent_explorer: 0.2, nurturing_caregiver: 0.5, curious_novice: 0.3, devoted_partner: 0.7, pleasure_alchemist: 0.3, taboo_explorer: 0.1, sexual_healer: 0.5 },
+            "12b": { romantic: 0.3, desire_architect: 0.3, sensation_seeker: 0.95, power_explorer: 0.3, emotional_safe_keeper: 0.3, independent_explorer: 0.6, nurturing_caregiver: 0.2, curious_novice: 0.5, devoted_partner: 0.2, pleasure_alchemist: 0.8, taboo_explorer: 0.4, sexual_healer: 0.3 },
+            "12c": { romantic: 0.1, desire_architect: 0.7, sensation_seeker: 0.3, power_explorer: 0.95, emotional_safe_keeper: 0.1, independent_explorer: 0.7, nurturing_caregiver: 0.1, curious_novice: 0.3, devoted_partner: 0.1, pleasure_alchemist: 0.4, taboo_explorer: 0.8, sexual_healer: 0.1 },
+            "12d": { romantic: 0.4, desire_architect: 0.3, sensation_seeker: 0.2, power_explorer: 0.2, emotional_safe_keeper: 0.4, independent_explorer: 0.3, nurturing_caregiver: 0.95, curious_novice: 0.4, devoted_partner: 0.5, pleasure_alchemist: 0.3, taboo_explorer: 0.2, sexual_healer: 0.3 },
+            "12e": { romantic: 0.4, desire_architect: 0.5, sensation_seeker: 0.8, power_explorer: 0.4, emotional_safe_keeper: 0.2, independent_explorer: 0.7, nurturing_caregiver: 0.2, curious_novice: 0.7, devoted_partner: 0.2, pleasure_alchemist: 0.8, taboo_explorer: 0.6, sexual_healer: 0.2 },
+            "12f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+
+            // DYNAMICS QUESTIONS (Q13-16)
+            // Q13: Relationship Status
+            "13a": { romantic: 0.2, desire_architect: 0.4, sensation_seeker: 0.5, power_explorer: 0.3, emotional_safe_keeper: 0.1, independent_explorer: 0.95, nurturing_caregiver: 0.1, curious_novice: 0.4, devoted_partner: 0.1, pleasure_alchemist: 0.6, taboo_explorer: 0.4, sexual_healer: 0.3 },
+            "13b": { romantic: 0.9, desire_architect: 0.4, sensation_seeker: 0.2, power_explorer: 0.3, emotional_safe_keeper: 0.8, independent_explorer: 0.2, nurturing_caregiver: 0.6, curious_novice: 0.3, devoted_partner: 0.95, pleasure_alchemist: 0.3, taboo_explorer: 0.1, sexual_healer: 0.4 },
+            "13c": { romantic: 0.3, desire_architect: 0.6, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.2, independent_explorer: 0.7, nurturing_caregiver: 0.3, curious_novice: 0.4, devoted_partner: 0.3, pleasure_alchemist: 0.5, taboo_explorer: 0.7, sexual_healer: 0.3 },
+            "13d": { romantic: 0.4, desire_architect: 0.5, sensation_seeker: 0.6, power_explorer: 0.4, emotional_safe_keeper: 0.4, independent_explorer: 0.6, nurturing_caregiver: 0.3, curious_novice: 0.5, devoted_partner: 0.4, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.4 },
+            "13e": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.7, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "13f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            // Q14: BDSM Interest
+            "14a": { romantic: 0.1, desire_architect: 0.7, sensation_seeker: 0.6, power_explorer: 0.95, emotional_safe_keeper: 0.1, independent_explorer: 0.7, nurturing_caregiver: 0.1, curious_novice: 0.4, devoted_partner: 0.1, pleasure_alchemist: 0.6, taboo_explorer: 0.9, sexual_healer: 0.2 },
+            "14b": { romantic: 0.2, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.8, emotional_safe_keeper: 0.2, independent_explorer: 0.6, nurturing_caregiver: 0.2, curious_novice: 0.7, devoted_partner: 0.2, pleasure_alchemist: 0.5, taboo_explorer: 0.8, sexual_healer: 0.3 },
+            "14c": { romantic: 0.3, desire_architect: 0.4, sensation_seeker: 0.4, power_explorer: 0.6, emotional_safe_keeper: 0.3, independent_explorer: 0.5, nurturing_caregiver: 0.3, curious_novice: 0.5, devoted_partner: 0.3, pleasure_alchemist: 0.4, taboo_explorer: 0.6, sexual_healer: 0.3 },
+            "14d": { romantic: 0.5, desire_architect: 0.3, sensation_seeker: 0.3, power_explorer: 0.2, emotional_safe_keeper: 0.6, independent_explorer: 0.3, nurturing_caregiver: 0.5, curious_novice: 0.3, devoted_partner: 0.5, pleasure_alchemist: 0.3, taboo_explorer: 0.1, sexual_healer: 0.5 },
+            "14e": { romantic: 0.4, desire_architect: 0.4, sensation_seeker: 0.4, power_explorer: 0.5, emotional_safe_keeper: 0.4, independent_explorer: 0.5, nurturing_caregiver: 0.4, curious_novice: 0.5, devoted_partner: 0.4, pleasure_alchemist: 0.4, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "14f": { romantic: 0.5, desire_architect: 0.4, sensation_seeker: 0.3, power_explorer: 0.3, emotional_safe_keeper: 0.5, independent_explorer: 0.4, nurturing_caregiver: 0.4, curious_novice: 0.3, devoted_partner: 0.4, pleasure_alchemist: 0.3, taboo_explorer: 0.3, sexual_healer: 0.5 },
+            // Q15: Pleasure-Giving vs Receiving
+            "15a": { romantic: 0.3, desire_architect: 0.5, sensation_seeker: 0.6, power_explorer: 0.4, emotional_safe_keeper: 0.2, independent_explorer: 0.8, nurturing_caregiver: 0.2, curious_novice: 0.5, devoted_partner: 0.2, pleasure_alchemist: 0.7, taboo_explorer: 0.5, sexual_healer: 0.3 },
+            "15b": { romantic: 0.5, desire_architect: 0.3, sensation_seeker: 0.2, power_explorer: 0.2, emotional_safe_keeper: 0.5, independent_explorer: 0.2, nurturing_caregiver: 0.95, curious_novice: 0.3, devoted_partner: 0.5, pleasure_alchemist: 0.3, taboo_explorer: 0.2, sexual_healer: 0.4 },
+            "15c": { romantic: 0.8, desire_architect: 0.5, sensation_seeker: 0.4, power_explorer: 0.4, emotional_safe_keeper: 0.7, independent_explorer: 0.4, nurturing_caregiver: 0.6, curious_novice: 0.5, devoted_partner: 0.8, pleasure_alchemist: 0.5, taboo_explorer: 0.3, sexual_healer: 0.5 },
+            "15d": { romantic: 0.4, desire_architect: 0.4, sensation_seeker: 0.5, power_explorer: 0.4, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.4, curious_novice: 0.5, devoted_partner: 0.4, pleasure_alchemist: 0.5, taboo_explorer: 0.4, sexual_healer: 0.5 },
+            "15e": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "15f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            // Q16: Taboo & Boundaries
+            "16a": { romantic: 0.3, desire_architect: 0.6, sensation_seeker: 0.7, power_explorer: 0.5, emotional_safe_keeper: 0.2, independent_explorer: 0.8, nurturing_caregiver: 0.2, curious_novice: 0.7, devoted_partner: 0.2, pleasure_alchemist: 0.7, taboo_explorer: 0.95, sexual_healer: 0.3 },
+            "16b": { romantic: 0.4, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.4, emotional_safe_keeper: 0.4, independent_explorer: 0.6, nurturing_caregiver: 0.4, curious_novice: 0.6, devoted_partner: 0.4, pleasure_alchemist: 0.5, taboo_explorer: 0.7, sexual_healer: 0.4 },
+            "16c": { romantic: 0.4, desire_architect: 0.4, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.4, independent_explorer: 0.5, nurturing_caregiver: 0.4, curious_novice: 0.5, devoted_partner: 0.4, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.4 },
+            "16d": { romantic: 0.5, desire_architect: 0.3, sensation_seeker: 0.2, power_explorer: 0.3, emotional_safe_keeper: 0.6, independent_explorer: 0.2, nurturing_caregiver: 0.5, curious_novice: 0.2, devoted_partner: 0.5, pleasure_alchemist: 0.2, taboo_explorer: 0.1, sexual_healer: 0.4 },
+            "16e": { romantic: 0.4, desire_architect: 0.4, sensation_seeker: 0.4, power_explorer: 0.4, emotional_safe_keeper: 0.5, independent_explorer: 0.4, nurturing_caregiver: 0.4, curious_novice: 0.5, devoted_partner: 0.4, pleasure_alchemist: 0.4, taboo_explorer: 0.4, sexual_healer: 0.6 },
+            "16f": { romantic: 0.5, desire_architect: 0.4, sensation_seeker: 0.3, power_explorer: 0.3, emotional_safe_keeper: 0.5, independent_explorer: 0.4, nurturing_caregiver: 0.4, curious_novice: 0.3, devoted_partner: 0.4, pleasure_alchemist: 0.3, taboo_explorer: 0.3, sexual_healer: 0.5 },
+
+            // VALIDATION QUESTIONS (Q17-22)
+            // Q17-22: Validation questions (lighter weighting, more nuance than direction)
+            "17a": { romantic: 0.6, desire_architect: 0.6, sensation_seeker: 0.6, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "17b": { romantic: 0.6, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.4, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.6, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "17c": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.6, power_explorer: 0.4, emotional_safe_keeper: 0.5, independent_explorer: 0.6, nurturing_caregiver: 0.4, curious_novice: 0.7, devoted_partner: 0.4, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "17d": { romantic: 0.3, desire_architect: 0.3, sensation_seeker: 0.3, power_explorer: 0.3, emotional_safe_keeper: 0.3, independent_explorer: 0.3, nurturing_caregiver: 0.3, curious_novice: 0.3, devoted_partner: 0.3, pleasure_alchemist: 0.3, taboo_explorer: 0.3, sexual_healer: 0.5 },
+            "17e": { romantic: 0.4, desire_architect: 0.4, sensation_seeker: 0.4, power_explorer: 0.4, emotional_safe_keeper: 0.4, independent_explorer: 0.4, nurturing_caregiver: 0.4, curious_novice: 0.4, devoted_partner: 0.4, pleasure_alchemist: 0.4, taboo_explorer: 0.4, sexual_healer: 0.4 },
+            "17f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            // Q18-22: Similar validation pattern - all map to 0.5 neutral or slightly differentiated
+            // Abbreviated for space - validation questions have less impact than core questions
+            "18a": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "18b": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "18c": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "18d": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "18e": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "18f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "19a": { romantic: 0.6, desire_architect: 0.5, sensation_seeker: 0.4, power_explorer: 0.3, emotional_safe_keeper: 0.7, independent_explorer: 0.3, nurturing_caregiver: 0.5, curious_novice: 0.4, devoted_partner: 0.7, pleasure_alchemist: 0.4, taboo_explorer: 0.2, sexual_healer: 0.5 },
+            "19b": { romantic: 0.5, desire_architect: 0.6, sensation_seeker: 0.5, power_explorer: 0.4, emotional_safe_keeper: 0.6, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.6, pleasure_alchemist: 0.5, taboo_explorer: 0.4, sexual_healer: 0.5 },
+            "19c": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "19d": { romantic: 0.4, desire_architect: 0.5, sensation_seeker: 0.6, power_explorer: 0.5, emotional_safe_keeper: 0.3, independent_explorer: 0.6, nurturing_caregiver: 0.3, curious_novice: 0.5, devoted_partner: 0.3, pleasure_alchemist: 0.6, taboo_explorer: 0.5, sexual_healer: 0.3 },
+            "19e": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "19f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "20a": { romantic: 0.4, desire_architect: 0.5, sensation_seeker: 0.3, power_explorer: 0.4, emotional_safe_keeper: 0.4, independent_explorer: 0.4, nurturing_caregiver: 0.4, curious_novice: 0.3, devoted_partner: 0.5, pleasure_alchemist: 0.4, taboo_explorer: 0.3, sexual_healer: 0.3 },
+            "20b": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.6, power_explorer: 0.4, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.6, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.6 },
+            "20c": { romantic: 0.4, desire_architect: 0.5, sensation_seeker: 0.6, power_explorer: 0.4, emotional_safe_keeper: 0.4, independent_explorer: 0.6, nurturing_caregiver: 0.4, curious_novice: 0.5, devoted_partner: 0.4, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.4 },
+            "20d": { romantic: 0.5, desire_architect: 0.6, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "20e": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.6, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "20f": { romantic: 0.5, desire_architect: 0.4, sensation_seeker: 0.4, power_explorer: 0.4, emotional_safe_keeper: 0.5, independent_explorer: 0.4, nurturing_caregiver: 0.5, curious_novice: 0.3, devoted_partner: 0.5, pleasure_alchemist: 0.4, taboo_explorer: 0.4, sexual_healer: 0.5 },
+            "21a": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "21b": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "21c": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "21d": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "21e": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "21f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "22a": { romantic: 0.6, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.4, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.4 },
+            "22b": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 },
+            "22c": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.6 },
+            "22d": { romantic: 0.4, desire_architect: 0.4, sensation_seeker: 0.4, power_explorer: 0.4, emotional_safe_keeper: 0.4, independent_explorer: 0.4, nurturing_caregiver: 0.4, curious_novice: 0.4, devoted_partner: 0.4, pleasure_alchemist: 0.4, taboo_explorer: 0.4, sexual_healer: 0.7 },
+            "22e": { romantic: 0.6, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.4, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.4 },
+            "22f": { romantic: 0.5, desire_architect: 0.5, sensation_seeker: 0.5, power_explorer: 0.5, emotional_safe_keeper: 0.5, independent_explorer: 0.5, nurturing_caregiver: 0.5, curious_novice: 0.5, devoted_partner: 0.5, pleasure_alchemist: 0.5, taboo_explorer: 0.5, sexual_healer: 0.5 }
+        };
+
+        // Get quiz answers from localStorage
+        const answers = JSON.parse(localStorage.getItem('quizAnswers') || '{}');
+
+        // Calculate scores using weighted algorithm
+        function calculateScores() {
+            // Initialize scores for all 12 archetypes
+            const archetypeKeys = ['romantic', 'desire_architect', 'sensation_seeker', 'power_explorer', 'emotional_safe_keeper', 'independent_explorer', 'nurturing_caregiver', 'curious_novice', 'devoted_partner', 'pleasure_alchemist', 'taboo_explorer', 'sexual_healer'];
+            const scores = {};
+            archetypeKeys.forEach(key => scores[key] = 0);
+
+            // Sum weights for each answer
+            for (let questionNum = 1; questionNum <= 22; questionNum++) {
+                const answerValue = answers[questionNum - 1]; // answers are 0-indexed
+                if (answerValue) {
+                    const weightKey = `${questionNum}${answerValue}`;
+                    const weights = scoreWeights[weightKey] || {};
+
+                    archetypeKeys.forEach(key => {
+                        scores[key] += (weights[key] || 0.5);
+                    });
+                }
+            }
+
+            // Normalize scores to 0-100 scale
+            // Max possible score is 22 (22 questions × 1.0 weight)
+            const maxScore = 22;
+            const normalizedScores = {};
+            archetypeKeys.forEach(key => {
+                normalizedScores[key] = Math.round((scores[key] / maxScore) * 100);
+            });
+
+            return normalizedScores;
+        }
+
+        // Sort archetypes by score
+        function getSortedArchetypes(scores) {
+            return Object.entries(scores)
+                .sort((a, b) => b[1] - a[1])
+                .map(([key, score]) => ({ key, score, ...archetypes[key] }));
+        }
+
+        // Render results
+        function renderResults() {
+            const scores = calculateScores();
+            const sorted = getSortedArchetypes(scores);
+            const isPremium = localStorage.getItem('velourPulseUnlocked') === 'true';
+
+            // Primary archetype
+            const primary = sorted[0];
+            document.getElementById('primaryName').textContent = primary.name;
+            document.getElementById('primaryScore').textContent = `${Math.round(primary.score)}% Match`;
+            document.getElementById('primaryScoreFill').style.width = primary.score + '%';
+            document.getElementById('primaryDescription').textContent = primary.description;
+            document.getElementById('profileTitle').textContent = `You're ${primary.name}`;
+
+            // GATED: All archetypes (only show if premium)
+            const grid = document.getElementById('archetypeGrid');
+            if (isPremium) {
+                // Premium users see all 12 archetypes with scores
+                grid.innerHTML = sorted.map((arch, i) => `
+                    <div class="archetype-card">
+                        <div class="archetype-rank">#${i + 1}</div>
+                        <div class="archetype-card-name">${arch.name}</div>
+                        <div class="archetype-card-score">${Math.round(arch.score)}%</div>
+                        <div class="card-bar">
+                            <div class="score-fill" style="width: ${arch.score}%"></div>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                // Free users see placeholder asking to unlock
+                const section = grid.closest('.profile-section');
+                if (section) {
+                    section.innerHTML = `
+                        <div class="section-title">Your Complete Archetype Breakdown</div>
+                        <div style="text-align: center; padding: 40px 20px; opacity: 0.5;">
+                            <p style="color: #aaa; margin-bottom: 20px;">See how all 12 archetypes blend in your profile</p>
+                            <button class="btn-upgrade" onclick="window.location.href='checkout.html'" style="margin-top: 0;">
+                                Unlock Full Profile →
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+
+            // GATED: Free products (show for free users, premium gets more)
+            renderFreeProducts(primary.key, isPremium);
+        }
+
+        function renderFreeProducts(archetypeKey, isPremium) {
+            // Product data linked to approved retailers
+            // FREE: Show 3 products per archetype
+            // PREMIUM: Show all products (will expand to 15-25 per archetype in future)
+            const products = {
+                romantic: [
+                    { name: "We-Vibe Chorus", why: "Couples vibrator designed for shared pleasure and connection.", link: "https://www.wevibe.com/products/chorus" },
+                    { name: "Lelo Tara", why: "Luxury vibrator for intimate connection and vulnerability.", link: "https://www.lelo.com/en/tara" },
+                    { name: "Lovehoney Luxury Couples Kit", why: "Premium collection for deepening partnership intimacy.", link: "https://www.lovehoney.com/" }
+                ],
+                desire_architect: [
+                    { name: "We-Vibe Sync", why: "App-controlled couples toy for strategic pleasure.", link: "https://www.wevibe.com/products/sync" },
+                    { name: "Dame Eva", why: "Hands-free vibrator for intentional self-pleasure.", link: "https://www.damecollective.com/" },
+                    { name: "Lelo Soraya", why: "Luxury toy for strategic exploration and sensation.", link: "https://www.lelo.com/en/soraya" }
+                ],
+                sensation_seeker: [
+                    { name: "We-Vibe Collections", why: "Multiple sensations and textures for exploration.", link: "https://www.wevibe.com/" },
+                    { name: "Dame Kip", why: "Travel-friendly for discovering new sensations.", link: "https://www.damecollective.com/" },
+                    { name: "Lovehoney Sensation Bundles", why: "Variety packs for exploring different textures.", link: "https://www.lovehoney.com/" }
+                ],
+                power_explorer: [
+                    { name: "Sportsheets Restraint Sets", why: "High-quality bondage for power exchange exploration.", link: "https://www.sportsheets.com/" },
+                    { name: "We-Vibe Powerplay", why: "Control-focused couples toy for power dynamics.", link: "https://www.wevibe.com/" },
+                    { name: "Lovehoney BDSM Collection", why: "Comprehensive gear for power exploration.", link: "https://www.lovehoney.com/" }
+                ],
+                emotional_safe_keeper: [
+                    { name: "Lelo Luna", why: "Luxury toy designed for safe, trusting intimacy.", link: "https://www.lelo.com/en/luna" },
+                    { name: "We-Vibe Couples App Control", why: "Connection-focused tool for shared experiences.", link: "https://www.wevibe.com/" },
+                    { name: "Dame Products", why: "Thoughtfully designed for emotional safety.", link: "https://www.damecollective.com/" }
+                ],
+                independent_explorer: [
+                    { name: "Dame Eva II", why: "Hands-free innovation for solo exploration.", link: "https://www.damecollective.com/" },
+                    { name: "Lelo Nora", why: "Premium solo toy for independent pleasure.", link: "https://www.lelo.com/en/nora" },
+                    { name: "We-Vibe Melt", why: "Designed for solo self-discovery and autonomy.", link: "https://www.wevibe.com/products/melt" }
+                ],
+                nurturing_caregiver: [
+                    { name: "We-Vibe Chorus Couples", why: "Designed to give and receive pleasure equally.", link: "https://www.wevibe.com/products/chorus" },
+                    { name: "Lelo Ben", why: "Prostate toy for giving attention to partners.", link: "https://www.lelo.com/en/ben" },
+                    { name: "Lovehoney Couples Kits", why: "Tools for mutual pleasure and care.", link: "https://www.lovehoney.com/" }
+                ],
+                curious_novice: [
+                    { name: "Dame Kip", why: "Beginner-friendly, simple and intuitive.", link: "https://www.damecollective.com/" },
+                    { name: "We-Vibe Beginner Guide", why: "Educational approach to discovery.", link: "https://www.wevibe.com/" },
+                    { name: "Lovehoney Starter Collection", why: "Multiple options to explore and learn.", link: "https://www.lovehoney.com/" }
+                ],
+                devoted_partner: [
+                    { name: "We-Vibe Sync Couples", why: "App-connected toy for partners exploring together.", link: "https://www.wevibe.com/products/sync" },
+                    { name: "Lelo Couples Collection", why: "Premium toys designed for partnership.", link: "https://www.lelo.com/en/" },
+                    { name: "Sportsheets Couples Bondage", why: "Explore power exchange as a devoted team.", link: "https://www.sportsheets.com/" }
+                ],
+                pleasure_alchemist: [
+                    { name: "Lelo Luxury Collection", why: "Premium craftsmanship for maximized pleasure.", link: "https://www.lelo.com/en/" },
+                    { name: "We-Vibe Premium Selection", why: "High-tech tools for integrated pleasure.", link: "https://www.wevibe.com/" },
+                    { name: "Dame Luxury Toys", why: "Beautifully designed for pleasure mastery.", link: "https://www.damecollective.com/" }
+                ],
+                taboo_explorer: [
+                    { name: "Sportsheets Advanced Bondage", why: "High-quality gear for edge exploration.", link: "https://www.sportsheets.com/" },
+                    { name: "Lovehoney BDSM Advanced", why: "Comprehensive tools for boundary pushing.", link: "https://www.lovehoney.com/" },
+                    { name: "We-Vibe Power Exchange", why: "Control-focused toys for taboo exploration.", link: "https://www.wevibe.com/" }
+                ],
+                sexual_healer: [
+                    { name: "Dame Aer", why: "Gentle, innovative pleasure for healing.", link: "https://www.damecollective.com/" },
+                    { name: "Lelo Luna Bead", why: "Luxurious option for reclaiming pleasure.", link: "https://www.lelo.com/en/" },
+                    { name: "We-Vibe Melt", why: "Thoughtfully designed for gentle exploration.", link: "https://www.wevibe.com/products/melt" }
+                ]
+            };
+
+            const arcProducts = products[archetypeKey] || products.romantic;
+
+            // GATED: Free users see 3, Premium users see all (currently 3, will expand to 15-25)
+            const productsToShow = isPremium ? arcProducts : arcProducts.slice(0, 3);
+            const productsHtml = productsToShow.map(p => `
+                <div class="product-card">
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-why">${p.why}</div>
+                    <a href="${p.link}" target="_blank" class="product-retailer">View Product →</a>
+                </div>
+            `).join('');
+
+            let fullHtml = productsHtml;
+            if (!isPremium) {
+                fullHtml += `
+                    <div style="text-align: center; margin-top: 24px; padding-top: 24px; border-top: 0.5px solid #3a3a38;">
+                        <p style="color: #888; font-size: 14px; margin-bottom: 16px;">Premium unlock includes 15-25 personalized recommendations</p>
+                        <button class="btn-upgrade" onclick="window.location.href='checkout.html'">
+                            Unlock All Recommendations →
+                        </button>
+                    </div>
+                `;
+            }
+
+            document.getElementById('freeProducts').innerHTML = fullHtml;
+        }
+
+        function upgradeToGold() {
+            window.location.href = 'checkout.html';
+        }
+
+        // Initialize
+        renderResults();
+    </script>
+</body>
+</html>

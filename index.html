@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="impact-site-verification" value="49da7e37-d0e5-4d80-a813-567392fcfcc4">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velour Pulse — Know what you want. Find what you need.</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --plum:#3C2060;
+    --purple:#9B6DC9;
+    --orchid:#C49BE8;
+    --pink:#D4537E;
+    --blush:#ED93B1;
+    --whisper:#F5EEF8;
+    --midnight:#2C2C2A;
+    --white:#FFFFFF;
+  }
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--midnight);color:var(--white);overflow-x:hidden}
+
+  /* AGE GATE */
+  .age-gate{position:fixed;inset:0;background:var(--midnight);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+  .age-box{background:#1a1a18;border:0.5px solid #3a3a38;border-radius:20px;padding:40px;max-width:400px;width:100%;text-align:center}
+  .age-logo{font-size:22px;font-weight:500;color:var(--orchid);letter-spacing:-0.02em;margin-bottom:8px}
+  .age-logo span{color:var(--pink)}
+  .age-title{font-size:24px;font-weight:500;color:var(--white);margin-bottom:10px;line-height:1.3}
+  .age-sub{font-size:14px;color:#888;line-height:1.6;margin-bottom:28px}
+  .age-btn{width:100%;padding:16px;background:var(--purple);color:var(--white);border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;margin-bottom:10px;transition:opacity 0.15s}
+  .age-btn:hover{opacity:0.88}
+  .age-btn.secondary{background:transparent;border:0.5px solid #3a3a38;color:#888;font-size:13px;padding:12px}
+  .age-disclaimer{font-size:11px;color:#555;margin-top:16px;line-height:1.5}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;background:rgba(44,44,42,0.85);backdrop-filter:blur(12px);border-bottom:0.5px solid #3a3a38}
+  .nav-logo{font-size:18px;font-weight:500;color:var(--orchid);letter-spacing:-0.02em}
+  .nav-logo span{color:var(--pink)}
+  .nav-links{display:flex;align-items:center;gap:28px}
+  .nav-links a{font-size:13px;color:#aaa;text-decoration:none;transition:color 0.15s}
+  .nav-links a:hover{color:var(--white)}
+  .nav-cta{padding:8px 18px;background:var(--purple);color:var(--white);border:none;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;transition:opacity 0.15s}
+  .nav-cta:hover{opacity:0.88}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 20px 80px;position:relative;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(155,109,201,0.15) 0%,transparent 70%);pointer-events:none}
+  .hero-eyebrow{font-size:12px;letter-spacing:0.12em;color:var(--orchid);text-transform:uppercase;margin-bottom:20px;opacity:0.8}
+  .hero-title{font-size:clamp(36px,6vw,72px);font-weight:500;line-height:1.1;letter-spacing:-0.02em;margin-bottom:20px;max-width:800px}
+  .hero-title .accent{color:var(--pink)}
+  .hero-sub{font-size:clamp(16px,2vw,20px);color:#aaa;line-height:1.6;max-width:520px;margin-bottom:48px}
+  .hero-tagline{font-size:14px;color:var(--orchid);font-style:italic;margin-bottom:48px;opacity:0.8}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:60px}
+  .cta-primary{padding:16px 32px;background:var(--pink);color:var(--white);border:none;border-radius:50px;font-size:15px;font-weight:500;cursor:pointer;transition:all 0.15s;text-decoration:none;display:inline-block}
+  .cta-primary:hover{opacity:0.88;transform:translateY(-1px)}
+  .cta-secondary{padding:16px 32px;background:transparent;color:var(--white);border:0.5px solid #3a3a38;border-radius:50px;font-size:15px;cursor:pointer;transition:all 0.15s;text-decoration:none;display:inline-block}
+  .cta-secondary:hover{border-color:var(--orchid);color:var(--orchid)}
+  .hero-stats{display:flex;gap:40px;flex-wrap:wrap;justify-content:center}
+  .stat{text-align:center}
+  .stat-num{font-size:24px;font-weight:500;color:var(--white)}
+  .stat-label{font-size:12px;color:#666;margin-top:2px}
+
+  /* DIVIDER */
+  .divider{height:0.5px;background:linear-gradient(90deg,transparent,#3a3a38,transparent);margin:0 40px}
+
+  /* HOW IT WORKS */
+  .section{padding:80px 40px;max-width:1100px;margin:0 auto}
+  .section-tag{font-size:11px;letter-spacing:0.12em;color:var(--orchid);text-transform:uppercase;margin-bottom:12px;opacity:0.8}
+  .section-title{font-size:clamp(28px,4vw,42px);font-weight:500;line-height:1.2;margin-bottom:16px;letter-spacing:-0.01em}
+  .section-sub{font-size:16px;color:#888;line-height:1.6;max-width:520px;margin-bottom:48px}
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+  .step-card{background:#1a1a18;border:0.5px solid #3a3a38;border-radius:16px;padding:28px;transition:border-color 0.2s}
+  .step-card:hover{border-color:var(--purple)}
+  .step-num{font-size:11px;color:var(--orchid);letter-spacing:0.1em;margin-bottom:12px;opacity:0.7}
+  .step-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;font-size:22px}
+  .step-title{font-size:16px;font-weight:500;color:var(--white);margin-bottom:8px}
+  .step-desc{font-size:13px;color:#888;line-height:1.6}
+
+  /* QUIZ PREVIEW */
+  .quiz-section{padding:80px 40px;background:#161614}
+  .quiz-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+  .quiz-phone{background:#1a1a18;border:0.5px solid #3a3a38;border-radius:24px;padding:28px;max-width:320px}
+  .quiz-phone-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+  .quiz-phone-logo{font-size:13px;color:var(--orchid);font-weight:500}
+  .quiz-phone-step{font-size:11px;color:#555}
+  .quiz-prog{height:3px;background:#2a2a28;border-radius:2px;overflow:hidden;margin-bottom:20px}
+  .quiz-prog-fill{height:100%;width:40%;background:var(--pink);border-radius:2px}
+  .quiz-q{font-size:16px;font-weight:500;color:var(--white);margin-bottom:6px;line-height:1.4}
+  .quiz-sub{font-size:12px;color:#666;margin-bottom:16px}
+  .quiz-opts{display:flex;flex-direction:column;gap:8px}
+  .quiz-opt{padding:12px 14px;border:0.5px solid #3a3a38;border-radius:10px;font-size:13px;color:#aaa;cursor:pointer;transition:all 0.15s}
+  .quiz-opt:hover,.quiz-opt.active{border-color:var(--pink);color:var(--white);background:rgba(212,83,126,0.08)}
+  .quiz-copy{padding:20px 0}
+  .quiz-copy .section-tag{margin-bottom:12px}
+  .quiz-copy .section-title{margin-bottom:16px}
+  .quiz-copy p{font-size:15px;color:#888;line-height:1.7;margin-bottom:24px}
+  .quiz-features{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+  .quiz-feat{display:flex;align-items:center;gap:10px;font-size:14px;color:#aaa}
+  .quiz-feat-dot{width:6px;height:6px;border-radius:50%;background:var(--pink);flex-shrink:0}
+
+  /* ARCHETYPES */
+  .arc-section{padding:80px 40px;max-width:1100px;margin:0 auto}
+  .arc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:40px}
+  .arc-card{background:#1a1a18;border:0.5px solid #3a3a38;border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:all 0.15s}
+  .arc-card:hover{border-color:var(--purple);transform:translateY(-2px)}
+  .arc-emoji{font-size:24px;margin-bottom:8px}
+  .arc-name{font-size:13px;font-weight:500;color:var(--white);margin-bottom:4px}
+  .arc-desc{font-size:11px;color:#666;line-height:1.4}
+
+  /* SOCIAL PROOF */
+  .proof-section{padding:80px 40px;background:#161614}
+  .proof-inner{max-width:1100px;margin:0 auto}
+  .proof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:40px}
+  .proof-card{background:#1a1a18;border:0.5px solid #3a3a38;border-radius:16px;padding:24px}
+  .proof-stars{color:var(--pink);font-size:14px;margin-bottom:12px}
+  .proof-text{font-size:14px;color:#aaa;line-height:1.7;margin-bottom:16px;font-style:italic}
+  .proof-author{font-size:12px;color:#555}
+
+  /* BDSM SECTION */
+  .bdsm-section{padding:80px 40px;max-width:1100px;margin:0 auto}
+  .bdsm-inner{background:#1a1a18;border:0.5px solid #3a3a38;border-radius:24px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .bdsm-tag{font-size:11px;letter-spacing:0.12em;color:var(--pink);text-transform:uppercase;margin-bottom:12px;opacity:0.8}
+  .bdsm-title{font-size:clamp(24px,3vw,36px);font-weight:500;line-height:1.2;margin-bottom:16px;letter-spacing:-0.01em}
+  .bdsm-desc{font-size:15px;color:#888;line-height:1.7;margin-bottom:28px}
+  .bdsm-stats{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+  .bdsm-stat{background:#222220;border-radius:12px;padding:16px}
+  .bdsm-stat-num{font-size:22px;font-weight:500;color:var(--pink)}
+  .bdsm-stat-label{font-size:11px;color:#666;margin-top:2px;line-height:1.4}
+  .bdsm-visual{display:flex;flex-direction:column;gap:10px}
+  .bdsm-arc-row{display:flex;align-items:center;gap:10px}
+  .bdsm-arc-name{font-size:12px;color:#aaa;width:100px;flex-shrink:0}
+  .bdsm-arc-track{flex:1;height:6px;background:#2a2a28;border-radius:3px;overflow:hidden}
+  .bdsm-arc-fill{height:100%;border-radius:3px}
+  .bdsm-arc-pct{font-size:11px;color:#555;width:28px;text-align:right;flex-shrink:0}
+
+  /* GOLD */
+  .gold-section{padding:80px 40px;background:linear-gradient(135deg,#1a1018,#161420)}
+  .gold-inner{max-width:700px;margin:0 auto;text-align:center}
+  .gold-tag{font-size:11px;letter-spacing:0.12em;color:var(--orchid);text-transform:uppercase;margin-bottom:16px;opacity:0.8}
+  .gold-title{font-size:clamp(28px,4vw,48px);font-weight:500;line-height:1.1;margin-bottom:16px;letter-spacing:-0.02em}
+  .gold-sub{font-size:16px;color:#888;line-height:1.6;margin-bottom:40px}
+  .gold-features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:40px;text-align:left}
+  .gold-feat{display:flex;align-items:flex-start;gap:10px;padding:14px;background:#1a1a18;border:0.5px solid #3a3a38;border-radius:12px}
+  .gold-feat-dot{width:6px;height:6px;border-radius:50%;background:var(--orchid);margin-top:5px;flex-shrink:0}
+  .gold-feat-text{font-size:13px;color:#aaa;line-height:1.5}
+  .gold-price{font-size:42px;font-weight:500;color:var(--white);margin-bottom:4px}
+  .gold-price-sub{font-size:14px;color:#666;margin-bottom:28px}
+  .gold-btn{padding:18px 48px;background:var(--orchid);color:var(--plum);border:none;border-radius:50px;font-size:16px;font-weight:500;cursor:pointer;transition:all 0.15s;display:inline-block}
+  .gold-btn:hover{opacity:0.88;transform:translateY(-1px)}
+  .gold-note{font-size:12px;color:#555;margin-top:12px}
+
+  /* FOOTER */
+  footer{padding:48px 40px;border-top:0.5px solid #2a2a28}
+  .footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+  .footer-logo{font-size:16px;font-weight:500;color:var(--orchid)}
+  .footer-logo span{color:var(--pink)}
+  .footer-links{display:flex;gap:24px;flex-wrap:wrap}
+  .footer-links a{font-size:13px;color:#555;text-decoration:none;transition:color 0.15s}
+  .footer-links a:hover{color:var(--white)}
+  .footer-copy{font-size:12px;color:#444;width:100%;margin-top:20px;padding-top:20px;border-top:0.5px solid #2a2a28}
+
+  @media(max-width:768px){
+    nav{padding:14px 20px}
+    .nav-links{display:none}
+    .section,.arc-section,.bdsm-section{padding:60px 20px}
+    .quiz-inner{grid-template-columns:1fr}
+    .bdsm-inner{grid-template-columns:1fr;padding:28px}
+    .gold-features{grid-template-columns:1fr}
+    footer{padding:32px 20px}
+    .footer-inner{flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<!-- AGE GATE -->
+<div class="age-gate" id="ageGate">
+  <div class="age-box">
+    <div class="age-logo">Velour <span>Pulse</span></div>
+    <div class="age-title">You must be 18 or older to enter</div>
+    <div class="age-sub">Velour Pulse is a sexual wellness platform for adults. By entering you confirm you are 18 years of age or older.</div>
+    <button class="age-btn" onclick="enterSite()">I am 18 or older — enter</button>
+    <button class="age-btn secondary" onclick="exitSite()">I am under 18 — exit</button>
+    <div class="age-disclaimer">By entering this site you agree to our Terms of Service and Privacy Policy. This site contains adult content.</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Velour <span>Pulse</span></div>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="quiz.html">Take the quiz</a>
+    <a href="encyclopedia.html">Explore</a>
+    <a href="bdsm.html">Discovery</a>
+    <a href="#gold">Premium</a>
+  </div>
+  <button class="nav-cta" onclick="window.location.href='quiz.html'">Discover Your Archetype</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-eyebrow">Sexual wellness, rediscovered</div>
+  <h1 class="hero-title">Know what you <span class="accent">want.</span><br>Find what you need.</h1>
+  <p class="hero-sub">Discover who you are sexually, without shame or judgment. Get personalized product recommendations tailored to your unique archetype.</p>
+  <p class="hero-tagline">Education first. Products second. Your journey, your pace.</p>
+  <div class="cta-row">
+    <a href="quiz.html" class="cta-primary">Discover Your Archetype</a>
+    <a href="/about.html" class="cta-secondary">Learn More</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">12</div><div class="stat-label">Sexual Archetypes</div></div>
+    <div class="stat"><div class="stat-num">20</div><div class="stat-label">Free Quiz Questions</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Privacy Protected</div></div>
+    <div class="stat"><div class="stat-num">Free</div><div class="stat-label">To Start</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<div class="section" id="how">
+  <div class="section-tag">How it works</div>
+  <h2 class="section-title">Understand yourself.<br>Then explore.</h2>
+  <p class="section-sub">Self-discovery first. Personalized recommendations second.</p>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-icon" style="background:rgba(155,109,201,0.1)">🧭</div>
+      <div class="step-title">Take the Quiz</div>
+      <div class="step-desc">Answer 22 thoughtful questions about your desires, values, and interests. No judgment. Complete anonymity.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-icon" style="background:rgba(212,83,126,0.1)">✨</div>
+      <div class="step-title">Discover Your Archetype</div>
+      <div class="step-desc">Get matched to one of 12 psychologically-grounded archetypes that describe your sexual personality.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-icon" style="background:rgba(196,155,232,0.1)">💡</div>
+      <div class="step-title">Get Personalized Recommendations</div>
+      <div class="step-desc">See 3-5 free products matched to your archetype. Unlock your full profile for 25+ recommendations.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-icon" style="background:rgba(196,155,232,0.1)">📚</div>
+      <div class="step-title">Learn & Explore</div>
+      <div class="step-desc">Access educational guides, partner compatibility insights, and resources for your journey.</div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ PREVIEW -->
+<div class="quiz-section" id="quiz">
+  <div class="quiz-inner">
+    <div class="quiz-phone">
+      <div class="quiz-phone-top">
+        <span class="quiz-phone-logo">Velour Pulse</span>
+        <span class="quiz-phone-step">Step 3 of 6</span>
+      </div>
+      <div class="quiz-prog"><div class="quiz-prog-fill"></div></div>
+      <div class="quiz-q">What's your main goal right now?</div>
+      <div class="quiz-sub">Pick the one that feels most true.</div>
+      <div class="quiz-opts">
+        <div class="quiz-opt active" onclick="selectOpt(this)">Self-discovery</div>
+        <div class="quiz-opt" onclick="selectOpt(this)">Deepen intimacy</div>
+        <div class="quiz-opt" onclick="selectOpt(this)">Try something new</div>
+        <div class="quiz-opt" onclick="selectOpt(this)">Relaxation</div>
+        <div class="quiz-opt" onclick="selectOpt(this)">Just curious</div>
+      </div>
+    </div>
+    <div class="quiz-copy">
+      <div class="section-tag">The needs quiz</div>
+      <h2 class="section-title">Built for you.<br>Not everyone.</h2>
+      <p>Six questions that actually matter. No generic recommendations — just honest matching based on who you are and what you're looking for.</p>
+      <div class="quiz-features">
+        <div class="quiz-feat"><div class="quiz-feat-dot"></div>Solo, partner, or shopping for someone</div>
+        <div class="quiz-feat"><div class="quiz-feat-dot"></div>Experience-aware — we skip what you already know</div>
+        <div class="quiz-feat"><div class="quiz-feat-dot"></div>Price comparison across every major retailer</div>
+        <div class="quiz-feat"><div class="quiz-feat-dot"></div>100% private — no account required</div>
+      </div>
+      <a href="quiz.html" class="cta-primary">Take the quiz now</a>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHETYPES -->
+<div class="arc-section" id="explore">
+  <div class="section-tag">Kink discovery</div>
+  <h2 class="section-title">12 archetypes.<br>One is yours.</h2>
+  <p class="section-sub" style="margin-bottom:0">Find where you land — and what that means for what you actually want.</p>
+  <div class="arc-grid">
+    <div class="arc-card"><div class="arc-emoji">👑</div><div class="arc-name">Dominant</div><div class="arc-desc">Takes control, directs the scene</div></div>
+    <div class="arc-card"><div class="arc-emoji">🌸</div><div class="arc-name">Submissive</div><div class="arc-desc">Surrenders and finds freedom</div></div>
+    <div class="arc-card"><div class="arc-emoji">⚡</div><div class="arc-name">Switch</div><div class="arc-desc">Fluid — both roles, both joys</div></div>
+    <div class="arc-card"><div class="arc-emoji">🪢</div><div class="arc-name">Rigger</div><div class="arc-desc">The art of rope and restraint</div></div>
+    <div class="arc-card"><div class="arc-emoji">🎀</div><div class="arc-name">Rope bunny</div><div class="arc-desc">Loves being tied and held</div></div>
+    <div class="arc-card"><div class="arc-emoji">🔥</div><div class="arc-name">Primal</div><div class="arc-desc">Raw, instinctive, unscripted</div></div>
+    <div class="arc-card"><div class="arc-emoji">🌙</div><div class="arc-name">Caregiver</div><div class="arc-desc">Nurtures, protects, guides</div></div>
+    <div class="arc-card"><div class="arc-emoji">😈</div><div class="arc-name">Brat</div><div class="arc-desc">Pushes back — make me</div></div>
+    <div class="arc-card"><div class="arc-emoji">👁</div><div class="arc-name">Voyeur</div><div class="arc-desc">Pleasure in witnessing</div></div>
+    <div class="arc-card"><div class="arc-emoji">✨</div><div class="arc-name">Exhibitionist</div><div class="arc-desc">Being seen is the reward</div></div>
+    <div class="arc-card"><div class="arc-emoji">🧪</div><div class="arc-name">Sensation seeker</div><div class="arc-desc">Texture, temperature, teasing</div></div>
+    <div class="arc-card"><div class="arc-emoji">💫</div><div class="arc-name">Experimentalist</div><div class="arc-desc">Curious about everything</div></div>
+  </div>
+</div>
+
+<!-- BDSM SECTION -->
+<div class="bdsm-section" id="bdsm">
+  <div class="bdsm-inner">
+    <div>
+      <div class="bdsm-tag">BDSM discovery</div>
+      <h2 class="bdsm-title">Nearly half of all adults are curious. Most have no entry point.</h2>
+      <p class="bdsm-desc">Velour Pulse is the first platform that bridges curiosity and real product recommendations — with education, consent guidance, and zero judgment.</p>
+      <div class="bdsm-stats">
+        <div class="bdsm-stat"><div class="bdsm-stat-num">47%</div><div class="bdsm-stat-label">of adults have explored BDSM in some form</div></div>
+        <div class="bdsm-stat"><div class="bdsm-stat-num">65%</div><div class="bdsm-stat-label">of men have fantasized about dominance</div></div>
+        <div class="bdsm-stat"><div class="bdsm-stat-num">53%</div><div class="bdsm-stat-label">of women share that fantasy</div></div>
+        <div class="bdsm-stat"><div class="bdsm-stat-num">12</div><div class="bdsm-stat-label">archetypes scored in your profile</div></div>
+      </div>
+      <a href="bdsm.html" class="cta-primary">Discover your archetype</a>
+    </div>
+    <div class="bdsm-visual">
+      <div style="font-size:12px;color:#555;margin-bottom:12px;text-transform:uppercase;letter-spacing:0.08em">Example profile</div>
+      <div class="bdsm-arc-row"><span class="bdsm-arc-name">Switch</span><div class="bdsm-arc-track"><div class="bdsm-arc-fill" style="width:88%;background:#BA7517"></div></div><span class="bdsm-arc-pct">88%</span></div>
+      <div class="bdsm-arc-row"><span class="bdsm-arc-name">Dominant</span><div class="bdsm-arc-track"><div class="bdsm-arc-fill" style="width:72%;background:#D4537E"></div></div><span class="bdsm-arc-pct">72%</span></div>
+      <div class="bdsm-arc-row"><span class="bdsm-arc-name">Sensation</span><div class="bdsm-arc-track"><div class="bdsm-arc-fill" style="width:78%;background:#EF9F27"></div></div><span class="bdsm-arc-pct">78%</span></div>
+      <div class="bdsm-arc-row"><span class="bdsm-arc-name">Submissive</span><div class="bdsm-arc-track"><div class="bdsm-arc-fill" style="width:65%;background:#9B6DC9"></div></div><span class="bdsm-arc-pct">65%</span></div>
+      <div class="bdsm-arc-row"><span class="bdsm-arc-name">Rope bunny</span><div class="bdsm-arc-track"><div class="bdsm-arc-fill" style="width:55%;background:#85B7EB"></div></div><span class="bdsm-arc-pct">55%</span></div>
+      <div class="bdsm-arc-row"><span class="bdsm-arc-name">Brat</span><div class="bdsm-arc-track"><div class="bdsm-arc-fill" style="width:48%;background:#993556"></div></div><span class="bdsm-arc-pct">48%</span></div>
+      <div class="bdsm-arc-row"><span class="bdsm-arc-name">Primal</span><div class="bdsm-arc-track"><div class="bdsm-arc-fill" style="width:42%;background:#D85A30"></div></div><span class="bdsm-arc-pct">42%</span></div>
+      <div class="bdsm-arc-row"><span class="bdsm-arc-name">Experimentalist</span><div class="bdsm-arc-track"><div class="bdsm-arc-fill" style="width:70%;background:#888780"></div></div><span class="bdsm-arc-pct">70%</span></div>
+      <div style="margin-top:16px;padding:14px;background:#222220;border-radius:12px;border:0.5px dashed #3a3a38">
+        <div style="font-size:12px;color:#666;margin-bottom:4px">10 more archetypes locked</div>
+        <div style="font-size:13px;color:var(--orchid)">Unlock your complete profile →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL PROOF -->
+<div class="proof-section">
+  <div class="proof-inner">
+    <div class="section-tag">What people say</div>
+    <h2 class="section-title">Real experiences.<br>Real results.</h2>
+    <div class="proof-grid">
+      <div class="proof-card">
+        <div class="proof-stars">★★★★★</div>
+        <div class="proof-text">"I never knew what I actually wanted until I took this quiz. The results were so accurate it was almost unsettling. Bought the top recommendation and haven't looked back."</div>
+        <div class="proof-author">Anonymous · Switch profile</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-stars">★★★★★</div>
+        <div class="proof-text">"My partner and I did the compatibility test together and it opened up conversations we'd been avoiding for years. The BDSM discovery tool is genuinely brilliant."</div>
+        <div class="proof-author">Anonymous · Couples user</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-stars">★★★★★</div>
+        <div class="proof-text">"I saved $40 on the exact same toy just by using the price comparison. And the 'why this fits you' explanation actually made sense for my situation."</div>
+        <div class="proof-author">Anonymous · First-timer</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GOLD -->
+<div class="gold-section" id="gold">
+  <div class="gold-inner">
+    <div class="gold-tag">Velour Pulse Premium</div>
+    <h2 class="gold-title">See your complete picture.<br>Unlock your full profile.</h2>
+    <p class="gold-sub">The free quiz reveals your primary archetype. Premium shows your entire blueprint.</p>
+    <div class="gold-features">
+      <div class="gold-feat"><div class="gold-feat-dot"></div><div class="gold-feat-text">Full 18-archetype profile with percentages</div></div>
+      <div class="gold-feat"><div class="gold-feat-dot"></div><div class="gold-feat-text">15-25 personalized product recommendations</div></div>
+      <div class="gold-feat"><div class="gold-feat-dot"></div><div class="gold-feat-text">Custom learning paths & guides</div></div>
+      <div class="gold-feat"><div class="gold-feat-dot"></div><div class="gold-feat-text">Lifetime access</div></div>
+      <div class="gold-feat"><div class="gold-feat-dot"></div><div class="gold-feat-text">100% private, no recurring charges</div></div>
+    </div>
+    <div class="gold-price">$9.99</div>
+    <div class="gold-price-sub">One-time payment • Forever access</div>
+    <a href="checkout.html" class="gold-btn" style="text-decoration: none; display: inline-block;">Unlock Premium Profile</a>
+    <div class="gold-note">No recurring charges • No trial period</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Velour <span>Pulse</span></div>
+    <div class="footer-links">
+      <a href="privacy-policy.html">Privacy policy</a>
+      <a href="terms-of-service.html">Terms of service</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="privacy-policy.html">Affiliate disclosure</a>
+    </div>
+    <div class="footer-copy">© 2026 Velour Pulse. All rights reserved. This site contains affiliate links — we may earn a commission when you purchase through our links at no extra cost to you. All content is for adults 18+ only.</div>
+  </div>
+</footer>
+
+<script>
+function enterSite(){
+  document.getElementById('ageGate').style.display='none';
+  localStorage.setItem('vp_age_verified','true');
+}
+function exitSite(){
+  window.location.href='https://www.google.com';
+}
+function selectOpt(el){
+  document.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('active'));
+  el.classList.add('active');
+}
+if(localStorage.getItem('vp_age_verified')==='true'){
+  document.getElementById('ageGate').style.display='none';
+}
+</script>
+</body>
+</html>
