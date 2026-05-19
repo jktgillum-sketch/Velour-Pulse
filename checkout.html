@@ -247,6 +247,17 @@
         const STRIPE_PUBLIC_KEY = 'pk_live_51TWvPnCC4U2QxflSjeLz6ELCo8flJM5FJ81a0pbC77o7lIuPK1P8j1NRFgIhM54DiWTDgpvNZp3OI91bU2Pcks8z00Z9ZkPY9J';
         const PAYMENT_AMOUNT = 999; // $9.99 in cents
 
+        /**
+         * Generate a proper UUID v4 for session IDs
+         */
+        function generateUUID() {
+          return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0,
+                v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+          });
+        }
+
         // Check if test mode
         if (STRIPE_PUBLIC_KEY.includes('test')) {
             document.getElementById('testMode').style.display = 'block';
@@ -290,7 +301,7 @@
             try {
                 // Get free quiz answers and session ID
                 const freeAnswers = JSON.parse(localStorage.getItem('vp_free_answers')) || {};
-                const sessionId = localStorage.getItem('vp_session_id') || 'free_' + Date.now();
+                const sessionId = localStorage.getItem('vp_session_id') || generateUUID();
 
                 // Step 1: Call Netlify function to create Payment Intent
                 const intentResponse = await fetch('/.netlify/functions/create-payment-intent', {
