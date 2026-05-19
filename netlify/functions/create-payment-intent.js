@@ -32,14 +32,18 @@ exports.handler = async (event) => {
       }
     });
 
-    // Ensure quiz_sessions record exists (create if missing)
+    // Ensure quiz_sessions record exists (create if missing, or get existing by email)
+    let existingSessionId = sessionId;
     const { data: existingSession, error: sessionCheckError } = await supabase
       .from('quiz_sessions')
       .select('id')
-      .eq('id', sessionId)
+      .eq('email', email)
       .single();
 
-    if (!existingSession) {
+    if (existingSession) {
+      // Session exists for this email, use its ID
+      existingSessionId = existingSession.id;
+    } else {
       // Session doesn't exist, create it
       const { error: createSessionError } = await supabase
         .from('quiz_sessions')
@@ -59,11 +63,14 @@ exports.handler = async (event) => {
       }
     }
 
+    // Use the correct sessionId for all subsequent operations
+    const finalSessionId = existingSessionId;
+
     // Record payment in Supabase
     const { data, error } = await supabase
       .from('payments')
       .insert({
-        session_id: sessionId,
+        session_id: finalSessionId,
         email,
         stripe_payment_intent_id: paymentIntent.id,
         amount_cents: amount,
@@ -89,7 +96,7 @@ exports.handler = async (event) => {
         payment_status: 'pending',
         premium_quiz_started_at: new Date().toISOString()
       })
-      .eq('id', sessionId);
+      .eq('id', finalSessionId);
 
     return {
       statusCode: 200,
