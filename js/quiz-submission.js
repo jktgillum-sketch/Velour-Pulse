@@ -3,6 +3,17 @@
  * Manages quiz completion and database saving
  */
 
+/**
+ * Generate a proper UUID v4 for session IDs
+ */
+function generateUUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0,
+        v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
 const QuizSubmission = {
   /**
    * Submit free quiz answers
@@ -16,7 +27,7 @@ const QuizSubmission = {
       let email = localStorage.getItem('vp_user_email');
 
       if (!sessionId) {
-        sessionId = 'session_' + Date.now();
+        sessionId = generateUUID();
         localStorage.setItem('vp_session_id', sessionId);
       }
 
