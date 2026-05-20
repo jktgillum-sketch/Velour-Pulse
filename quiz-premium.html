@@ -268,74 +268,108 @@
         }
 
         function initializePremiumQuiz() {
-            // Quiz initialization code will run here
-            renderQuestion(currentIndex);
+            renderPage(0);
         }
 
-        // PREMIUM QUIZ: Questions 21-120
+        // PREMIUM QUIZ: Questions 21-120 - BATCHED BY CATEGORY
         const quizQuestions = premiumQuizQuestions;
-        let currentIndex = 0;
         let userAnswers = {};
 
-        // Load free answers from localStorage
+        // Load free + premium answers
         const freeAnswers = JSON.parse(localStorage.getItem('vp_free_answers')) || {};
         Object.assign(userAnswers, freeAnswers);
 
-        // Load any premium answers if quiz was paused
         if (localStorage.getItem('vp_premium_answers')) {
             const premiumAnswers = JSON.parse(localStorage.getItem('vp_premium_answers'));
             Object.assign(userAnswers, premiumAnswers);
         }
 
-        // Update total questions display
-        document.getElementById('totalQ').textContent = fullQuestionBank.length;
+        // GROUP QUESTIONS BY CATEGORY - 3-4 questions per page
+        function createQuestionPages(questions) {
+            const pages = [];
+            let currentPage = [];
+            let currentCategory = null;
 
-        function renderQuestion(index) {
-            const question = quizQuestions[index];
-            const container = document.getElementById('quizContent');
-            // Question index 0 corresponds to Q21 in the full bank
-            const absoluteIndex = index + 20;
-            const percentage = ((absoluteIndex + 1) / fullQuestionBank.length) * 100;
+            questions.forEach((q) => {
+                const isNewCategory = q.part !== currentCategory;
+                const pageIsFull = currentPage.length >= 4;
+                const shouldStartNewPage = pageIsFull || (isNewCategory && currentPage.length >= 3);
 
-            // Update progress
-            document.getElementById('currentQ').textContent = absoluteIndex + 1;
-            document.getElementById('progressFill').style.width = percentage + '%';
+                if (shouldStartNewPage && currentPage.length > 0) {
+                    pages.push([...currentPage]);
+                    currentPage = [];
+                }
 
-            // Build HTML
-            let html = `
-                <div class="quiz-chapter">Part: ${question.part}</div>
-                <div class="quiz-part">Question ${absoluteIndex + 1} of ${fullQuestionBank.length}</div>
-                <h2 class="quiz-question">${question.text}</h2>
-                <div class="quiz-subtitle">Rate your agreement on this scale</div>
-                <div class="scale-legend">
-                    <span>Strongly Disagree</span>
-                    <span>Neutral</span>
-                    <span>Strongly Agree</span>
-                </div>
-                <div class="scale-options" id="scaleOptions">
-            `;
+                currentPage.push(q);
+                if (isNewCategory) {
+                    currentCategory = q.part;
+                }
+            });
 
-            // 1-7 scale buttons (no numbers shown)
-            for (let i = 1; i <= 7; i++) {
-                const selected = userAnswers[question.id] === i ? 'selected' : '';
-                html += `
-                    <button class="scale-btn ${selected}" onclick="selectAnswer(${question.id}, ${i})" aria-label="Rating ${i}"></button>
-                `;
+            if (currentPage.length > 0) {
+                pages.push(currentPage);
             }
 
+            return pages;
+        }
+
+        const quizPages = createQuestionPages(quizQuestions);
+        let currentPageIndex = 0;
+
+        document.getElementById('totalQ').textContent = fullQuestionBank.length;
+
+        function renderPage(pageIndex) {
+            const page = quizPages[pageIndex];
+            const container = document.getElementById('quizContent');
+
+            // Calculate absolute question numbers (20-120)
+            const firstQuestionAbsolute = fullQuestionBank.indexOf(page[0]) + 1;
+            const lastQuestionAbsolute = fullQuestionBank.indexOf(page[page.length - 1]) + 1;
+            const percentage = (lastQuestionAbsolute / fullQuestionBank.length) * 100;
+
+            document.getElementById('currentQ').textContent = lastQuestionAbsolute;
+            document.getElementById('progressFill').style.width = percentage + '%';
+
+            const allAnswered = page.every(q => userAnswers[q.id] !== undefined);
+
+            let html = `
+                <div class="quiz-chapter">Page ${pageIndex + 1} of ${quizPages.length}</div>
+                <div class="quiz-part">Questions ${firstQuestionAbsolute}-${lastQuestionAbsolute} of ${fullQuestionBank.length}</div>
+            `;
+
+            page.forEach((question, idx) => {
+                html += `
+                    <div style="margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #3a3a38;">
+                        <h2 class="quiz-question" style="font-size: 18px; margin-bottom: 8px;">
+                            ${idx + 1}. ${question.text}
+                        </h2>
+                        <div class="quiz-subtitle">Rate your agreement</div>
+                        <div class="scale-legend">
+                            <span>Strongly Disagree</span>
+                            <span>Neutral</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                        <div class="scale-options" id="scales${question.id}">
+                `;
+
+                for (let i = 1; i <= 7; i++) {
+                    const selected = userAnswers[question.id] === i ? 'selected' : '';
+                    html += `<button class="scale-btn ${selected}" onclick="selectAnswer(${question.id}, ${i})" aria-label="Rating ${i}"></button>`;
+                }
+
+                html += `</div></div>`;
+            });
+
             html += `
-                </div>
                 <div class="nav-buttons">
-                    <button class="btn btn-back" onclick="previousQuestion()" ${index === 0 ? 'disabled' : ''}>← Back</button>
-                    <button class="btn btn-next" onclick="nextQuestion()" ${!userAnswers[question.id] ? 'disabled' : ''}>
-                        ${index === quizQuestions.length - 1 ? 'View Your Complete Profile' : 'Next →'}
+                    <button class="btn btn-back" onclick="previousPage()" ${pageIndex === 0 ? 'disabled' : ''}>← Back</button>
+                    <button class="btn btn-next" onclick="nextPage()" ${!allAnswered ? 'disabled' : ''}>
+                        ${pageIndex === quizPages.length - 1 ? 'View Your Complete Profile' : 'Next →'}
                     </button>
                 </div>
             `;
 
             container.innerHTML = html;
-
-            // Scroll to top
             window.scrollTo(0, 0);
         }
 
@@ -351,26 +385,25 @@
             }
             localStorage.setItem('vp_premium_answers', JSON.stringify(premiumAnswers));
 
-            // Update button styling
-            document.querySelectorAll('.scale-btn').forEach(btn => btn.classList.remove('selected'));
+            document.querySelectorAll(`#scales${questionId} .scale-btn`).forEach(btn => btn.classList.remove('selected'));
             event.target.closest('.scale-btn').classList.add('selected');
 
-            // Enable next button
-            document.querySelector('.btn-next').disabled = false;
+            const page = quizPages[currentPageIndex];
+            const allAnswered = page.every(q => userAnswers[q.id] !== undefined);
+            document.querySelector('.btn-next').disabled = !allAnswered;
         }
 
-        function nextQuestion() {
-            const question = quizQuestions[currentIndex];
-            if (!userAnswers[question.id]) {
-                alert('Please answer the question before continuing');
+        function nextPage() {
+            const page = quizPages[currentPageIndex];
+            if (!page.every(q => userAnswers[q.id] !== undefined)) {
+                alert('Please answer all questions before continuing');
                 return;
             }
 
-            if (currentIndex < quizQuestions.length - 1) {
-                currentIndex++;
-                renderQuestion(currentIndex);
+            if (currentPageIndex < quizPages.length - 1) {
+                currentPageIndex++;
+                renderPage(currentPageIndex);
             } else {
-                // Quiz complete - store all answers and redirect to full results
                 localStorage.setItem('vp_all_answers', JSON.stringify(userAnswers));
                 const sessionId = localStorage.getItem('vp_session_id');
                 let url = '/results-full.html';
@@ -381,10 +414,10 @@
             }
         }
 
-        function previousQuestion() {
-            if (currentIndex > 0) {
-                currentIndex--;
-                renderQuestion(currentIndex);
+        function previousPage() {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                renderPage(currentPageIndex);
             }
         }
 
