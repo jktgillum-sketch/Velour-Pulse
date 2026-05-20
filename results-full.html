@@ -169,6 +169,46 @@
             border-radius: 2px;
             overflow: hidden;
         }
+        /* Flip Card Styles */
+        .archetype-card-flipper {
+            perspective: 1000px;
+            cursor: pointer;
+            height: 100%;
+        }
+        .archetype-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .archetype-card-flipper.flipped .archetype-card-inner {
+            transform: rotateY(180deg);
+        }
+        .archetype-card-front, .archetype-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 12px;
+            text-align: center;
+        }
+        .archetype-card-back {
+            transform: rotateY(180deg);
+            background: #2a2a28;
+            border: 1px solid var(--pink);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .archetype-card-back-text {
+            font-size: 11px;
+            color: #aaa;
+            line-height: 1.5;
+        }
         .bdsm-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -575,22 +615,69 @@
             document.getElementById('archeTypeName').textContent = archetype.name;
             document.getElementById('archeTypeDesc').textContent = archetype.description;
 
-            // Render all 12 archetypes
+            // Archetype descriptions
+            const archetypeDescriptions = {
+                "Dominant": "You know what you want and aren't afraid to take it. Control and confident leadership define your style.",
+                "Submissive": "You find freedom in surrender. Trust and clear communication are essential.",
+                "Switch": "You're fluid and adaptable, able to crave control or surrender depending on the moment.",
+                "Rigger": "You're fascinated by the craft and art of bondage and the intimacy it creates.",
+                "Rope Bunny": "You love the artistry and intimacy of being tied. Restraint feels deeply soothing.",
+                "Sadist": "You find pleasure in consensually delivering sensation and your partner's response.",
+                "Masochist": "Receiving sensation is where you find your flow state and connect to your body.",
+                "Exhibitionist": "Being seen is your turn-on. You feel alive when your body and presence are appreciated.",
+                "Voyeur": "You're aroused by witnessing and observing. You value discretion and consent.",
+                "Primal": "You're instinctive and raw. Spontaneous moments and natural chemistry are your guides.",
+                "Experimentalist": "You're curious about everything. You approach sexuality like an explorer.",
+                "Caregiver": "Nurturing and protective, you show love through care and attention to your partner.",
+                "Little": "You find comfort and freedom in a dynamic where someone else holds the space.",
+                "Brat": "You're cheeky and playful. You enjoy the dynamic that comes from pushing boundaries.",
+                "Brat Tamer": "You enjoy the challenge of breaking through resistance with patience and authority.",
+                "Owner": "Ownership, collaring, and deep claimed connection speak to you.",
+                "Pet": "Being claimed, cared for, and belonging fully feels natural and freeing.",
+                "Sensation Seeker": "You're driven by feeling — texture, temperature, and sensation light you up."
+            };
+
+            // Render all 18 archetypes with flip cards
             const archetypesGrid = document.getElementById('archetypesGrid');
             Object.entries(allArchetypes)
                 .sort((a, b) => b[1] - a[1])
                 .forEach(([name, score]) => {
                     const item = document.createElement('div');
-                    item.className = 'archetype-item';
+                    item.className = 'archetype-item archetype-card-flipper';
+                    const description = archetypeDescriptions[name] || "Explore this archetype to understand your sexual expression.";
+
                     item.innerHTML = `
-                        <div class="archetype-item-name">${name}</div>
-                        <div class="archetype-item-score">${score}%</div>
-                        <div class="archetype-item-bar">
-                            <div class="dimension-fill" style="width: ${score}%"></div>
+                        <div class="archetype-card-inner">
+                            <div class="archetype-card-front">
+                                <div class="archetype-item-name">${name}</div>
+                                <div class="archetype-item-score">${score}%</div>
+                                <div class="archetype-item-bar" style="width: 80%;">
+                                    <div class="dimension-fill" style="width: ${score}%"></div>
+                                </div>
+                            </div>
+                            <div class="archetype-card-back">
+                                <div class="archetype-card-back-text">${description}</div>
+                            </div>
                         </div>
                     `;
+
+                    // Add flip functionality for both hover and click
+                    item.addEventListener('mouseenter', () => item.classList.add('flipped'));
+                    item.addEventListener('mouseleave', () => item.classList.remove('flipped'));
+                    item.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        item.classList.toggle('flipped');
+                    });
+
                     archetypesGrid.appendChild(item);
                 });
+
+            // Click anywhere else to unflip all cards
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.archetype-card-flipper').forEach(card => {
+                    card.classList.remove('flipped');
+                });
+            });
 
             // Render BDSM profile
             const bdsmGrid = document.getElementById('bdsmGrid');
