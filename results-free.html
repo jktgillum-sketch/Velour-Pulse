@@ -383,6 +383,54 @@
             color: #aaa;
             line-height: 1.6;
         }
+        .product-skill-badge {
+            display: inline-block;
+            background: rgba(196, 155, 232, 0.15);
+            color: var(--orchid);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .product-matched-dimensions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+        .dimension-tag {
+            background: rgba(212, 83, 126, 0.1);
+            border: 0.5px solid var(--pink);
+            color: var(--pink);
+            padding: 3px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .product-insight {
+            font-size: 13px;
+            color: #888;
+            font-style: italic;
+            margin-bottom: 12px;
+            padding: 8px;
+            background: #2a2a28;
+            border-radius: 4px;
+            line-height: 1.5;
+        }
+        .recommendation-bridge {
+            font-size: 16px;
+            color: #ddd;
+            line-height: 1.7;
+            padding: 24px;
+            background: rgba(196, 155, 232, 0.08);
+            border-left: 3px solid var(--orchid);
+            border-radius: 4px;
+        }
+        .exploration-frame {
+            background: rgba(196, 155, 232, 0.05);
+            border: 0.5px solid rgba(196, 155, 232, 0.15);
+        }
         @media(max-width: 768px) {
             .container { padding: 40px 20px; }
             h1 { font-size: 2rem; }
@@ -391,6 +439,7 @@
             .dimensions-grid { grid-template-columns: 1fr; }
             .archetype-characteristics { grid-template-columns: 1fr; }
             .insights-grid { grid-template-columns: 1fr; }
+            .products-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -441,11 +490,22 @@
             <div class="insights-grid" id="insightsGrid"></div>
         </div>
 
+        <!-- RECOMMENDATION BRIDGE -->
+        <div class="profile-section">
+            <div class="section-title">Your Exploration Guide</div>
+            <div class="recommendation-bridge" id="recommendationBridge"></div>
+        </div>
+
         <!-- RECOMMENDED PRODUCTS -->
         <div class="profile-section">
-            <div class="section-title">Recommended For You</div>
-            <p style="font-size: 14px; color: #888; margin-bottom: 20px;">5 products matched to your profile. Unlock premium for 15-25 curated recommendations.</p>
+            <div class="section-title">Curated Starting Points</div>
+            <p style="font-size: 14px; color: #888; margin-bottom: 20px;">5 products from our collection, matched to your profile. Explore at your own pace.</p>
             <div class="products-grid" id="productsGrid"></div>
+        </div>
+
+        <!-- EXPLORATION FRAME -->
+        <div class="profile-section exploration-frame">
+            <p style="font-size: 14px; line-height: 1.6; color: #aaa;"><strong>Ready to explore?</strong> These are 5 starting points from our curated collection. There's no pressure or timeline—explore at your own pace, or upgrade to see deeper options across all your interests.</p>
         </div>
 
         <!-- UPGRADE CTA -->
@@ -536,6 +596,39 @@
                 'The Balanced': 'balance and flexibility'
             };
             return themes[name] || 'personal growth';
+        }
+
+        function generateRecommendationBridge(topDimensions) {
+            if (!topDimensions || topDimensions.length === 0) {
+                return 'Your profile shows distinct interests. Here are 5 products curated specifically for you.';
+            }
+
+            // Get top 2 dimensions with scores
+            const dim1 = topDimensions[0];
+            const dim2 = topDimensions[1];
+            const dim1Name = dim1 && dim1.dimension ? dim1.dimension : 'Sensation Play';
+            const dim1Score = dim1 && dim1.score ? dim1.score : 0;
+            const dim2Name = dim2 && dim2.dimension ? dim2.dimension : 'Connection Style';
+            const dim2Score = dim2 && dim2.score ? dim2.score : 0;
+
+            // Dimension translations (what the score means in human terms)
+            const dimensionMeanings = {
+                'Sensation Play': 'pleasure through touch and sensation',
+                'Connection Style': 'deeper emotional bonding',
+                'Communication Level': 'openness and dialogue with partners',
+                'Power Dynamics': 'control, surrender, and negotiated roles',
+                'Fetish & Fantasy': 'roleplay, exploration, and creative expression',
+                'Kink Dynamics': 'BDSM elements and power exchange',
+                'Comfort Level': 'your readiness for exploration',
+                'Boundary Clarity': 'knowing what you want and don\'t want',
+                'Risk & Novelty': 'new experiences and pushing boundaries',
+                'Intimacy Preference': 'your personal approach to pleasure'
+            };
+
+            const meaning1 = dimensionMeanings[dim1Name] || 'your unique interests';
+            const meaning2 = dimensionMeanings[dim2Name] || 'deeper exploration';
+
+            return `You scored ${dim1Score}% in ${dim1Name} (${meaning1}) and ${dim2Score}% in ${dim2Name} (${meaning2}). We selected 5 products that combine both—products that work for someone who values ${meaning1} AND ${meaning2}.`;
         }
 
         function renderResults() {
@@ -639,16 +732,68 @@
                 insightsGrid.appendChild(card);
             });
 
+            // Helper function to generate product-specific insights
+            function generateProductInsight(product, topDimensions) {
+                // Product-specific insights (not dimension-based)
+                const productInsights = {
+                    1: "Couples kit with BDSM elements—perfect entry point for exploration together",
+                    2: "12-piece variety set—great for testing different sensations and discovering preferences",
+                    3: "Remote control couples vibrator—one partner controls while the other enjoys",
+                    4: "Discreet wearable set—pleasure anywhere, anytime, with partner control",
+                    5: "Luxury couples bundle—combines two breakthrough technologies for shared pleasure",
+                    6: "Small but powerful anal vibrator—great for targeted pleasure and exploration",
+                    7: "G-spot specialist with rumbly vibrations—designed for internal pleasure",
+                    8: "Luxury lay-on vibrator—unique temp tech adds sensation exploration dimension",
+                    9: "Wearable egg with app control—partners can control from across the room",
+                    10: "Wearable egg with remote—discreet pleasure with partner involvement",
+                    11: "Couples vibrator for shared pleasure during sex—hands-free connection",
+                    12: "Couples vibrator with stretchable design—fits different body types",
+                    13: "G-spot vibrator with twisting motion—designed for internal stimulation",
+                    14: "G-spot vibrator with rumbly vibrations—intense internal pleasure focus",
+                    15: "Lay-on vibrator for massage sensation—broad stimulation approach",
+                    16: "Discreet panty vibrator—wear during everyday for surprise pleasure",
+                    17: "Couples vibrator for shared pleasure—stimulates both partners simultaneously",
+                    18: "Couples vibrator for shared pleasure—perfect for hands-free connected play",
+                    19: "Solo wand vibrator with deep rumbly vibrations—powerful massage sensation",
+                    20: "Discreet panty vibrator—app-controlled for partner involvement anywhere",
+                    21: "Anal vibrator for dual stimulation—prostate + perineum combined",
+                    22: "Partner play ring vibrator—stimulates perineum with rumbly vibrations",
+                    23: "Partner play ring vibrator—comfortable to wear during sex",
+                    24: "Powerful wand vibrator—deep vibrations for intense pleasure",
+                    25: "Discreet panty vibrator—app and remote control options",
+                    26: "Luxury couples collection—combines vibration and Pleasure Air technology",
+                    27: "Anal vibrator with dual stimulation—prostate focused design",
+                    28: "Penis ring vibrator—triple stimulation for shared pleasure",
+                    29: "Penis ring vibrator—ergonomic for comfort during use",
+                    30: "Wand vibrator with deep rumble—most powerful option for exploration",
+                    31: "Panty vibrator new design—intermediate skill level with advanced features",
+                    32: "Premium couples collection—luxury brand partnership for elevated pleasure"
+                };
+
+                return productInsights[product.id] || 'Curated specifically for your profile';
+            }
+
+            // Render recommendation bridge
+            const recommendationBridge = document.getElementById('recommendationBridge');
+            recommendationBridge.innerHTML = generateRecommendationBridge(topDimensions);
+
             // Render products
             const productsGrid = document.getElementById('productsGrid');
             products.forEach(product => {
                 const card = document.createElement('div');
                 card.className = 'product-card';
+                const skillLevelCapitalized = product.skillLevel ? product.skillLevel.charAt(0).toUpperCase() + product.skillLevel.slice(1) : 'Beginner';
+                const dimensionTags = product.matchedDimensions ? product.matchedDimensions.slice(0, 2).map(dim => `<span class="dimension-tag">${dim}</span>`).join('') : '';
+                const productInsight = generateProductInsight(product, topDimensions);
+
                 card.innerHTML = `
+                    <div class="product-skill-badge">${skillLevelCapitalized}</div>
                     <div class="product-name">${product.name}</div>
+                    <div class="product-matched-dimensions">${dimensionTags}</div>
                     <div class="product-desc">${product.description}</div>
+                    <div class="product-insight">${productInsight}</div>
                     <div class="product-price">${product.price}</div>
-                    <a href="${product.affiliateUrl}" target="_blank" class="product-link">View</a>
+                    <a href="${product.affiliateUrl}" target="_blank" class="product-link">Explore →</a>
                 `;
                 productsGrid.appendChild(card);
             });
