@@ -141,15 +141,16 @@
         }
         .archetype-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
         }
         .archetype-item {
             background: #222220;
             border: 1px solid #3a3a38;
             border-radius: 12px;
-            padding: 16px;
+            padding: 20px;
             text-align: center;
+            min-height: 200px;
         }
         .archetype-item-name {
             font-size: 13px;
@@ -203,11 +204,15 @@
             border: 1px solid var(--pink);
             border-radius: 12px;
             padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .archetype-card-back-text {
-            font-size: 11px;
-            color: #aaa;
-            line-height: 1.5;
+            font-size: 12px;
+            color: #ccc;
+            line-height: 1.6;
+            font-weight: 400;
         }
         .bdsm-grid {
             display: grid;
