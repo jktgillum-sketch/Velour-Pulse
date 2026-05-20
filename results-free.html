@@ -296,12 +296,101 @@
         .retake-link a:hover {
             text-decoration: underline;
         }
+        .profile-summary {
+            background: rgba(212, 83, 126, 0.08);
+            border: 1px solid rgba(212, 83, 126, 0.2);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 40px;
+        }
+        .summary-text {
+            font-size: 15px;
+            color: #aaa;
+            line-height: 1.8;
+            margin-bottom: 0;
+        }
+        .archetype-characteristics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .characteristic {
+            font-size: 13px;
+            color: #aaa;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .characteristic-icon {
+            color: var(--pink);
+            font-weight: 600;
+        }
+        .bdsm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+        }
+        .bdsm-card {
+            background: #222220;
+            border: 1px solid #3a3a38;
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .bdsm-category {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--white);
+            margin-bottom: 12px;
+        }
+        .bdsm-bar {
+            height: 4px;
+            background: #2a2a28;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+        .bdsm-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--pink), var(--orchid));
+            border-radius: 2px;
+        }
+        .bdsm-percent {
+            font-size: 12px;
+            color: #888;
+        }
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .insight-card {
+            background: #222220;
+            border: 1px solid #3a3a38;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .insight-label {
+            font-size: 12px;
+            color: var(--orchid);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            opacity: 0.8;
+        }
+        .insight-content {
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.6;
+        }
         @media(max-width: 768px) {
             .container { padding: 40px 20px; }
             h1 { font-size: 2rem; }
             .upgrade-section { padding: 32px 20px; }
             .unlock-features { grid-template-columns: 1fr; }
             .dimensions-grid { grid-template-columns: 1fr; }
+            .archetype-characteristics { grid-template-columns: 1fr; }
+            .insights-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -311,6 +400,13 @@
             <div class="logo">Velour <span>Pulse</span></div>
             <h1>Your Free Intimacy Profile</h1>
             <p class="subtitle">Based on your answers, here's what we learned about you. Take the full assessment to unlock your complete blueprint.</p>
+        </div>
+
+        <!-- PROFILE SUMMARY -->
+        <div class="profile-section">
+            <div class="profile-summary" id="profileSummary">
+                <div class="summary-text">Loading your profile...</div>
+            </div>
         </div>
 
         <!-- TOP 3 DIMENSIONS -->
@@ -325,6 +421,7 @@
             <div class="archetype-card">
                 <div class="archetype-name" id="archeTypeName">Loading...</div>
                 <div class="archetype-description" id="archeTypeDesc"></div>
+                <div class="archetype-characteristics" id="archeTypeCharacteristics"></div>
             </div>
         </div>
 
@@ -333,11 +430,15 @@
 
         <!-- BDSM SUMMARY -->
         <div class="profile-section">
-            <div class="section-title">Your BDSM Profile (Teaser)</div>
-            <div class="bdsm-section">
-                <div class="bdsm-title">What This Means For You</div>
-                <div class="bdsm-summary" id="bdsmSummary">Loading...</div>
-            </div>
+            <div class="section-title">Your BDSM & Kink Profile</div>
+            <p style="font-size: 14px; color: #888; margin-bottom: 20px;">Your interests across key dimensions. Unlock premium to see detailed breakdowns and compatibility insights.</p>
+            <div class="bdsm-grid" id="bdsmGrid">Loading...</div>
+        </div>
+
+        <!-- PROFILE INSIGHTS -->
+        <div class="profile-section">
+            <div class="section-title">Understanding Your Profile</div>
+            <div class="insights-grid" id="insightsGrid"></div>
         </div>
 
         <!-- RECOMMENDED PRODUCTS -->
@@ -398,6 +499,45 @@
     <script src="/js/api-integration.js"></script>
     <script src="/js/results-loader.js"></script>
     <script>
+        // Archetype characteristics database
+        const archeTypeTraits = {
+            'The Explorer': ['Open-minded', 'Curious about experiences', 'Values discovery', 'Flexible preferences'],
+            'The Romantic': ['Values intimacy', 'Connection-focused', 'Emotionally aware', 'Seeks depth'],
+            'The Dominant': ['Takes initiative', 'Leadership energy', 'Confident', 'Enjoys control'],
+            'The Submissive': ['Values trust', 'Enjoys surrender', 'Responsive', 'Prefers guidance'],
+            'The Sensualist': ['Attuned to pleasure', 'Tactile awareness', 'Present in moment', 'Deeply responsive'],
+            'The Intellectual': ['Mindful presence', 'Values communication', 'Thoughtful approach', 'Strategic'],
+            'The Adventurer': ['Boundary-pushing', 'Risk-aware', 'Experimental', 'Seeks novelty'],
+            'The Nurturer': ['Caring energy', 'Attention to needs', 'Supportive', 'Empathetic'],
+            'The Hedonist': ['Pleasure-focused', 'Uninhibited', 'Passionate', 'Fully engaged'],
+            'The Balanced': ['Flexibility', 'Adaptability', 'Moderate interests', 'Well-rounded']
+        };
+
+        function generateProfileSummary(scores, archetype) {
+            const topDims = Object.entries(scores)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 2)
+                .map(([name]) => name.toLowerCase());
+
+            return `You're a <strong>${archetype.name}</strong> with strong interests in ${topDims.join(' and ')}. Your profile suggests you value ${getArchetypeTheme(archetype.name)}. This is just the beginning—unlock the full assessment to explore all 10 dimensions, see your complete archetype breakdown, and discover personalized insights about your preferences.`;
+        }
+
+        function getArchetypeTheme(name) {
+            const themes = {
+                'The Explorer': 'discovery and openness',
+                'The Romantic': 'emotional connection',
+                'The Dominant': 'leadership and control',
+                'The Submissive': 'trust and surrender',
+                'The Sensualist': 'pleasure and sensation',
+                'The Intellectual': 'thoughtfulness and communication',
+                'The Adventurer': 'pushing boundaries',
+                'The Nurturer': 'care and support',
+                'The Hedonist': 'uninhibited pleasure',
+                'The Balanced': 'balance and flexibility'
+            };
+            return themes[name] || 'personal growth';
+        }
+
         function renderResults() {
             // Get free quiz answers from localStorage
             const freeAnswers = JSON.parse(localStorage.getItem('vp_free_answers')) || {};
@@ -413,6 +553,10 @@
             const archetype = calculateArchetype(freeScores);
             const bdsmProfile = calculateBDSMProfile(freeAnswers);
             const products = recommendProducts(freeScores, false, 5);
+
+            // Render profile summary
+            const summaryText = generateProfileSummary(freeScores, archetype);
+            document.getElementById('profileSummary').innerHTML = `<div class="summary-text">${summaryText}</div>`;
 
             // Render dimensions
             const dimensionsGrid = document.getElementById('dimensionsGrid');
@@ -430,25 +574,70 @@
                 dimensionsGrid.appendChild(card);
             });
 
-            // Render archetype
+            // Render archetype with characteristics
             document.getElementById('archeTypeName').textContent = archetype.name;
             document.getElementById('archeTypeDesc').textContent = archetype.description;
+
+            const traits = archeTypeTraits[archetype.name] || ['Unique', 'Thoughtful', 'Aware', 'Engaged'];
+            const characteristicsHtml = traits.map(trait =>
+                `<div class="characteristic"><span class="characteristic-icon">•</span> ${trait}</div>`
+            ).join('');
+            document.getElementById('archeTypeCharacteristics').innerHTML = characteristicsHtml;
 
             // Render emotional insight
             const insight = generateEmotionalInsight(freeScores, archetype);
             document.getElementById('emotionalInsight').textContent = `"${insight}"`;
 
-            // Render BDSM summary
-            const bdsmArray = Object.entries(bdsmProfile)
-                .sort((a, b) => b[1].combined - a[1].combined)
-                .slice(0, 3)
-                .map(([cat, scores]) => `${cat}: ${scores.combined}%`);
-            const bdsmText = bdsmArray.join(" • ");
-            document.getElementById('bdsmSummary').innerHTML = `
-                Based on your answers, you show strong interests in: ${bdsmText}.
-                <br><br>Your profile suggests you value ${archetype.name.toLowerCase()} energy.
-                Upgrade to see your detailed breakdown across all BDSM practices.
-            `;
+            // Render full BDSM profile grid
+            const bdsmGrid = document.getElementById('bdsmGrid');
+            bdsmGrid.innerHTML = '';
+            const sortedBdsm = Object.entries(bdsmProfile)
+                .sort((a, b) => b[1].combined - a[1].combined);
+
+            sortedBdsm.forEach(([cat, scores]) => {
+                const percent = Math.round(scores.combined);
+                const card = document.createElement('div');
+                card.className = 'bdsm-card';
+                card.innerHTML = `
+                    <div class="bdsm-category">${cat}</div>
+                    <div class="bdsm-bar">
+                        <div class="bdsm-fill" style="width: ${percent}%"></div>
+                    </div>
+                    <div class="bdsm-percent">${percent}% aligned</div>
+                `;
+                bdsmGrid.appendChild(card);
+            });
+
+            // Render profile insights
+            const insightsGrid = document.getElementById('insightsGrid');
+            const insights = [
+                {
+                    label: 'Primary Energy',
+                    content: `You align most with <strong>${archetype.name}</strong> energy. This influences how you approach intimacy and relationships.`
+                },
+                {
+                    label: 'Top Interest Areas',
+                    content: `Your strongest dimensions are ${topDimensions.slice(0, 2).map(d => d.dimension.toLowerCase()).join(' and ')}. These reveal your core preferences.`
+                },
+                {
+                    label: 'Communication Style',
+                    content: `Based on your profile, clarity and ${archetype.name.includes('Dominant') ? 'direct communication' : archetype.name.includes('Romantic') ? 'emotional expression' : 'thoughtful dialogue'} work best for you.`
+                },
+                {
+                    label: 'Next Steps',
+                    content: `Complete the full assessment to unlock all 10 dimensions, see how you compare across 18 archetypes, and get 15-25 personalized product recommendations.`
+                }
+            ];
+
+            insights.forEach(insight => {
+                const card = document.createElement('div');
+                card.className = 'insight-card';
+                card.innerHTML = `
+                    <div class="insight-label">${insight.label}</div>
+                    <div class="insight-content">${insight.content}</div>
+                `;
+                insightsGrid.appendChild(card);
+            });
 
             // Render products
             const productsGrid = document.getElementById('productsGrid');
