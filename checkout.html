@@ -339,10 +339,15 @@
                 }
 
                 if (paymentIntent.status === 'succeeded') {
-                    // Store success data
+                    // Store success data (multiple keys for compatibility)
                     localStorage.setItem('velourPulseUnlocked', 'true');
+                    localStorage.setItem('vp_premium_unlocked', 'true');
                     localStorage.setItem('velourPulseEmail', email);
+                    localStorage.setItem('vp_checkout_email', email);
+                    localStorage.setItem('vp_premium_email', email);
                     localStorage.setItem('velourPulsePaymentId', paymentIntentId);
+                    localStorage.setItem('vp_payment_id', paymentIntentId);
+                    localStorage.setItem('vp_premium_date', new Date().toISOString());
 
                     // Redirect to success page
                     window.location.href = 'success.html?session=' + paymentIntentId;

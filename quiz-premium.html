@@ -218,10 +218,18 @@
          * PREMIUM PAGE GATE - Verify payment before showing content
          */
         async function gateAccessToPremium() {
-            const sessionId = localStorage.getItem('vp_session_id');
+            // Read sessionId from URL query param first, then fall back to localStorage
+            const urlParams = new URLSearchParams(window.location.search);
+            let sessionId = urlParams.get('sessionId') || localStorage.getItem('vp_session_id');
             const email = localStorage.getItem('vp_user_email') ||
                          localStorage.getItem('vp_premium_email') ||
+                         localStorage.getItem('vp_checkout_email') ||
                          localStorage.getItem('velourPulseEmail');
+
+            // Store sessionId in localStorage if we got it from URL
+            if (sessionId && !localStorage.getItem('vp_session_id')) {
+                localStorage.setItem('vp_session_id', sessionId);
+            }
 
             if (!sessionId || !email) {
                 console.warn('No session/email found, redirecting to quiz');
@@ -253,7 +261,9 @@
                     return;
                 }
 
-                document.getElementById('__gateLoading').textContent = 'Unable to verify access.';
+                // Show error message
+                document.body.style.display = 'block';
+                document.getElementById('__gateLoading').textContent = 'Unable to verify access. Please try again or contact support.';
             }
         }
 

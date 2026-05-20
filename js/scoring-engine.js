@@ -406,6 +406,104 @@ function generateFreeSummary(scores, archetype, bdsmProfile) {
 }
 
 /**
+ * RECOMMEND GUIDES
+ * Returns learning resources based on user's dimension scores
+ */
+function recommendGuides(scores) {
+  const guideDatabase = [
+    {
+      title: "Communication in BDSM",
+      description: "Learn how to negotiate boundaries, establish safewords, and build trust through authentic conversation.",
+      url: "/guides.html#communication",
+      matchedDimensions: ["Communication Style", "Boundary Clarity"],
+      priority: 1
+    },
+    {
+      title: "Beginner's Guide to Power Dynamics",
+      description: "Explore the foundations of dominant, submissive, and switch dynamics with consent and safety as core principles.",
+      url: "/guides.html#dynamics",
+      matchedDimensions: ["Kink Dynamics", "Kink Orientation"],
+      priority: 1
+    },
+    {
+      title: "Sensation Play Safety & Technique",
+      description: "Master sensation play from basic touch to advanced techniques. Focus on safety, communication, and pleasure.",
+      url: "/guides.html#sensation",
+      matchedDimensions: ["Sensation Play", "Kink Dynamics"],
+      priority: 2
+    },
+    {
+      title: "Building Emotional Safety for Exploration",
+      description: "Create the emotional conditions that allow for deeper physical exploration and vulnerability.",
+      url: "/guides.html#emotional",
+      matchedDimensions: ["Connection Style", "Attachment Style"],
+      priority: 1
+    },
+    {
+      title: "Authentic Self-Expression in Intimacy",
+      description: "Shed shame and performance expectations. Learn to bring your true self to intimate moments.",
+      url: "/guides.html#authenticity",
+      matchedDimensions: ["Authenticity in Sex", "Shame Response"],
+      priority: 2
+    },
+    {
+      title: "Bondage 101: Safety & Basics",
+      description: "From silk ties to rope. Learn SSC (Safe, Sane, Consensual) and RACK principles for restraint play.",
+      url: "/guides.html#bondage",
+      matchedDimensions: ["Kink Dynamics", "Sensation Play"],
+      priority: 3
+    },
+    {
+      title: "Understanding Your Desires Without Judgment",
+      description: "Framework for exploring kink and sexuality without internalized shame or judgment.",
+      url: "/guides.html#shame",
+      matchedDimensions: ["Shame Response", "Authenticity in Sex"],
+      priority: 2
+    },
+    {
+      title: "Enhancing Connection & Desire",
+      description: "Practical ways to deepen intimacy, increase arousal, and prioritize desire in relationships.",
+      url: "/guides.html#connection",
+      matchedDimensions: ["Connection Style", "Sex Drive"],
+      priority: 3
+    },
+    {
+      title: "Aftercare: The Essential Transition",
+      description: "Why aftercare matters in intense scenes. Practical techniques for physical and emotional care.",
+      url: "/guides.html#aftercare",
+      matchedDimensions: ["Connection Style", "Attachment Style"],
+      priority: 3
+    },
+    {
+      title: "Solo Exploration Guide",
+      description: "A framework for self-discovery of your desires, fantasies, and boundaries without a partner.",
+      url: "/guides.html#solo",
+      matchedDimensions: ["Kink Orientation", "Authenticity in Sex"],
+      priority: 3
+    }
+  ];
+
+  // Score guides based on matched dimensions
+  const scoredGuides = guideDatabase.map(guide => {
+    const matchCount = guide.matchedDimensions.filter(dim => {
+      const dimScore = scores[dim] || 0;
+      return dimScore > 50; // Dimension must be above 50% to count
+    }).length;
+
+    return {
+      ...guide,
+      score: matchCount * (11 - guide.priority) // Higher priority = lower score penalty
+    };
+  });
+
+  // Return top 3-5 guides sorted by relevance
+  return scoredGuides
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 4)
+    .map(({ score, ...guide }) => guide);
+}
+
+/**
  * Export functions
  */
 if (typeof module !== 'undefined' && module.exports) {
@@ -418,6 +516,7 @@ if (typeof module !== 'undefined' && module.exports) {
     calculateBDSMProfile,
     calculateAllArchetypeScores,
     generateEmotionalInsight,
-    generateFreeSummary
+    generateFreeSummary,
+    recommendGuides
   };
 }
