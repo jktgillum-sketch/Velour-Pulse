@@ -491,29 +491,107 @@ const productDatabase = [
 
 /**
  * Recommend products based on quiz results
+ * PHASE 3: Weighted matching + skill level filtering
  */
 function recommendProducts(dimensionScores, isPremium = false, count = 5) {
   const topDimensions = getTopDimensions(dimensionScores, 3);
-  const matchedDimensions = topDimensions.map(d => d.dimension);
+  const userExperienceLevel = determineExperienceLevel(dimensionScores);
+
+  // Dimension weights (Phase 3 optimization)
+  const dimensionWeights = {
+    'Kink Dynamics': 2.0,              // Most important for matching
+    'Connection Style': 1.5,            // Strong secondary match
+    'Power Dynamics': 1.5,
+    'Sensation Play': 1.0,
+    'Fetish & Fantasy': 1.0,
+    'Communication Level': 1.0,
+    'Comfort Level': 1.0,
+    'Boundary Clarity': 1.0,
+    'Risk & Novelty': 1.0,
+    'Intimacy Preference': 1.0,
+    'Desire Accelerators': 1.0,
+    'Desire Style': 1.0
+  };
 
   // Filter products based on premium status
   let availableProducts = productDatabase.filter(product => {
     return isPremium ? product.forPremium : product.forFree;
   });
 
-  // Score products based on dimension matches
+  // Score products with weighted matching + skill level consideration
   const scoredProducts = availableProducts.map(product => {
-    const matches = product.matchedDimensions.filter(dim =>
-      matchedDimensions.includes(dim)
-    ).length;
-    return { ...product, score: matches };
+    let score = 0;
+
+    // Weighted dimension matching
+    product.matchedDimensions.forEach(dim => {
+      topDimensions.forEach((topDim, index) => {
+        if (dim === topDim.dimension) {
+          const weight = dimensionWeights[dim] || 1.0;
+          // Primary dimension gets highest boost, secondary gets less
+          const positionBoost = index === 0 ? 1.5 : (index === 1 ? 1.2 : 1.0);
+          score += weight * positionBoost;
+        }
+      });
+    });
+
+    // Skill level filtering (Phase 3: don't recommend advanced to beginners)
+    if (userExperienceLevel === 'beginner' && product.skillLevel === 'advanced') {
+      score *= 0.3;  // Heavily de-prioritize
+    } else if (userExperienceLevel === 'beginner' && product.skillLevel === 'intermediate') {
+      score *= 0.7;  // Slightly de-prioritize
+    } else if (userExperienceLevel === 'intermediate' && product.skillLevel === 'advanced') {
+      score *= 0.9;  // Slightly boost advanced for intermediate users
+    }
+
+    return { ...product, score };
   });
 
-  // Sort by match score and return top products
-  return scoredProducts
-    .sort((a, b) => b.score - a.score)
-    .slice(0, count)
-    .map(({ score, ...product }) => product);
+  // Sort by weighted score, remove duplicates by category, return top N
+  const sortedProducts = scoredProducts
+    .sort((a, b) => b.score - a.score);
+
+  // Ensure variety: don't show 5 of the same category
+  const selectedProducts = [];
+  const categoryCount = {};
+
+  for (const product of sortedProducts) {
+    if (selectedProducts.length >= count) break;
+
+    const category = product.category || 'Other';
+    categoryCount[category] = (categoryCount[category] || 0) + 1;
+
+    // Allow up to 2 products per category (variety)
+    if (categoryCount[category] <= 2) {
+      selectedProducts.push(product);
+    }
+  }
+
+  // If we don't have enough variety, just take the top products
+  if (selectedProducts.length < count) {
+    for (const product of sortedProducts) {
+      if (selectedProducts.length >= count) break;
+      if (!selectedProducts.find(p => p.id === product.id)) {
+        selectedProducts.push(product);
+      }
+    }
+  }
+
+  return selectedProducts.map(({ score, ...product }) => product);
+}
+
+/**
+ * Determine user experience level based on dimension scores
+ * Phase 3: Use dimension scores to infer beginner/intermediate/advanced
+ */
+function determineExperienceLevel(dimensionScores) {
+  const comfortLevel = dimensionScores['Comfort Level'] || 0;
+  const boundaryClarity = dimensionScores['Boundary Clarity'] || 0;
+  const avgScore = (comfortLevel + boundaryClarity) / 2;
+
+  // Scoring: Low comfort/boundaries = beginner, medium = intermediate, high = advanced
+  if (avgScore < 40) return 'beginner';
+  if (avgScore < 70) return 'intermediate';
+  return 'advanced';
 }
 
 /**
